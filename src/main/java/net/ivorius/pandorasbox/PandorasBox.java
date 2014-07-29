@@ -22,6 +22,7 @@ import net.ivorius.pandorasbox.commands.CommandPandorasBox;
 import net.ivorius.pandorasbox.effectcreators.*;
 import net.ivorius.pandorasbox.effects.*;
 import net.ivorius.pandorasbox.entitites.EntityPandorasBox;
+import net.ivorius.pandorasbox.entitites.PBEntityList;
 import net.ivorius.pandorasbox.items.ItemPandorasBox;
 import net.ivorius.pandorasbox.network.ChannelHandlerEntityData;
 import net.ivorius.pandorasbox.random.*;
@@ -62,7 +63,6 @@ public class PandorasBox
 
     public static Item itemPandorasBox;
     public static Block blockPandorasBox;
-    public static int entityPandorasBoxID;
 
     public static boolean allowCrafting;
     public static boolean allowGeneration;
@@ -85,12 +85,10 @@ public class PandorasBox
         GameRegistry.registerItem(itemPandorasBox, "pandorasBox");
 
         blockPandorasBox = new BlockPandorasBox().setBlockName("pandorasBox").setBlockTextureName("planks").setHardness(0.5f);
-        GameRegistry.registerBlock(blockPandorasBox, ItemBlock.class, "blockPandorasBox", MODID);
+        GameRegistry.registerBlock(blockPandorasBox, ItemBlock.class, "blockPandorasBox");
         GameRegistry.registerTileEntity(TileEntityPandorasBox.class, "pandorasBox");
 
-        entityPandorasBoxID = EntityRegistry.findGlobalUniqueEntityId();
-        EntityRegistry.registerGlobalEntityID(EntityPandorasBox.class, "pandorasBox", entityPandorasBoxID);
-        EntityRegistry.registerModEntity(EntityPandorasBox.class, "pandorasBox", entityPandorasBoxID, this, 256, 20, true);
+        EntityRegistry.registerModEntity(EntityPandorasBox.class, "pandorasBox", PBEntityList.pandorasBoxEntityID, this, 256, 20, true);
 
         registerEffects();
     }
