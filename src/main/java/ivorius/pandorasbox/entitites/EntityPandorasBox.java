@@ -8,11 +8,12 @@ package ivorius.pandorasbox.entitites;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
+import ivorius.pandorasbox.PandorasBox;
 import ivorius.pandorasbox.effectcreators.PBECRegistry;
 import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.effects.PBEffectRegistry;
-import ivorius.pandorasbox.network.ChannelHandlerEntityData;
-import ivorius.pandorasbox.network.IEntityUpdateData;
+import ivorius.pandorasbox.network.PacketEntityData;
+import ivorius.pandorasbox.network.PartialUpdateHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
@@ -23,7 +24,7 @@ import java.util.Random;
 /**
  * Created by lukas on 30.03.14.
  */
-public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnData, IEntityUpdateData
+public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnData, PartialUpdateHandler
 {
     public int effectTicksExisted;
     public boolean canGenerateMoreEffectsAfterwards = true;
@@ -202,7 +203,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         effectTicksExisted = rand.nextInt(40);
         pbEffect = PBECRegistry.createRandomEffect(worldObj, rand, posX, posY, posZ, true);
 
-        ChannelHandlerEntityData.sendUpdatePacketSafe(this, "boxEffect");
+        PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), worldObj.provider.dimensionId);
     }
 
     public void startFadingOut()
@@ -226,7 +227,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
     {
         floatAwayProgress = -1.0f;
         effectTicksExisted = 0;
-        ChannelHandlerEntityData.sendUpdatePacketSafe(this, "boxEffect");
+        PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), worldObj.provider.dimensionId);
     }
 
     public PBEffect getBoxEffect()

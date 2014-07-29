@@ -14,8 +14,10 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 import ivorius.pandorasbox.block.BlockPandorasBox;
 import ivorius.pandorasbox.block.PBBlocks;
 import ivorius.pandorasbox.block.TileEntityPandorasBox;
@@ -26,7 +28,8 @@ import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import ivorius.pandorasbox.entitites.PBEntityList;
 import ivorius.pandorasbox.events.PBFMLEventHandler;
 import ivorius.pandorasbox.items.ItemPandorasBox;
-import ivorius.pandorasbox.network.ChannelHandlerEntityData;
+import ivorius.pandorasbox.network.PacketEntityData;
+import ivorius.pandorasbox.network.PacketEntityDataHandler;
 import ivorius.pandorasbox.random.*;
 import ivorius.pandorasbox.weighted.WeightedBlock;
 import ivorius.pandorasbox.weighted.WeightedEntity;
@@ -41,6 +44,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.config.Configuration;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
@@ -61,13 +65,18 @@ public class PandorasBox
     public static String filePathTextures = "textures/mod/";
     public static String textureBase = "pandorasbox:";
 
+    public static Logger logger;
     public static Configuration config;
+
+    public static SimpleNetworkWrapper network;
 
     public static PBFMLEventHandler fmlEventHandler;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        logger = event.getModLog();
+
         config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
         PBConfig.loadConfig(null);
@@ -75,8 +84,6 @@ public class PandorasBox
 
         fmlEventHandler = new PBFMLEventHandler();
         fmlEventHandler.register();
-
-        NetworkRegistry.INSTANCE.newChannel("PB|EntityData", new ChannelHandlerEntityData());
 
         PBBlocks.pandorasBox = new BlockPandorasBox().setBlockName("pandorasBox").setHardness(0.5f).setCreativeTab(CreativeTabs.tabMisc);
         GameRegistry.registerBlock(PBBlocks.pandorasBox, ItemPandorasBox.class, "pandorasBox");
@@ -90,6 +97,9 @@ public class PandorasBox
     @EventHandler
     public void load(FMLInitializationEvent event)
     {
+        network = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
+        PandorasBox.network.registerMessage(PacketEntityDataHandler.class, PacketEntityData.class, 1, Side.CLIENT);
+
         proxy.registerRenderers();
         registerEffectCreators();
 
