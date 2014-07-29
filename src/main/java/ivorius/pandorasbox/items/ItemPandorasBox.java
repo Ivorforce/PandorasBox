@@ -5,7 +5,7 @@
 
 package ivorius.pandorasbox.items;
 
-import ivorius.pandorasbox.PandorasBox;
+import ivorius.pandorasbox.block.PBBlocks;
 import ivorius.pandorasbox.block.TileEntityPandorasBox;
 import ivorius.pandorasbox.effectcreators.PBECRegistry;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
@@ -14,20 +14,17 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class ItemPandorasBox extends Item
+public class ItemPandorasBox extends ItemBlock
 {
-    public static String[] goodEffects = {"animals", "resources", "equipmentSet", "holyRage", "fishRain", "deadCreatures", "experience", "doubleBox", "tripleBox", "epicArmor", "epicTool", "iceAge", "suddenForest", "flyingForest", "normalLand", "buff", "shrine", "shroomify", "tamer", "christmas", "terrarium", "lake", "heroicItem", "oddJungle", "happyFunTimes"};
-    public static String[] badEffects = {"mobs", "explode", "deathCage", "launch", "teleport", "sandGrave", "void", "tnt", "transformation", "creatureMix", "waterSphere", "flyingIsland", "hellOnEarth", "endOnEarth", "itemsplosion", "desert", "pyramid", "replace", "worldCannon", "makeThin", "cover", "copyArea", "pasteArea", "halloween", "tntSplosion", "dryness", "target", "fill", "heightNoise", "canyon", "lavaPrison", "blockSplosion", "arrowBarrage", "madGeometry", "exploBats", "exploMobs", "mobTowers", "aquarium", "classic"};
-
-    public ItemPandorasBox()
+    public ItemPandorasBox(Block block)
     {
-        super();
+        super(block);
 
         setMaxStackSize(1);
     }
@@ -100,14 +97,14 @@ public class ItemPandorasBox extends Item
             {
                 return false;
             }
-            else if (par3World.canPlaceEntityOnSide(PandorasBox.blockPandorasBox, x, y, z, false, side, par2EntityPlayer, par1ItemStack))
+            else if (par3World.canPlaceEntityOnSide(PBBlocks.pandorasBox, x, y, z, false, side, par2EntityPlayer, par1ItemStack))
             {
                 int i1 = this.getMetadata(par1ItemStack.getItemDamage());
-                int j1 = PandorasBox.blockPandorasBox.onBlockPlaced(par3World, x, y, z, side, hitX, hitY, hitZ, i1);
+                int j1 = PBBlocks.pandorasBox.onBlockPlaced(par3World, x, y, z, side, hitX, hitY, hitZ, i1);
 
                 if (placeBlockAt(par1ItemStack, par2EntityPlayer, par3World, x, y, z, side, hitX, hitY, hitZ, j1))
                 {
-                    par3World.playSoundEffect((double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), PandorasBox.blockPandorasBox.stepSound.func_150496_b(), (PandorasBox.blockPandorasBox.stepSound.getVolume() + 1.0F) / 2.0F, PandorasBox.blockPandorasBox.stepSound.getPitch() * 0.8F);
+                    par3World.playSoundEffect((double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), PBBlocks.pandorasBox.stepSound.func_150496_b(), (PBBlocks.pandorasBox.stepSound.getVolume() + 1.0F) / 2.0F, PBBlocks.pandorasBox.stepSound.getPitch() * 0.8F);
                     --par1ItemStack.stackSize;
                 }
 
@@ -126,7 +123,7 @@ public class ItemPandorasBox extends Item
     {
         if (ForgeDirection.getOrientation(side) == ForgeDirection.UP)
         {
-            if (!world.setBlock(x, y, z, PandorasBox.blockPandorasBox))
+            if (!world.setBlock(x, y, z, PBBlocks.pandorasBox))
             {
                 return false;
             }

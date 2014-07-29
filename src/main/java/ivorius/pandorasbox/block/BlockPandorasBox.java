@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -52,9 +53,9 @@ public class BlockPandorasBox extends BlockContainer
     }
 
     @Override
-    public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+    public Item getItemDropped(int metadata, Random random, int fortune)
     {
-        return PandorasBox.itemPandorasBox;
+        return Item.getItemFromBlock(PBBlocks.pandorasBox);
     }
 
     @Override
@@ -73,8 +74,8 @@ public class BlockPandorasBox extends BlockContainer
     }
 
     @Override
-    public void registerBlockIcons(IIconRegister p_149651_1_)
+    public IIcon getIcon(int side, int metadata)
     {
-        this.blockIcon = p_149651_1_.registerIcon("planks_oak");
+        return Blocks.planks.getIcon(2, 2);
     }
 }

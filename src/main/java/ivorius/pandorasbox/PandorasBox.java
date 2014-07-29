@@ -17,6 +17,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import ivorius.pandorasbox.block.BlockPandorasBox;
+import ivorius.pandorasbox.block.PBBlocks;
 import ivorius.pandorasbox.block.TileEntityPandorasBox;
 import ivorius.pandorasbox.commands.CommandPandorasBox;
 import ivorius.pandorasbox.effectcreators.*;
@@ -34,7 +35,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.WeightedRandomChestContent;
@@ -60,9 +60,6 @@ public class PandorasBox
     public static String filePathTextures = "textures/mod/";
     public static String textureBase = "pandorasbox:";
 
-    public static Item itemPandorasBox;
-    public static Block blockPandorasBox;
-
     public static boolean allowCrafting;
     public static boolean allowGeneration;
 
@@ -80,11 +77,8 @@ public class PandorasBox
 
         NetworkRegistry.INSTANCE.newChannel("PB|EntityData", new ChannelHandlerEntityData());
 
-        itemPandorasBox = new ItemPandorasBox().setUnlocalizedName("pandorasBox").setCreativeTab(CreativeTabs.tabMisc);
-        GameRegistry.registerItem(itemPandorasBox, "pandorasBox");
-
-        blockPandorasBox = new BlockPandorasBox().setBlockName("pandorasBox").setBlockTextureName("planks").setHardness(0.5f);
-        GameRegistry.registerBlock(blockPandorasBox, ItemBlock.class, "blockPandorasBox");
+        PBBlocks.pandorasBox = new BlockPandorasBox().setBlockName("pandorasBox").setHardness(0.5f).setCreativeTab(CreativeTabs.tabMisc);
+        GameRegistry.registerBlock(PBBlocks.pandorasBox, ItemPandorasBox.class, "pandorasBox");
         GameRegistry.registerTileEntity(TileEntityPandorasBox.class, "pandorasBox");
 
         EntityRegistry.registerModEntity(EntityPandorasBox.class, "pandorasBox", PBEntityList.pandorasBoxEntityID, this, 256, 20, true);
@@ -100,11 +94,12 @@ public class PandorasBox
 
         if (allowCrafting)
         {
-            GameRegistry.addRecipe(new ItemStack(itemPandorasBox), "GRG", "ROR", "#R#", 'G', Items.gold_ingot, '#', Blocks.planks, 'R', Items.redstone, 'O', Items.ender_pearl);
+            GameRegistry.addRecipe(new ItemStack(PBBlocks.pandorasBox), "GRG", "ROR", "#R#", 'G', Items.gold_ingot, '#', Blocks.planks, 'R', Items.redstone, 'O', Items.ender_pearl);
         }
 
         if (allowGeneration)
         {
+            Item itemPandorasBox = Item.getItemFromBlock(PBBlocks.pandorasBox);
             ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST, new WeightedRandomChestContent(itemPandorasBox, 0, 1, 1, 5));
             ChestGenHooks.addItem(ChestGenHooks.MINESHAFT_CORRIDOR, new WeightedRandomChestContent(itemPandorasBox, 0, 1, 1, 5));
             ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(itemPandorasBox, 0, 1, 1, 5));
