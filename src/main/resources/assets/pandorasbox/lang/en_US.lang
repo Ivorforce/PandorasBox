@@ -1,2 +1,6 @@
 entity.pandorasBox.pandorasBox.name=Pandora's Box
 tile.pandorasBox.name=Pandora's Box
+
+pandorasbox.configgui.title=Pandora's Box
+pandorasbox.configgui.ctgy.balancing=Balancing
+pandorasbox.configgui.ctgy.balancing.tooltip=Settings affecting the balance of the mod

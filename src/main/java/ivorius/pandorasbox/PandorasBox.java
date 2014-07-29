@@ -24,6 +24,7 @@ import ivorius.pandorasbox.effectcreators.*;
 import ivorius.pandorasbox.effects.*;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import ivorius.pandorasbox.entitites.PBEntityList;
+import ivorius.pandorasbox.events.PBFMLEventHandler;
 import ivorius.pandorasbox.items.ItemPandorasBox;
 import ivorius.pandorasbox.network.ChannelHandlerEntityData;
 import ivorius.pandorasbox.random.*;
@@ -43,7 +44,7 @@ import net.minecraftforge.common.config.Configuration;
 
 import java.util.Arrays;
 
-@Mod(modid = PandorasBox.MODID, version = PandorasBox.VERSION, name = PandorasBox.NAME)
+@Mod(modid = PandorasBox.MODID, version = PandorasBox.VERSION, name = PandorasBox.NAME, guiFactory = "ivorius.pandorasbox.gui.PBConfigGuiFactory")
 public class PandorasBox
 {
     public static final String NAME = "Pandora's Box";
@@ -60,20 +61,20 @@ public class PandorasBox
     public static String filePathTextures = "textures/mod/";
     public static String textureBase = "pandorasbox:";
 
-    public static boolean allowCrafting;
-    public static boolean allowGeneration;
+    public static Configuration config;
+
+    public static PBFMLEventHandler fmlEventHandler;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        Configuration config = new Configuration(event.getSuggestedConfigurationFile());
-
+        config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
-
-        allowCrafting = config.get("Balancing", "allowCrafting", true).getBoolean(true);
-        allowGeneration = config.get("Balancing", "allowGeneration", true).getBoolean(true);
-
+        PBConfig.loadConfig(null);
         config.save();
+
+        fmlEventHandler = new PBFMLEventHandler();
+        fmlEventHandler.register();
 
         NetworkRegistry.INSTANCE.newChannel("PB|EntityData", new ChannelHandlerEntityData());
 
@@ -92,12 +93,12 @@ public class PandorasBox
         proxy.registerRenderers();
         registerEffectCreators();
 
-        if (allowCrafting)
+        if (PBConfig.allowCrafting)
         {
             GameRegistry.addRecipe(new ItemStack(PBBlocks.pandorasBox), "GRG", "ROR", "#R#", 'G', Items.gold_ingot, '#', Blocks.planks, 'R', Items.redstone, 'O', Items.ender_pearl);
         }
 
-        if (allowGeneration)
+        if (PBConfig.allowGeneration)
         {
             Item itemPandorasBox = Item.getItemFromBlock(PBBlocks.pandorasBox);
             ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST, new WeightedRandomChestContent(itemPandorasBox, 0, 1, 1, 5));

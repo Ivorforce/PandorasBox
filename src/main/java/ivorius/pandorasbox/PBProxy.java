@@ -6,4 +6,6 @@ package ivorius.pandorasbox;
 public interface PBProxy
 {
     void registerRenderers();
+
+    void loadConfig(String categoryID);
 }

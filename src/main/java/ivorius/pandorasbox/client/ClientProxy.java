@@ -26,4 +26,10 @@ public class ClientProxy implements PBProxy
 
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(PBBlocks.pandorasBox), new ItemRendererPandorasBox());
     }
+
+    @Override
+    public void loadConfig(String categoryID)
+    {
+
+    }
 }

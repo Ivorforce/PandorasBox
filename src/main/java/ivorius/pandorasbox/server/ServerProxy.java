@@ -13,4 +13,10 @@ public class ServerProxy implements PBProxy
     {
 
     }
+
+    @Override
+    public void loadConfig(String categoryID)
+    {
+
+    }
 }
