@@ -3,9 +3,11 @@
  * http://lukas.axxim.net
  */
 
-package net.ivorius.pandorasbox;
+package net.ivorius.pandorasbox.server;
 
-public class ServerProxy
+import net.ivorius.pandorasbox.PBProxy;
+
+public class ServerProxy implements PBProxy
 {
     public void registerRenderers()
     {

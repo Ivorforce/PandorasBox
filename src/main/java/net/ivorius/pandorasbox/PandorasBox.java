@@ -25,6 +25,7 @@ import net.ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.ivorius.pandorasbox.items.ItemPandorasBox;
 import net.ivorius.pandorasbox.network.ChannelHandlerEntityData;
 import net.ivorius.pandorasbox.random.*;
+import net.ivorius.pandorasbox.server.ServerProxy;
 import net.ivorius.pandorasbox.weighted.WeightedBlock;
 import net.ivorius.pandorasbox.weighted.WeightedEntity;
 import net.ivorius.pandorasbox.weighted.WeightedPotion;
@@ -42,17 +43,18 @@ import net.minecraftforge.common.config.Configuration;
 
 import java.util.Arrays;
 
-@Mod(modid = PandorasBox.MODID, version = PandorasBox.VERSION)
+@Mod(modid = PandorasBox.MODID, version = PandorasBox.VERSION, name = PandorasBox.NAME)
 public class PandorasBox
 {
+    public static final String NAME = "Pandora's Box";
     public static final String MODID = "pandorasbox";
     public static final String VERSION = "2.0";
 
     @Instance(value = MODID)
     public static PandorasBox instance;
 
-    @SidedProxy(clientSide = "net.ivorius.pandorasbox.client.ClientProxy", serverSide = "net.ivorius.pandorasbox.ServerProxy")
-    public static ServerProxy proxy;
+    @SidedProxy(clientSide = "net.ivorius.pandorasbox.client.ClientProxy", serverSide = "net.ivorius.pandorasbox.server.ServerProxy")
+    public static PBProxy proxy;
 
     public static String filePathTexturesFull = "pandorasbox:textures/mod/";
     public static String filePathTextures = "textures/mod/";
