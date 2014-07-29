@@ -1,0 +1,16 @@
+[
+{
+  "modid": "pandorasbox",
+  "name": "Pandora's Box",
+  "description": "Adds Pandora's Box to the game. What does it do? There's only one way to find out...",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://www.minecraftforum.net/topic/563257-152",
+  "updateUrl": "",
+  "authors": ["Ivorius"],
+  "credits": "Ivorius: Development, Visuals",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
