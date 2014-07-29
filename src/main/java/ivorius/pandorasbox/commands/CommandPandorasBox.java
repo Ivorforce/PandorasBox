@@ -71,7 +71,7 @@ public class CommandPandorasBox extends CommandBase
 
                 if (box != null)
                 {
-                    box.canGenerateMoreEffectsAfterwards = false;
+                    box.setCanGenerateMoreEffectsAfterwards(false);
                 }
             }
             else
