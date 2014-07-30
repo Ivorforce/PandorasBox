@@ -219,7 +219,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                     wolf.setTamed(true);
                     wolf.setPathToEntity(null);
                     wolf.setAttackTarget(null);
-                    wolf.setOwner(nearest.getCommandSenderName());
+                    wolf.func_152115_b(nearest.getUniqueID().toString());
                     wolf.worldObj.setEntityState(wolf, (byte) 7);
                 }
 
@@ -238,7 +238,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                 {
                     ocelot.setTamed(true);
                     ocelot.setTameSkin(1 + ocelot.worldObj.rand.nextInt(3));
-                    ocelot.setOwner(nearest.getCommandSenderName());
+                    ocelot.func_152115_b(nearest.getUniqueID().toString());
                     ocelot.worldObj.setEntityState(ocelot, (byte) 7);
                 }
 
