@@ -7,7 +7,6 @@ package ivorius.pandorasbox.effectcreators;
 
 import ivorius.pandorasbox.PandorasBoxHelper;
 import ivorius.pandorasbox.effects.PBEffect;
-import ivorius.pandorasbox.effects.PBEffectGenConvertToIce;
 import ivorius.pandorasbox.effects.PBEffectGenConvertToSnow;
 import ivorius.pandorasbox.random.DValue;
 import net.minecraft.util.MathHelper;
@@ -18,11 +17,11 @@ import java.util.Random;
 /**
  * Created by lukas on 30.03.14.
  */
-public class PBECConvertToIce implements PBEffectCreator
+public class PBECConvertToSnow implements PBEffectCreator
 {
     public DValue range;
 
-    public PBECConvertToIce(DValue range)
+    public PBECConvertToSnow(DValue range)
     {
         this.range = range;
     }
@@ -33,7 +32,7 @@ public class PBECConvertToIce implements PBEffectCreator
         double range = this.range.getValue(random);
         int time = MathHelper.floor_double((random.nextDouble() * 7.0 + 3.0) * range);
 
-        PBEffectGenConvertToIce effect = new PBEffectGenConvertToIce(time, range, PandorasBoxHelper.getRandomUnifiedSeed(random));
+        PBEffectGenConvertToSnow effect = new PBEffectGenConvertToSnow(time, range, PandorasBoxHelper.getRandomUnifiedSeed(random));
         return effect;
     }
 

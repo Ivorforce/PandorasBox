@@ -16,13 +16,13 @@ import java.util.Random;
 /**
  * Created by lukas on 30.03.14.
  */
-public class PBEffectGenConvertToIce extends PBEffectGenerate
+public class PBEffectGenConvertToSnow extends PBEffectGenerate
 {
-    public PBEffectGenConvertToIce()
+    public PBEffectGenConvertToSnow()
     {
     }
 
-    public PBEffectGenConvertToIce(int time, double range, int unifiedSeed)
+    public PBEffectGenConvertToSnow(int time, double range, int unifiedSeed)
     {
         super(time, range, 2, unifiedSeed);
     }
@@ -48,20 +48,11 @@ public class PBEffectGenConvertToIce extends PBEffectGenerate
             }
             else if (block == Blocks.flowing_lava)
             {
-                setBlockSafe(world, x, y, z, Blocks.ice);
+                setBlockSafe(world, x, y, z, Blocks.cobblestone);
             }
             else if (block == Blocks.lava)
             {
-                setBlockSafe(world, x, y, z, Blocks.packed_ice);
-            }
-            else if (world.isBlockNormalCubeDefault(x, y, z, false))
-            {
-                int mode = random.nextInt(5);
-
-                if (mode == 0)
-                    setBlockSafe(world, x, y, z, Blocks.ice);
-                else if (mode == 1)
-                    setBlockSafe(world, x, y, z, Blocks.packed_ice);
+                setBlockSafe(world, x, y, z, Blocks.obsidian);
             }
         }
         else

@@ -180,6 +180,7 @@ public class PandorasBox
         PBECRegistry.register(new PBECSpawnArmy(new ILinear(1, 3), new ILinear(0, 5), Arrays.asList(new WeightedEntity(100, "Zombie", 5, 10), new WeightedEntity(80, "Skeleton", 4, 7), new WeightedEntity(40, "pbspecial_skeletonWither", 5, 10))), "armoredArmy", false);
         PBECRegistry.register(new PBECSpawnArmy(new ILinear(1, 3), new IConstant(0), PandorasBoxHelper.mobs), "army", false);
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 40), new IWeighted(1, 100, 2, 20, 3, 5), new IConstant(1), new ILinear(2, 6), new ILinear(2, 10), new IConstant(1), PandorasBoxHelper.mobs), "boss", false);
+        PBECRegistry.register(new PBECConvertToIce(new DLinear(10.0, 80.0)), "iceAge", false);
 
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(4, 20), new IConstant(1), new IWeighted(0, 100, 2, 50, 3, 30), new IConstant(0), new IConstant(0), PandorasBoxHelper.creatures), "animals", true);
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(2, 6), new ILinear(2, 5), new IWeighted(0, 100, 2, 35, 3, 20), new IConstant(0), new IConstant(0), PandorasBoxHelper.creatures), "animalTowers", true);
@@ -199,7 +200,7 @@ public class PandorasBox
         PBECRegistry.register(new PBECGenTrees(new DLinear(10.0, 80.0), new DLinear(1.0f / (8.0f * 8.0f), 1.0f / (3.0f * 3.0f)), new ZConstant(true), new IFlags(1, PBEffectGenTrees.treeJungle, 0.7, PBEffectGenTrees.treeHuge, 0.7, PBEffectGenTrees.treeComplexNormal, 0.7)), "suddenJungle", true);
         PBECRegistry.register(new PBECGenTreesOdd(new DLinear(10.0, 80.0), new DLinear(1.0f / (8.0f * 8.0f), 1.0f / (3.0f * 3.0f)), new ZConstant(true), new IFlags(1, PBEffectGenTreesOdd.treeJungle, 0.7), PandorasBoxHelper.blocks, PandorasBoxHelper.blocks), "oddJungle", true);
         PBECRegistry.register(new PBECBuffEntities(new ILinear(60, 20 * 30), new IWeighted(1, 100, 2, 80, 3, 50), new DLinear(8.0, 25.0), 0.2f, PandorasBoxHelper.buffs), "buffedUp", true);
-        PBECRegistry.register(new PBECConvertToIce(new DLinear(10.0, 80.0)), "iceAge", true);
+        PBECRegistry.register(new PBECConvertToSnow(new DLinear(10.0, 80.0)), "snowAge", true);
         PBECRegistry.register(new PBECConvertToOverworld(new DLinear(10.0, 80.0)), "normalLand", true);
         PBECRegistry.register(new PBECConvertToHFT(new DLinear(10.0, 80.0)), "happyFunTimes", true);
         PBECRegistry.register(new PBECConvertToMushroom(new DLinear(10.0, 80.0)), "shroomify", true);
@@ -222,6 +223,7 @@ public class PandorasBox
         PBEffectRegistry.register(PBEffectGenConvertToEnd.class, "genConvertToEnd");
         PBEffectRegistry.register(PBEffectGenConvertToHalloween.class, "genConvertToHalloween");
         PBEffectRegistry.register(PBEffectGenConvertToHFT.class, "genConvertToHFT");
+        PBEffectRegistry.register(PBEffectGenConvertToSnow.class, "genConvertToSnow");
         PBEffectRegistry.register(PBEffectGenConvertToIce.class, "genConvertToIce");
         PBEffectRegistry.register(PBEffectGenConvertToMushroom.class, "genConvertToMushroom");
         PBEffectRegistry.register(PBEffectGenConvertToNether.class, "genConvertToNether");
