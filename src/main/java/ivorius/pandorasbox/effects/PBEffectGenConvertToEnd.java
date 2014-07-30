@@ -33,7 +33,11 @@ public class PBEffectGenConvertToEnd extends PBEffectGenerate
 
         if (pass == 0)
         {
-            if (isBlockAnyOf(block, Blocks.log, Blocks.log2, Blocks.brown_mushroom_block, Blocks.red_mushroom_block))
+            if (isBlockAnyOf(block, Blocks.obsidian))
+            {
+
+            }
+            else if (isBlockAnyOf(block, Blocks.log, Blocks.log2, Blocks.brown_mushroom_block, Blocks.red_mushroom_block))
             {
                 setBlockSafe(world, x, y, z, Blocks.obsidian);
             }
