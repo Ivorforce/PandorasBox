@@ -44,11 +44,11 @@ public class PBEffectGenLavaCages extends PBEffectGenerate
         {
             if (!world.isBlockNormalCubeDefault(x, y, z, false))
             {
-                List<EntityPlayer> innerList = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getAABBPool().getAABB(x - 2.0, y - 2.0, z - 2.0, x + 3.0, y + 3.0, z + 3.0));
+                List<EntityPlayer> innerList = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x - 2.0, y - 2.0, z - 2.0, x + 3.0, y + 3.0, z + 3.0));
 
                 if (innerList.size() == 0)
                 {
-                    List<EntityPlayer> outerList = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getAABBPool().getAABB(x - 3.5, y - 3.5, z - 3.5, x + 4.5, y + 4.5, z + 4.5));
+                    List<EntityPlayer> outerList = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x - 3.5, y - 3.5, z - 3.5, x + 4.5, y + 4.5, z + 4.5));
 
                     if (outerList.size() > 0)
                     {

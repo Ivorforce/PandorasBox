@@ -34,7 +34,7 @@ public abstract class PBEffectEntityBased extends PBEffectNormal
     @Override
     public void doEffect(World world, EntityPandorasBox entity, Random random, float newRatio, float prevRatio)
     {
-        AxisAlignedBB bb = AxisAlignedBB.getAABBPool().getAABB(entity.posX - range, entity.posY - range, entity.posZ - range, entity.posX + range, entity.posY + range, entity.posZ + range);
+        AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(entity.posX - range, entity.posY - range, entity.posZ - range, entity.posX + range, entity.posY + range, entity.posZ + range);
         List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, bb);
 
         for (EntityLivingBase entityLivingBase : entities)

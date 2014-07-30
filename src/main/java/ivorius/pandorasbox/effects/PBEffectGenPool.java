@@ -46,7 +46,7 @@ public class PBEffectGenPool extends PBEffectGenerate
 
                 if (platformBlock != null)
                 {
-                    List<EntityLivingBase> entityList = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getAABBPool().getAABB(x - 2.5, y - 2.5, z - 2.5, x + 3.5, y + 3.5, z + 3.5));
+                    List<EntityLivingBase> entityList = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - 2.5, y - 2.5, z - 2.5, x + 3.5, y + 3.5, z + 3.5));
 
                     if (entityList.size() > 0)
                     {

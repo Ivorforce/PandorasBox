@@ -42,7 +42,7 @@ public class PBEffectGenTargets extends PBEffectGenerateByStructure
 
     public void createTargets(World world, double x, double y, double z, Random random)
     {
-        List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getAABBPool().getAABB(x - range, y - range, z - range, x + range, y + range, z + range));
+        List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x - range, y - range, z - range, x + range, y + range, z + range));
         this.structures = new Structure[players.size()];
 
         for (int i = 0; i < players.size(); i++)

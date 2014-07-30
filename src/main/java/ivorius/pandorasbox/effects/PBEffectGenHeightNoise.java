@@ -62,7 +62,7 @@ public class PBEffectGenHeightNoise extends PBEffectGenerate2D
             int minEffectY = towerMinY + Math.min(0, shift);
             int maxEffectY = towerMinY + towerSize + Math.max(0, shift);
 
-            List<EntityPlayer> entityList = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getAABBPool().getAABB(x - 2.0, minEffectY - 4, z - 3.0, x + 4.0, maxEffectY + 4, z + 4.0));
+            List<EntityPlayer> entityList = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - 2.0, minEffectY - 4, z - 3.0, x + 4.0, maxEffectY + 4, z + 4.0));
 
             if (entityList.size() == 0)
             {
