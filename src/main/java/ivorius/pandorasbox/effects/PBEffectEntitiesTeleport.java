@@ -8,6 +8,7 @@ package ivorius.pandorasbox.effects;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityTNTPrimed;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -48,8 +49,14 @@ public class PBEffectEntitiesTeleport extends PBEffectEntityBased
                     double newX = entity.posX + (random.nextDouble() - random.nextDouble()) * teleportRange;
                     double newZ = entity.posZ + (random.nextDouble() - random.nextDouble()) * teleportRange;
                     double newY = world.getHeightValue(MathHelper.floor_double(newX), MathHelper.floor_double(newZ)) + 0.2;
+                    float newYaw = random.nextFloat() * 360.0f;
 
                     entity.setPositionAndUpdate(newX, newY, newZ);
+
+                    if (entity instanceof EntityPlayerMP)
+                    {
+                        ((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(newX, newY, newZ, newYaw, ((EntityPlayerMP) entity).rotationPitch);
+                    }
                 }
             }
         }
