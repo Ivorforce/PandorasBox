@@ -205,6 +205,7 @@ public class PandorasBox
         PBECRegistry.register(new PBECConvertToHFT(new DLinear(10.0, 80.0)), "happyFunTimes", true);
         PBECRegistry.register(new PBECConvertToMushroom(new DLinear(10.0, 80.0)), "shroomify", true);
         PBECRegistry.register(new PBECConvertToHomo(new DLinear(10.0, 80.0)), "rainbows", true);
+        PBECRegistry.register(new PBECConvertToFarm(new DLinear(10.0, 50.0), new DLinear(0.01, 0.5)), "farm", true);
         PBECRegistry.register(new PBECMulti(new PBECConvertToHalloween(new DLinear(10.0, 80.0)), 0, new PBECSetTime(new ILinear(60, 120), new ILinear(15000, 20000), new ZConstant(false)), 0), "halloween", true);
         PBECRegistry.register(new PBECMulti(new PBECConvertToChristmas(new DLinear(10.0, 80.0)), 0, new PBECSetTime(new ILinear(60, 120), new ILinear(15000, 20000), new ZConstant(false)), 0), "christmas", true);
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(100, 200), new ILinear(10, 30), new IConstant(1), new IConstant(0), new IConstant(0), new IConstant(0), Arrays.asList(new WeightedEntity(100, "pbspecial_firework", 1, 1)), new ValueThrow(new DLinear(0.02, 0.06), new DConstant(0.01)), new ValueSpawn(new DLinear(2.0, 20.0), new DConstant(0.0))), "newYear", true);
@@ -229,6 +230,7 @@ public class PandorasBox
         PBEffectRegistry.register(PBEffectGenConvertToNether.class, "genConvertToNether");
         PBEffectRegistry.register(PBEffectGenConvertToOverworld.class, "genConvertToOverworld");
         PBEffectRegistry.register(PBEffectGenConvertToChristmas.class, "genConvertToChristmas");
+        PBEffectRegistry.register(PBEffectGenConvertToFarm.class, "genConvertToFarm");
         PBEffectRegistry.register(PBEffectGenConvertToHomo.class, "genConvertToHomo");
         PBEffectRegistry.register(PBEffectGenConvertToLifeless.class, "genConvertToLifeless");
         PBEffectRegistry.register(PBEffectGenCreativeTowers.class, "genCreativeTowers");
