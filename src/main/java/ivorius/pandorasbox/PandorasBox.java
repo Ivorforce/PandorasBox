@@ -181,6 +181,8 @@ public class PandorasBox
         PBECRegistry.register(new PBECSpawnArmy(new ILinear(1, 3), new IConstant(0), PandorasBoxHelper.mobs), "army", false);
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 40), new IWeighted(1, 100, 2, 20, 3, 5), new IConstant(1), new ILinear(2, 6), new ILinear(2, 10), new IConstant(1), PandorasBoxHelper.mobs), "boss", false);
         PBECRegistry.register(new PBECConvertToIce(new DLinear(10.0, 80.0)), "iceAge", false);
+        PBECRegistry.register(new PBECTeleportEntities(0.1f, new ILinear(5, 100), new DLinear(10.0, 80.0), new DLinear(10.0, 100.0), new IConstant(1)), "teleRandom", false);
+        PBECRegistry.register(new PBECTeleportEntities(0.5f, new ILinear(5, 200), new DLinear(10.0, 80.0), new DLinear(0.5, 5.0), new ILinear(5, 20)), "crazyPort", false);
 
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(4, 20), new IConstant(1), new IWeighted(0, 100, 2, 50, 3, 30), new IConstant(0), new IConstant(0), PandorasBoxHelper.creatures), "animals", true);
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(2, 6), new ILinear(2, 5), new IWeighted(0, 100, 2, 35, 3, 20), new IConstant(0), new IConstant(0), PandorasBoxHelper.creatures), "animalTowers", true);
@@ -256,6 +258,7 @@ public class PandorasBox
         PBEffectRegistry.register(PBEffectGenCover.class, "genCover");
         PBEffectRegistry.register(PBEffectGenTargets.class, "genTargets");
         PBEffectRegistry.register(PBEffectEntitiesCreateVoid.class, "entitiesGenVoid");
+        PBEffectRegistry.register(PBEffectEntitiesTeleport.class, "entitiesTeleport");
     }
 
     @EventHandler
