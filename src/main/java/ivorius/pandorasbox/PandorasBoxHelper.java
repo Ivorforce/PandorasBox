@@ -301,6 +301,8 @@ public class PandorasBoxHelper
         addEquipmentSet(60, Items.bow, new ItemStack(Items.arrow, 64), Items.iron_helmet, Items.leather_chestplate, Items.leather_leggings, Items.leather_boots, Items.iron_axe, new ItemStack(Items.apple, 8));
         addEquipmentSet(60, Items.iron_helmet, Items.leather_chestplate, Items.leather_leggings, Items.leather_boots, Items.diamond_pickaxe, Items.iron_shovel, Items.iron_axe, Items.stone_sword, new ItemStack(Items.bread, 8), new ItemStack(Blocks.torch, 32));
         addEquipmentSet(80, Items.leather_helmet, Items.iron_hoe, new ItemStack(Items.wheat_seeds, 32), new ItemStack(Items.pumpkin_seeds, 4), new ItemStack(Items.melon_seeds, 4), new ItemStack(Items.dye, 8, 15), new ItemStack(Blocks.dirt, 32), Items.water_bucket, Items.water_bucket);
+        addEquipmentSet(60, Items.iron_helmet, Items.diamond_axe, new ItemStack(Items.beef, 16));
+        addEquipmentSet(60, new ItemStack(Items.redstone, 64), new ItemStack(Blocks.wool, 16, 0), new ItemStack(Blocks.wool, 16, 15), new ItemStack(Blocks.wool, 16, 1), new ItemStack(Blocks.redstone_block, 8), new ItemStack(Blocks.redstone_torch, 8));
 
         addEquipmentLevelsInOrder(Items.wooden_sword, Items.wooden_sword, Items.golden_sword, Items.stone_sword, Items.iron_sword, Items.diamond_sword);
         addEquipmentLevelsInOrder(Items.wooden_axe, Items.wooden_axe, Items.golden_axe, Items.stone_axe, Items.iron_axe, Items.diamond_axe);
