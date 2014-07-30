@@ -7,6 +7,7 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -32,17 +33,20 @@ public class PBEffectEntitiesCreateVoid extends PBEffectEntityBased
     {
         if (!world.isRemote)
         {
-            int baseY = MathHelper.floor_double(entity.posY);
-            int baseX = MathHelper.floor_double(entity.posX);
-            int baseZ = MathHelper.floor_double(entity.posZ);
-
-            for (int x = -1; x <= 1; x++)
+            if (entity instanceof EntityPlayer)
             {
-                for (int y = -8; y <= 2; y++)
+                int baseY = MathHelper.floor_double(entity.posY);
+                int baseX = MathHelper.floor_double(entity.posX);
+                int baseZ = MathHelper.floor_double(entity.posZ);
+
+                for (int x = -1; x <= 1; x++)
                 {
-                    for (int z = -1; z <= 1; z++)
+                    for (int y = -8; y <= 2; y++)
                     {
-                        setBlockSafe(world, baseX + x, baseY + y, baseZ + z, Blocks.air);
+                        for (int z = -1; z <= 1; z++)
+                        {
+                            setBlockSafe(world, baseX + x, baseY + y, baseZ + z, Blocks.air);
+                        }
                     }
                 }
             }
