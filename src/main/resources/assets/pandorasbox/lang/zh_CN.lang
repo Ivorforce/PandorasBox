@@ -1,0 +1,6 @@
+entity.pandorasBox.pandorasBox.name=潘多拉的魔盒
+tile.pandorasBox.name=潘多拉的魔盒
+
+pandorasbox.configgui.title=潘多拉的魔盒
+pandorasbox.configgui.ctgy.balancing=平衡性
+pandorasbox.configgui.ctgy.balancing.tooltip=设置潘多拉的魔盒在游戏中的平衡性
