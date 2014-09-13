@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -106,56 +107,32 @@ public class CommandPandorasBox extends CommandBase
         if (par2ArrayOfStr.length == 0)
             return null;
 
-        if (!isArgumentPartComplete(par2ArrayOfStr[par2ArrayOfStr.length - 1]))
+        List<String> newArgs = new ArrayList<>();
+
+        if (!hasArgument("effect", par2ArrayOfStr))
+            newArgs.addAll(Arrays.asList(prefixArgumentsWithKey("effect", PBECRegistry.getIDArray())));
+
+        if (!hasArgument("player", par2ArrayOfStr))
+            newArgs.addAll(Arrays.asList(prefixArgumentsWithKey("player", this.func_71542_c())));
+
+        if (!hasArgument("invisible", par2ArrayOfStr))
+            newArgs.addAll(Arrays.asList(prefixArgumentsWithKey("invisible", "true", "false")));
+
+        return getListOfStringsMatchingLastWord(par2ArrayOfStr, newArgs.toArray(new String[newArgs.size()]));
+    }
+
+    private static boolean hasArgument(String key, String[] arguments)
+    {
+        for (int i = 0; i < arguments.length - 1; i++)
         {
-            return getListOfStringsMatchingLastWord(par2ArrayOfStr, getMissingArguments(par2ArrayOfStr, "player", "effect", "invisible"));
-        }
-        else
-        {
-            if (isArgumentCurrent("player", par2ArrayOfStr))
-            {
-                return getListOfStringsMatchingLastWord(par2ArrayOfStr, prefixArgumentsWithKey("player", this.func_71542_c()));
-            }
-            else if (isArgumentCurrent("effect", par2ArrayOfStr))
-            {
-                return getListOfStringsMatchingLastWord(par2ArrayOfStr, prefixArgumentsWithKey("effect", PBECRegistry.getIDArray()));
-            }
-            else if (isArgumentCurrent("invisible", par2ArrayOfStr))
-            {
-                return getListOfStringsMatchingLastWord(par2ArrayOfStr, prefixArgumentsWithKey("invisible", "true", "false"));
-            }
-        }
-
-        return null;
-    }
-
-    private boolean isArgumentPartComplete(String arguments)
-    {
-        return arguments.contains("=");
-    }
-
-    private boolean isArgumentCurrent(String key, String[] arguments)
-    {
-        return arguments.length > 0 && arguments[arguments.length - 1].startsWith(key + "=");
-    }
-
-    private String getArgumentPart(String key, String argument)
-    {
-        return argument.substring(key.length() + 1);
-    }
-
-    private boolean hasArgument(String key, String[] arguments)
-    {
-        for (String s : arguments)
-        {
-            if (s.startsWith(key + "="))
+            if (arguments[i].startsWith(key + "="))
                 return true;
         }
 
         return false;
     }
 
-    private String[] prefixArgumentsWithKey(String key, String... currentArguments)
+    private static String[] prefixArgumentsWithKey(String key, String... currentArguments)
     {
         String[] prefixed = new String[currentArguments.length];
         for (int i = 0; i < prefixed.length; i++)
@@ -163,7 +140,7 @@ public class CommandPandorasBox extends CommandBase
         return prefixed;
     }
 
-    private String[] getMissingArguments(String[] currentArguments, String... arguments)
+    private static String[] getMissingArguments(String[] currentArguments, String... arguments)
     {
         ArrayList<String> arrayList = new ArrayList<String>();
 
