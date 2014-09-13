@@ -22,7 +22,9 @@ public class PBFMLEventHandler
         if (event instanceof ConfigChangedEvent.OnConfigChangedEvent && event.modID.equals(PandorasBox.MODID))
         {
             PBConfig.loadConfig(event.configID);
-            PandorasBox.config.save();
+
+            if (PandorasBox.config.hasChanged())
+                PandorasBox.config.save();
         }
     }
 }
