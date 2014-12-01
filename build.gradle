@@ -18,6 +18,11 @@ buildscript {
 apply plugin: 'forge'
 
 version = "2.0.1"
+def ENV = System.getenv()
+if (ENV.DRONE_BUILD_NUMBER) {
+    version += ".n" + ENV.DRONE_BUILD_NUMBER
+}
+
 group= "ivorius.pandorasbox" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "PandorasBox"
 
@@ -27,19 +32,6 @@ minecraft {
 }
 
 dependencies {
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-      
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
 }
 
 processResources
@@ -64,3 +56,21 @@ processResources
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'dev'
+
+    manifest {
+    }
+}
+
+artifacts {
+    archives sourceJar
+    archives deobfJar
+}
