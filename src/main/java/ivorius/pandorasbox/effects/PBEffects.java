@@ -53,7 +53,7 @@ public class PBEffects
         PBECRegistry.register(new PBECCrushEntities(new ILinear(100, 300), new DLinear(20.0, 50.0)), "crush", false);
         PBECRegistry.register(new PBECBombentities(new ILinear(100, 400), new ILinear(5, 15), new DLinear(20.0, 50.0)), "bomberman", false);
         PBECRegistry.register(new PBECMulti(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(4, 20), new IConstant(1), new IConstant(0), new IConstant(0), new IConstant(0), PandorasBoxHelper.mobs), 0, new PBECBuffEntities(new ILinear(60, 200), new IConstant(1), new DLinear(10.0, 40.0), 0.15f, Arrays.asList(new WeightedPotion(100, Potion.blindness, 1, 1, 20 * 40, 20 * 200))), 0), "pitchBlack", false);
-        PBECRegistry.register(new PBECCreateVoid(new ILinear(30, 100), new DLinear(20.0, 50.0)), "void", false);
+        PBECRegistry.register(new PBECCreateVoid(new ILinear(30, 60), new DLinear(20.0, 50.0)), "void", false);
         PBECRegistry.register(new PBECThrowItems(new ILinear(20, 200), new DLinear(20.0, 50.0), new DLinear(0.3, 0.7), new DLinear(0.0, 0.2), new ILinear(0, 5), PandorasBoxHelper.blocksAndItems), "areTheseMine", false);
         PBECRegistry.register(new PBECMulti(new PBECSetTime(new ILinear(60, 200), new ILinear(12000, 24000 * 5), new ZConstant(true)), 0, new PBECSetWeather(new IWeighted(0, 50, 1, 35, 2, 15), new ILinear(100, 12000), new ILinear(10, 120))), "timeLord", false);
         PBECRegistry.register(new PBECSpawnExploMobs(new ILinear(20, 60), new ILinear(8, 16), new ILinear(60, 200), new IWeighted(0, 100, 2, 100, 3, 100), PandorasBoxHelper.creatures), "exploCreatures", false);

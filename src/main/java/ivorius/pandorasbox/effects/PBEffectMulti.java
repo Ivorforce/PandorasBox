@@ -8,6 +8,7 @@ package ivorius.pandorasbox.effects;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.Constants;
 
 /**
@@ -29,12 +30,12 @@ public class PBEffectMulti extends PBEffect
     }
 
     @Override
-    public void doTick(EntityPandorasBox entity, int ticksAlive)
+    public void doTick(EntityPandorasBox entity, Vec3 effectCenter, int ticksAlive)
     {
         for (int i = 0; i < effects.length; i++)
         {
             int effectTicks = ticksAlive - delays[i];
-            effects[i].doTick(entity, effectTicks);
+            effects[i].doTick(entity, effectCenter, effectTicks);
         }
     }
 

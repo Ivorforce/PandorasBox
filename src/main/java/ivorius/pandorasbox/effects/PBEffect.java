@@ -19,6 +19,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
@@ -328,7 +329,7 @@ public abstract class PBEffect
         }
     }
 
-    public abstract void doTick(EntityPandorasBox entity, int ticksAlive);
+    public abstract void doTick(EntityPandorasBox entity, Vec3 effectCenter, int ticksAlive);
 
     public abstract boolean isDone(EntityPandorasBox entity, int ticksAlive);
 

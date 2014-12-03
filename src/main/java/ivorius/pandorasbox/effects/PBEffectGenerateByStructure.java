@@ -10,6 +10,7 @@ import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
@@ -33,16 +34,16 @@ public abstract class PBEffectGenerateByStructure extends PBEffectNormal
     }
 
     @Override
-    public void doEffect(World world, EntityPandorasBox entity, Random random, float newRatio, float prevRatio)
+    public void doEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, float prevRatio, float newRatio)
     {
         for (Structure structure : structures)
         {
             float newStructureRatio = getStructureRatio(newRatio, structure);
             float prevStructureRatio = getStructureRatio(prevRatio, structure);
 
-            int baseX = MathHelper.floor_double(entity.posX);
-            int baseY = MathHelper.floor_double(entity.posY);
-            int baseZ = MathHelper.floor_double(entity.posZ);
+            int baseX = MathHelper.floor_double(effectCenter.xCoord);
+            int baseY = MathHelper.floor_double(effectCenter.yCoord);
+            int baseZ = MathHelper.floor_double(effectCenter.zCoord);
 
             if (newStructureRatio > prevStructureRatio)
             {

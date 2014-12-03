@@ -7,6 +7,7 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -37,36 +38,30 @@ public abstract class PBEffectNormal extends PBEffect
         return (float) ticks / (float) maxTicksAlive;
     }
 
-    public abstract void doEffect(World world, EntityPandorasBox entity, Random random, float newRatio, float prevRatio);
+    public abstract void doEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, float prevRatio, float newRatio);
 
-    public void setUpEffect(World world, EntityPandorasBox entity, Random random)
+    public void setUpEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random)
     {
     }
 
-    public void finalizeEffect(World world, EntityPandorasBox entity, Random random)
+    public void finalizeEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random)
     {
     }
 
     @Override
-    public void doTick(EntityPandorasBox entity, int ticksAlive)
+    public void doTick(EntityPandorasBox entity, Vec3 effectCenter, int ticksAlive)
     {
         float prevRatio = getRatioDone(ticksAlive);
         float newRatio = getRatioDone(ticksAlive + 1);
 
         if (ticksAlive == 0)
-        {
-            setUpEffect(entity.worldObj, entity, entity.getRandom());
-        }
+            setUpEffect(entity.worldObj, entity, effectCenter, entity.getRandom());
 
         if (prevRatio >= 0.0f && newRatio <= 1.0f && newRatio > prevRatio)
-        {
-            doEffect(entity.worldObj, entity, entity.getRandom(), newRatio, prevRatio);
-        }
+            doEffect(entity.worldObj, entity, effectCenter, entity.getRandom(), prevRatio, newRatio);
 
         if (ticksAlive == maxTicksAlive)
-        {
-            finalizeEffect(entity.worldObj, entity, entity.getRandom());
-        }
+            finalizeEffect(entity.worldObj, entity, effectCenter, entity.getRandom());
     }
 
     @Override

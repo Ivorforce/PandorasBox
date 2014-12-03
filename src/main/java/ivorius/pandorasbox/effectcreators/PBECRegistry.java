@@ -164,7 +164,11 @@ public class PBECRegistry
 
             Vec3 look = entity.getLookVec();
 
-            entityPandorasBox.setPosition(entity.posX + look.xCoord * 0.5, entity.posY + 1.2 + look.yCoord * 0.5, entity.posZ + look.zCoord * 0.5);
+            double spawnX = entity.posX + look.xCoord * 0.5;
+            double spawnY = entity.posY + 0.9 + look.yCoord * 0.5;
+            double spawnZ = entity.posZ + look.zCoord * 0.5;
+
+            entityPandorasBox.setPosition(spawnX, spawnY, spawnZ);
             entityPandorasBox.rotationYaw = entity.rotationYaw + 180.0f;
 
             entityPandorasBox.beginFloatingAway();

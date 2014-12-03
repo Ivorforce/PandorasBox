@@ -37,7 +37,7 @@ public class RenderPandorasBox extends Render
             EntityPandorasBox entityPandorasBox = (EntityPandorasBox) entity;
 
             GL11.glPushMatrix();
-            GL11.glTranslated(x, y + MathHelper.sin((entity.ticksExisted + partialTicks) * 0.04f) * 0.05 + 1.0f, z);
+            GL11.glTranslated(x, y + MathHelper.sin((entity.ticksExisted + partialTicks) * 0.04f) * 0.05 + 1.5f, z);
             GL11.glRotatef(-yaw, 0.0F, 1.0F, 0.0F);
 
             GL11.glRotatef(180.0f, 0.0f, 0.0f, 1.0f);

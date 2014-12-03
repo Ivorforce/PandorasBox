@@ -8,6 +8,7 @@ package ivorius.pandorasbox.effects;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -34,15 +35,15 @@ public abstract class PBEffectGenerateByFlag extends PBEffectRangeBased
     }
 
     @Override
-    public void setUpEffect(World world, EntityPandorasBox entity, Random random)
+    public void setUpEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random)
     {
-        super.setUpEffect(world, entity, random);
+        super.setUpEffect(world, entity, effectCenter, random);
 
         byte requiredRange = (byte) MathHelper.ceiling_double_int(range);
 
-        int baseX = MathHelper.floor_double(entity.posX);
-        int baseY = MathHelper.floor_double(entity.posY);
-        int baseZ = MathHelper.floor_double(entity.posZ);
+        int baseX = MathHelper.floor_double(effectCenter.xCoord);
+        int baseY = MathHelper.floor_double(effectCenter.yCoord);
+        int baseZ = MathHelper.floor_double(effectCenter.zCoord);
 
         boolean[] flags = new boolean[31];
 
@@ -68,13 +69,13 @@ public abstract class PBEffectGenerateByFlag extends PBEffectRangeBased
     public abstract boolean hasFlag(World world, EntityPandorasBox entity, Random random, int x, int y, int z);
 
     @Override
-    public void generateInRange(World world, EntityPandorasBox entity, Random random, double newRange, double prevRange, int pass)
+    public void generateInRange(World world, EntityPandorasBox entity, Random random, Vec3 effectCenter, double prevRange, double newRange, int pass)
     {
         byte requiredRange = (byte) MathHelper.ceiling_double_int(newRange);
 
-        int baseX = MathHelper.floor_double(entity.posX);
-        int baseY = MathHelper.floor_double(entity.posY);
-        int baseZ = MathHelper.floor_double(entity.posZ);
+        int baseX = MathHelper.floor_double(effectCenter.xCoord);
+        int baseY = MathHelper.floor_double(effectCenter.yCoord);
+        int baseZ = MathHelper.floor_double(effectCenter.zCoord);
 
         for (byte x = (byte) -requiredRange; x <= requiredRange; x++)
         {

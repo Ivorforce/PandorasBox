@@ -16,8 +16,11 @@ import ivorius.pandorasbox.network.PacketEntityData;
 import ivorius.pandorasbox.network.PartialUpdateHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 
 import java.util.Random;
 
@@ -26,25 +29,27 @@ import java.util.Random;
  */
 public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnData, PartialUpdateHandler
 {
-    private int timeBoxWaiting;
-    private int effectTicksExisted;
-    private boolean canGenerateMoreEffectsAfterwards = true;
+    protected int timeBoxWaiting;
+    protected int effectTicksExisted;
+    protected boolean canGenerateMoreEffectsAfterwards = true;
 
-    private PBEffect pbEffect;
+    protected PBEffect boxEffect;
 
-    private boolean floatUp = false;
-    private float floatAwayProgress = -1.0f;
+    protected boolean floatUp = false;
+    protected float floatAwayProgress = -1.0f;
 
-    public EntityPandorasBox(World par1World)
+    protected final Vec3 effectCenter = Vec3.createVectorHelper(0, 0, 0);
+
+    public EntityPandorasBox(World world)
     {
-        super(par1World);
+        super(world);
 
-        setSize(0.8f, 0.8f);
+        setSize(0.6f, 0.4f);
     }
 
-    public EntityPandorasBox(World par1World, PBEffect effect)
+    public EntityPandorasBox(World world, PBEffect effect)
     {
-        this(par1World);
+        this(world);
 
         setBoxEffect(effect);
         timeBoxWaiting = 40;
@@ -80,16 +85,6 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         this.canGenerateMoreEffectsAfterwards = canGenerateMoreEffectsAfterwards;
     }
 
-    public PBEffect getPbEffect()
-    {
-        return pbEffect;
-    }
-
-    public void setPbEffect(PBEffect pbEffect)
-    {
-        this.pbEffect = pbEffect;
-    }
-
     public boolean isFloatUp()
     {
         return floatUp;
@@ -108,6 +103,18 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
     public void setFloatAwayProgress(float floatAwayProgress)
     {
         this.floatAwayProgress = floatAwayProgress;
+    }
+
+    public Vec3 getEffectCenter()
+    {
+        return effectCenter;
+    }
+
+    public void setEffectCenter(double x, double y, double z)
+    {
+        this.effectCenter.xCoord = x;
+        this.effectCenter.yCoord = y;
+        this.effectCenter.zCoord = z;
     }
 
     @Override
@@ -189,7 +196,10 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                 }
                 else
                 {
-                    effect.doTick(this, effectTicksExisted);
+                    if (effectTicksExisted == 0)
+                        setEffectCenter(posX, posY, posZ);
+
+                    effect.doTick(this, effectCenter, effectTicksExisted);
                 }
             }
         }
@@ -268,7 +278,8 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
     {
         effectTicksExisted = 0;
         timeBoxWaiting = rand.nextInt(40);
-        pbEffect = PBECRegistry.createRandomEffect(worldObj, rand, posX, posY, posZ, true);
+
+        boxEffect = PBECRegistry.createRandomEffect(worldObj, rand, effectCenter.xCoord, effectCenter.yCoord, effectCenter.zCoord, true);
 
         PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), worldObj.provider.dimensionId);
     }
@@ -299,12 +310,12 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
 
     public PBEffect getBoxEffect()
     {
-        return pbEffect;
+        return boxEffect;
     }
 
     public void setBoxEffect(PBEffect effect)
     {
-        pbEffect = effect;
+        boxEffect = effect;
     }
 
     public Random getRandom()
@@ -335,6 +346,30 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
     }
 
     @Override
+    public boolean canBePushed()
+    {
+        return false;
+    }
+
+    @Override
+    public AxisAlignedBB getCollisionBox(Entity entity)
+    {
+        return entity.boundingBox;
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox()
+    {
+        return boundingBox;
+    }
+
+    @Override
+    public boolean canBeCollidedWith()
+    {
+        return !isDead;
+    }
+
+    @Override
     protected void readEntityFromNBT(NBTTagCompound var1)
     {
         readBoxData(var1);
@@ -355,6 +390,11 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         canGenerateMoreEffectsAfterwards = compound.getBoolean("canGenerateMoreEffectsAfterwards");
         floatAwayProgress = compound.getFloat("floatAwayProgress");
         floatUp = compound.getBoolean("floatUp");
+
+        if (compound.hasKey("effectCenterX", Constants.NBT.TAG_DOUBLE) && compound.hasKey("effectCenterY", Constants.NBT.TAG_DOUBLE) && compound.hasKey("effectCenterZ", Constants.NBT.TAG_DOUBLE))
+            setEffectCenter(compound.getDouble("effectCenterX"), compound.getDouble("effectCenterY"), compound.getDouble("effectCenterZ"));
+        else
+            setEffectCenter(posX, posY, posZ);
     }
 
     public void writeBoxData(NBTTagCompound compound)
@@ -368,6 +408,10 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         compound.setBoolean("canGenerateMoreEffectsAfterwards", canGenerateMoreEffectsAfterwards);
         compound.setFloat("floatAwayProgress", floatAwayProgress);
         compound.setBoolean("floatUp", floatUp);
+
+        compound.setDouble("effectCenterX", effectCenter.xCoord);
+        compound.setDouble("effectCenterY", effectCenter.yCoord);
+        compound.setDouble("effectCenterZ", effectCenter.zCoord);
     }
 
     @Override

@@ -8,6 +8,7 @@ package ivorius.pandorasbox.effects;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -30,7 +31,7 @@ public class PBEffectSetTime extends PBEffectNormal
     }
 
     @Override
-    public void doEffect(World world, EntityPandorasBox entity, Random random, float newRatio, float prevRatio)
+    public void doEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, float prevRatio, float newRatio)
     {
         int newPlus = MathHelper.floor_float(totalPlus * newRatio);
         int prevPlus = MathHelper.floor_float(totalPlus * prevRatio);

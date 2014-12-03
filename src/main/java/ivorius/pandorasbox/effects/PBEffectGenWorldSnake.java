@@ -9,6 +9,7 @@ import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -52,7 +53,7 @@ public class PBEffectGenWorldSnake extends PBEffectNormal
     }
 
     @Override
-    public void doEffect(World world, EntityPandorasBox entity, Random random, float newRatio, float prevRatio)
+    public void doEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, float prevRatio, float newRatio)
     {
         if (!world.isRemote)
         {

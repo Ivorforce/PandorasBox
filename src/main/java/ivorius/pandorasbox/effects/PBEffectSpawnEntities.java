@@ -9,6 +9,7 @@ import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -56,7 +57,7 @@ public abstract class PBEffectSpawnEntities extends PBEffectNormal
     }
 
     @Override
-    public void doEffect(World world, EntityPandorasBox entity, Random random, float newRatio, float prevRatio)
+    public void doEffect(World world, EntityPandorasBox box, Vec3 effectCenter, Random random, float prevRatio, float newRatio)
     {
         if (!world.isRemote)
         {
@@ -71,18 +72,18 @@ public abstract class PBEffectSpawnEntities extends PBEffectNormal
 
                 if (spawnFromBox)
                 {
-                    eX = entity.posX;
-                    eY = entity.posY;
-                    eZ = entity.posZ;
+                    eX = box.posX;
+                    eY = box.posY;
+                    eZ = box.posZ;
                 }
                 else
                 {
-                    eX = entity.posX + (random.nextDouble() - random.nextDouble()) * range;
-                    eY = entity.posY + (random.nextDouble() - random.nextDouble()) * 3.0 + shiftY;
-                    eZ = entity.posZ + (random.nextDouble() - random.nextDouble()) * range;
+                    eX = box.posX + (random.nextDouble() - random.nextDouble()) * range;
+                    eY = box.posY + (random.nextDouble() - random.nextDouble()) * 3.0 + shiftY;
+                    eZ = box.posZ + (random.nextDouble() - random.nextDouble()) * range;
                 }
 
-                Entity newEntity = createEntity(world, entity, random, prev + i, eX, eY, eZ);
+                Entity newEntity = createEntity(world, box, random, prev + i, eX, eY, eZ);
                 if (newEntity != null)
                 {
                     if (spawnFromBox)

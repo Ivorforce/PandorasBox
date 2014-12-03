@@ -9,6 +9,7 @@ import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -32,9 +33,9 @@ public abstract class PBEffectEntityBased extends PBEffectNormal
     }
 
     @Override
-    public void doEffect(World world, EntityPandorasBox entity, Random random, float newRatio, float prevRatio)
+    public void doEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, float prevRatio, float newRatio)
     {
-        AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(entity.posX - range, entity.posY - range, entity.posZ - range, entity.posX + range, entity.posY + range, entity.posZ + range);
+        AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(effectCenter.xCoord - range, effectCenter.yCoord - range, effectCenter.zCoord - range, effectCenter.xCoord + range, effectCenter.yCoord + range, effectCenter.zCoord + range);
         List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, bb);
 
         for (EntityLivingBase entityLivingBase : entities)

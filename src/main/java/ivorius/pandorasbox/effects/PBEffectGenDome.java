@@ -9,6 +9,7 @@ import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -33,7 +34,7 @@ public class PBEffectGenDome extends PBEffectGenerate2D
     }
 
     @Override
-    public void generateOnSurface(World world, EntityPandorasBox entity, Random random, int pass, int x, int baseY, int z, double dist)
+    public void generateOnSurface(World world, EntityPandorasBox box, Vec3 effectCenter, Random random, int pass, int x, int baseY, int z, double dist)
     {
         int domeHeightY = MathHelper.ceiling_double_int(range);
 
@@ -41,7 +42,7 @@ public class PBEffectGenDome extends PBEffectGenerate2D
         {
             if (pass == 0)
             {
-                if (isSpherePart(x + 0.5, baseY + y + 0.5, z + 0.5, entity.posX, entity.posY, entity.posZ, range - 1.5, range))
+                if (isSpherePart(x + 0.5, baseY + y + 0.5, z + 0.5, effectCenter.xCoord, effectCenter.yCoord, effectCenter.zCoord, range - 1.5, range))
                 {
                     Block block = world.getBlock(x, baseY + y, z);
 
@@ -53,7 +54,7 @@ public class PBEffectGenDome extends PBEffectGenerate2D
             }
             else if (pass == 1 && fillBlock != null)
             {
-                if (isSpherePart(x + 0.5, baseY + y + 0.5, z + 0.5, entity.posX, entity.posY, entity.posZ, 0.0, range - 1.5))
+                if (isSpherePart(x + 0.5, baseY + y + 0.5, z + 0.5, effectCenter.xCoord, effectCenter.yCoord, effectCenter.zCoord, 0.0, range - 1.5))
                 {
                     Block block = world.getBlock(x, baseY + y, z);
 

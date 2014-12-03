@@ -31,7 +31,7 @@ public class TileEntityPandorasBox extends TileEntity
             {
                 EntityPandorasBox entityPandorasBox = new EntityPandorasBox(getWorldObj(), effect);
 
-                entityPandorasBox.setPosition(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
+                entityPandorasBox.setPosition(xCoord + 0.5, yCoord, zCoord + 0.5);
                 entityPandorasBox.rotationYaw = boxRotationYaw;
 
                 entityPandorasBox.beginFloatingUp();
