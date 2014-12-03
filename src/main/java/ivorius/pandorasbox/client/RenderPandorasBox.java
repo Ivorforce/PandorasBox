@@ -37,9 +37,14 @@ public class RenderPandorasBox extends Render
             EntityPandorasBox entityPandorasBox = (EntityPandorasBox) entity;
 
             GL11.glPushMatrix();
-            GL11.glTranslated(x, y + MathHelper.sin((entity.ticksExisted + partialTicks) * 0.04f) * 0.05 + 1.5f, z);
+            GL11.glTranslated(x, y + MathHelper.sin((entity.ticksExisted + partialTicks) * 0.04f) * 0.05, z);
             GL11.glRotatef(-yaw, 0.0F, 1.0F, 0.0F);
 
+            float boxScale = entityPandorasBox.getCurrentScale();
+            if (boxScale < 1.0f)
+                GL11.glScalef(boxScale, boxScale, boxScale);
+
+            GL11.glTranslatef(0.0f, 1.5f, 0.0f);
             GL11.glRotatef(180.0f, 0.0f, 0.0f, 1.0f);
 
             EntityArrow emptyEntity = new EntityArrow(entity.worldObj);

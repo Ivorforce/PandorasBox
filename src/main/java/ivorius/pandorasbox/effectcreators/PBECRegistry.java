@@ -5,6 +5,8 @@
 
 package ivorius.pandorasbox.effectcreators;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.effects.PBEffectMulti;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
@@ -12,20 +14,23 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by lukas on 30.03.14.
  */
 public class PBECRegistry
 {
-    private static ArrayList<String> goodCreators = new ArrayList<String>();
-    private static ArrayList<String> badCreators = new ArrayList<String>();
+    public static final float GOOD_EFFECT_CHANCE = 0.49f;
+    public static final int MAX_EFFECTS_AT_ONCE = 3;
+    public static final int MAX_DELAY_IN_MULTIEFFECT = 60;
 
-    private static Hashtable<String, PBEffectCreator> effectCreators = new Hashtable<String, PBEffectCreator>();
+    private static final ArrayList<String> goodCreators = new ArrayList<>();
+    private static final ArrayList<String> badCreators = new ArrayList<>();
+
+    private static final Map<String, Float> fixedChanceCreators = new HashMap<>();
+
+    private static final BiMap<String, PBEffectCreator> effectCreators = HashBiMap.create();
 
     public static void register(PBEffectCreator creator, String id, boolean good)
     {
@@ -33,17 +38,15 @@ public class PBECRegistry
         effectCreators.put(id, creator);
     }
 
+    public static void register(PBEffectCreator creator, String id, float fixedChance)
+    {
+        fixedChanceCreators.put(id, fixedChance);
+        effectCreators.put(id, creator);
+    }
+
     public static String getID(PBEffectCreator creator)
     {
-        for (String id : effectCreators.keySet())
-        {
-            if (effectCreators.get(id).equals(creator))
-            {
-                return id;
-            }
-        }
-
-        return null;
+        return effectCreators.inverse().get(creator);
     }
 
     public static PBEffectCreator effectCreatorWithName(String name)
@@ -61,6 +64,11 @@ public class PBECRegistry
         return goodCreators.contains(name);
     }
 
+    public static boolean isEffectBad(String name)
+    {
+        return badCreators.contains(name);
+    }
+
     public static PBEffectCreator randomEffectCreatorOfType(Random random, boolean good)
     {
         ArrayList<String> list = good ? goodCreators : badCreators;
@@ -72,9 +80,7 @@ public class PBECRegistry
         PBEffectCreator creator = effectCreatorWithName(name);
 
         if (creator != null)
-        {
             return constructEffectSafe(creator, world, x, y, z, random);
-        }
 
         return null;
     }
@@ -84,9 +90,7 @@ public class PBECRegistry
         PBEffectCreator creator = randomEffectCreatorOfType(random, good);
 
         if (creator != null)
-        {
             return constructEffectSafe(creator, world, x, y, z, random);
-        }
 
         return null;
     }
@@ -94,21 +98,32 @@ public class PBECRegistry
     public static PBEffect createRandomEffect(World world, Random random, double x, double y, double z, boolean multi)
     {
         float currentMinChance = 1.0f;
-        ArrayList<PBEffect> effects = new ArrayList<PBEffect>();
+        ArrayList<PBEffect> effects = new ArrayList<>();
 
         do
         {
-            PBEffectCreator creator = randomEffectCreatorOfType(random, random.nextFloat() < 0.49f);
+            PBEffectCreator creator = null;
+
+            for (String fixedChanceCreator : fixedChanceCreators.keySet())
+            {
+                if (random.nextFloat() < fixedChanceCreators.get(fixedChanceCreator))
+                {
+                    creator = effectCreators.get(fixedChanceCreator);
+                    break;
+                }
+            }
+
+            if (creator == null)
+                creator = randomEffectCreatorOfType(random, random.nextFloat() < GOOD_EFFECT_CHANCE);
+
             PBEffect effect = constructEffectSafe(creator, world, x, y, z, random);
 
             if (effect != null)
-            {
                 effects.add(effect);
-            }
 
             currentMinChance = Math.min(currentMinChance, creator.chanceForMoreEffects(world, x, y, z, random));
         }
-        while (random.nextFloat() < currentMinChance && effects.size() < 3 && multi);
+        while (random.nextFloat() < currentMinChance && effects.size() < MAX_EFFECTS_AT_ONCE && multi);
 
         if (effects.size() == 1)
         {
@@ -119,13 +134,10 @@ public class PBECRegistry
             PBEffect[] effectArray = effects.toArray(new PBEffect[effects.size()]);
             int[] delays = new int[effectArray.length];
 
-            for (int i = 0; i < delays.length; i++)
-            {
-                delays[i] = i == 0 ? 0 : random.nextInt(60);
-            }
+            for (int i = 1; i < delays.length; i++)
+                delays[i] = random.nextInt(MAX_DELAY_IN_MULTIEFFECT);
 
-            PBEffectMulti multiEffect = new PBEffectMulti(effectArray, delays);
-            return multiEffect;
+            return new PBEffectMulti(effectArray, delays);
         }
     }
 

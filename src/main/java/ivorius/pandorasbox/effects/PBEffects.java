@@ -23,6 +23,8 @@ public class PBEffects
     {
         PandorasBoxHelper.initialize();
 
+        PBECRegistry.register(new PBECDuplicateBox(new IConstant(PBEffectDuplicateBox.MODE_BOX_IN_BOX), new DConstant(0.5)), "matryoshka", 0.02f);
+
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(4, 20), new IConstant(1), new IConstant(0), new IConstant(0), new IConstant(0), PandorasBoxHelper.mobs), "mobs", false);
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(2, 6), new ILinear(2, 5), new IConstant(0), new IConstant(0), new IConstant(0), PandorasBoxHelper.mobs), "mobTowers", false);
         PBECRegistry.register(new PBECSpawnBlocks(new ILinear(10, 30), new ILinear(0, 20), PandorasBoxHelper.heavyBlocks, null, PBECSpawnBlocks.defaultShowerSpawn()), "megaton", false);
@@ -151,5 +153,6 @@ public class PBEffects
         PBEffectRegistry.register(PBEffectGenTargets.class, "genTargets");
         PBEffectRegistry.register(PBEffectEntitiesCreateVoid.class, "entitiesGenVoid");
         PBEffectRegistry.register(PBEffectEntitiesTeleport.class, "entitiesTeleport");
+        PBEffectRegistry.register(PBEffectDuplicateBox.class, "duplicateBox");
     }
 }

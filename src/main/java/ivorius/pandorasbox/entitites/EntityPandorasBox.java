@@ -29,6 +29,8 @@ import java.util.Random;
  */
 public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnData, PartialUpdateHandler
 {
+    public static final float BOX_UPSCALE_SPEED = 0.02f;
+
     protected int timeBoxWaiting;
     protected int effectTicksExisted;
     protected boolean canGenerateMoreEffectsAfterwards = true;
@@ -37,6 +39,8 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
 
     protected boolean floatUp = false;
     protected float floatAwayProgress = -1.0f;
+
+    protected float scaleInProgress = 1.0f;
 
     protected final Vec3 effectCenter = Vec3.createVectorHelper(0, 0, 0);
 
@@ -117,6 +121,11 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         this.effectCenter.zCoord = z;
     }
 
+    public float getCurrentScale()
+    {
+        return scaleInProgress;
+    }
+
     @Override
     protected void entityInit()
     {
@@ -133,26 +142,20 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
             if (!worldObj.isRemote)
             {
                 if (getDeathTicks() >= 30)
-                {
                     setDead();
-                }
             }
             else
             {
                 for (int e = 0; e < Math.min(getDeathTicks(), 60); e++)
                 {
-                    double xP = (rand.nextDouble() - rand.nextDouble()) * 0.75;
-                    double yP = (rand.nextDouble() - rand.nextDouble()) * 0.75;
-                    double zP = (rand.nextDouble() - rand.nextDouble()) * 0.75;
+                    double xP = (rand.nextDouble() - rand.nextDouble()) * 0.5;
+                    double yP = (rand.nextDouble() - rand.nextDouble()) * 0.5;
+                    double zP = (rand.nextDouble() - rand.nextDouble()) * 0.5;
 
                     if (rand.nextBoolean())
-                    {
                         worldObj.spawnParticle("smoke", posX + xP, posY + yP, posZ + zP, 0.0D, 0.0D, 0.0D);
-                    }
                     else
-                    {
                         worldObj.spawnParticle("largesmoke", posX + xP, posY + yP, posZ + zP, 0.0D, 0.0D, 0.0D);
-                    }
                 }
             }
 
@@ -237,6 +240,11 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                 stopFloating();
         }
 
+        if (scaleInProgress < 1.0f)
+            scaleInProgress += BOX_UPSCALE_SPEED;
+        if (scaleInProgress > 1.0f)
+            scaleInProgress = 1.0f;
+
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
         if (timeBoxWaiting == 0)
@@ -247,11 +255,11 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                 {
                     for (int e = 0; e < 2; e++)
                     {
-                        double xP = (rand.nextDouble() - rand.nextDouble()) * 0.3;
-                        double yDir = rand.nextDouble() * 0.1 + 0.0;
-                        double zP = (rand.nextDouble() - rand.nextDouble()) * 0.3;
+                        double xP = (rand.nextDouble() - rand.nextDouble()) * 0.2;
+                        double yDir = rand.nextDouble() * 0.1;
+                        double zP = (rand.nextDouble() - rand.nextDouble()) * 0.2;
 
-                        worldObj.spawnParticle("smoke", posX + xP, posY, posZ + zP, 0.0D, yDir, 0.0D);
+                        worldObj.spawnParticle("smoke", posX + xP, posY + 0.2, posZ + zP, 0.0D, yDir, 0.0D);
                     }
                     for (int e = 0; e < 3; e++)
                     {
@@ -308,6 +316,11 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), worldObj.provider.dimensionId);
     }
 
+    public void beginScalingIn()
+    {
+        scaleInProgress = 0.0f;
+    }
+
     public PBEffect getBoxEffect()
     {
         return boxEffect;
@@ -336,13 +349,9 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
     public float getRatioBoxOpen(float partialTicks)
     {
         if (floatAwayProgress >= 0.0f)
-        {
             return MathHelper.clamp_float(((floatAwayProgress + partialTicks * 0.025f - 0.5f) * 2.0f), 0.0f, 1.0f);
-        }
         else
-        {
             return 1.0f;
-        }
     }
 
     @Override
@@ -390,6 +399,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         canGenerateMoreEffectsAfterwards = compound.getBoolean("canGenerateMoreEffectsAfterwards");
         floatAwayProgress = compound.getFloat("floatAwayProgress");
         floatUp = compound.getBoolean("floatUp");
+        scaleInProgress = compound.getFloat("scaleInProgress");
 
         if (compound.hasKey("effectCenterX", Constants.NBT.TAG_DOUBLE) && compound.hasKey("effectCenterY", Constants.NBT.TAG_DOUBLE) && compound.hasKey("effectCenterZ", Constants.NBT.TAG_DOUBLE))
             setEffectCenter(compound.getDouble("effectCenterX"), compound.getDouble("effectCenterY"), compound.getDouble("effectCenterZ"));
@@ -408,6 +418,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         compound.setBoolean("canGenerateMoreEffectsAfterwards", canGenerateMoreEffectsAfterwards);
         compound.setFloat("floatAwayProgress", floatAwayProgress);
         compound.setBoolean("floatUp", floatUp);
+        compound.setFloat("scaleInProgress", scaleInProgress);
 
         compound.setDouble("effectCenterX", effectCenter.xCoord);
         compound.setDouble("effectCenterY", effectCenter.yCoord);
@@ -428,9 +439,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         NBTTagCompound compound = ByteBufUtils.readTag(buffer);
 
         if (compound != null)
-        {
             readBoxData(compound);
-        }
     }
 
     @Override
