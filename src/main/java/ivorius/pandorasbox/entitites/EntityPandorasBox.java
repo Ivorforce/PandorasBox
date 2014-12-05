@@ -355,27 +355,9 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
     }
 
     @Override
-    public boolean canBePushed()
-    {
-        return false;
-    }
-
-    @Override
-    public AxisAlignedBB getCollisionBox(Entity entity)
-    {
-        return entity.boundingBox;
-    }
-
-    @Override
     public AxisAlignedBB getBoundingBox()
     {
         return boundingBox;
-    }
-
-    @Override
-    public boolean canBeCollidedWith()
-    {
-        return !isDead;
     }
 
     @Override
