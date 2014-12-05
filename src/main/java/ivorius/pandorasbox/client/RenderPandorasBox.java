@@ -6,6 +6,9 @@
 package ivorius.pandorasbox.client;
 
 import ivorius.pandorasbox.PandorasBox;
+import ivorius.pandorasbox.client.rendering.effects.PBEffectRenderer;
+import ivorius.pandorasbox.client.rendering.effects.PBEffectRenderingRegistry;
+import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
@@ -32,14 +35,22 @@ public class RenderPandorasBox extends Render
     @Override
     public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTicks)
     {
+        EntityPandorasBox entityPandorasBox = (EntityPandorasBox) entity;
+
+        GL11.glPushMatrix();
+        GL11.glTranslated(x, y + MathHelper.sin((entity.ticksExisted + partialTicks) * 0.04f) * 0.05, z);
+        GL11.glRotatef(-yaw, 0.0F, 1.0F, 0.0F);
+
+        PBEffect effect = entityPandorasBox.getBoxEffect();
+        if (!effect.isDone(entityPandorasBox, entityPandorasBox.getEffectTicksExisted()) && entityPandorasBox.getDeathTicks() < 0)
+        {
+            PBEffectRenderer renderer = PBEffectRenderingRegistry.rendererForEffect(effect);
+            if (renderer != null)
+                renderer.renderBox(entityPandorasBox, effect, partialTicks);
+        }
+
         if (!entity.isInvisible())
         {
-            EntityPandorasBox entityPandorasBox = (EntityPandorasBox) entity;
-
-            GL11.glPushMatrix();
-            GL11.glTranslated(x, y + MathHelper.sin((entity.ticksExisted + partialTicks) * 0.04f) * 0.05, z);
-            GL11.glRotatef(-yaw, 0.0F, 1.0F, 0.0F);
-
             float boxScale = entityPandorasBox.getCurrentScale();
             if (boxScale < 1.0f)
                 GL11.glScalef(boxScale, boxScale, boxScale);
@@ -51,9 +62,9 @@ public class RenderPandorasBox extends Render
             emptyEntity.rotationPitch = entityPandorasBox.getRatioBoxOpen(partialTicks) * 120.0f / 180.0f * 3.1415926f;
             bindEntityTexture(entity);
             model.render(emptyEntity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
-
-            GL11.glPopMatrix();
         }
+
+        GL11.glPopMatrix();
     }
 
     @Override

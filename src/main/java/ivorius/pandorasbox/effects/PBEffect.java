@@ -241,20 +241,18 @@ public abstract class PBEffect
         return getRandomNearbyPlayer(world, box); // We don't know the owner :/
     }
 
-    public boolean isBlockAnyOf(Block block, Block... blocks)
+    public static boolean isBlockAnyOf(Block block, Block... blocks)
     {
         for (Block block1 : blocks)
         {
             if (block == block1)
-            {
                 return true;
-            }
         }
 
         return false;
     }
 
-    public Entity lazilySpawnEntity(World world, EntityPandorasBox box, Random random, String entityID, float chance, int x, int y, int z)
+    public static Entity lazilySpawnEntity(World world, EntityPandorasBox box, Random random, String entityID, float chance, int x, int y, int z)
     {
         if (random.nextFloat() < chance)
         {
@@ -270,22 +268,16 @@ public abstract class PBEffect
         return null;
     }
 
-    public boolean canSpawnEntity(World world, Block block, int x, int y, int z)
+    public static boolean canSpawnEntity(World world, Block block, int x, int y, int z)
     {
         if (world.isRemote)
-        {
             return false;
-        }
 
         if (block.getLightOpacity(world, x, y, z) > 0)
-        {
             return false;
-        }
 
         if (!world.isBlockNormalCubeDefault(x, y - 1, z, false))
-        {
             return false;
-        }
 
         return true;
     }
@@ -293,14 +285,10 @@ public abstract class PBEffect
     public boolean canSpawnFlyingEntity(World world, Block block, int x, int y, int z)
     {
         if (world.isRemote)
-        {
             return false;
-        }
 
         if (block.getLightOpacity(world, x, y, z) > 0 || world.getBlockLightOpacity(x, y - 1, z) > 0 || world.getBlockLightOpacity(x, y - 2, z) > 0)
-        {
             return false;
-        }
 
         return true;
     }
@@ -323,9 +311,7 @@ public abstract class PBEffect
             }
 
             if (addNewEffect)
-            {
                 entity.addPotionEffect(potionEffect);
-            }
         }
     }
 

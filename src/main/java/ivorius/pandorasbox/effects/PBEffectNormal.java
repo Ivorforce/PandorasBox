@@ -60,7 +60,7 @@ public abstract class PBEffectNormal extends PBEffect
         if (prevRatio >= 0.0f && newRatio <= 1.0f && newRatio > prevRatio)
             doEffect(entity.worldObj, entity, effectCenter, entity.getRandom(), prevRatio, newRatio);
 
-        if (ticksAlive == maxTicksAlive)
+        if (ticksAlive == maxTicksAlive - 1)
             finalizeEffect(entity.worldObj, entity, effectCenter, entity.getRandom());
     }
 

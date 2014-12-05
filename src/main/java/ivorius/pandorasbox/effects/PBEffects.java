@@ -77,6 +77,7 @@ public class PBEffects
         PBECRegistry.register(new PBECConvertToIce(new DLinear(10.0, 80.0)), "iceAge", false);
         PBECRegistry.register(new PBECTeleportEntities(0.1f, new ILinear(5, 100), new DLinear(10.0, 80.0), new DLinear(10.0, 100.0), new IConstant(1)), "teleRandom", false);
         PBECRegistry.register(new PBECTeleportEntities(0.5f, new ILinear(5, 200), new DLinear(10.0, 80.0), new DLinear(0.5, 5.0), new ILinear(5, 20)), "crazyPort", false);
+        PBECRegistry.register(new PBECExplosion(new ILinear(50, 120), new DGaussian(1.0, 8.0), new ZChance(0.3)), "thingGoBoom", false);
 
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(4, 20), new IConstant(1), new IWeighted(0, 100, 2, 50, 3, 30), new IConstant(0), new IConstant(0), PandorasBoxHelper.creatures), "animals", true);
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(2, 6), new ILinear(2, 5), new IWeighted(0, 100, 2, 35, 3, 20), new IConstant(0), new IConstant(0), PandorasBoxHelper.creatures), "animalTowers", true);
@@ -154,5 +155,6 @@ public class PBEffects
         PBEffectRegistry.register(PBEffectEntitiesCreateVoid.class, "entitiesGenVoid");
         PBEffectRegistry.register(PBEffectEntitiesTeleport.class, "entitiesTeleport");
         PBEffectRegistry.register(PBEffectDuplicateBox.class, "duplicateBox");
+        PBEffectRegistry.register(PBEffectExplode.class, "explode");
     }
 }

@@ -192,9 +192,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                         }
 
                         if (isCompletelyDone)
-                        {
                             startFadingOut();
-                        }
                     }
                 }
                 else
