@@ -49,10 +49,6 @@ public class PandorasBoxHelper
 
     public static List<WeightedBlock> heavyBlocks = new ArrayList<WeightedBlock>();
 
-    public static boolean copied = false;
-    public static Block[][][] copiedAreaBlockIDs = new Block[20 + 1 + 20][20 + 1 + 20][20 + 1 + 20];
-    public static int[][][] copiedAreaMetaData = new int[20 + 1 + 20][20 + 1 + 20][20 + 1 + 20];
-
     public static void addEntities(List<WeightedEntity> list, int weight, int minNumber, int maxNumber, String... entities)
     {
         for (String s : entities)
@@ -362,9 +358,7 @@ public class PandorasBoxHelper
     {
         int number = 1;
         while (number < 10 && rand.nextFloat() < 0.7f)
-        {
             number++;
-        }
 
         int[] weights = new int[number];
         for (int i = 0; i < number; i++)
@@ -372,16 +366,12 @@ public class PandorasBoxHelper
             weights[i] = 1;
 
             while (weights[i] < 10 && rand.nextFloat() < 0.7f)
-            {
                 weights[i]++;
-            }
         }
 
         int total = 0;
         for (int i : weights)
-        {
             total += i;
-        }
 
         Block[] blocks = new Block[total];
         int blockIndex = 0;

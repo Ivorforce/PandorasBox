@@ -27,9 +27,9 @@ public class PBEffects
 
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(4, 20), new IConstant(1), new IConstant(0), new IConstant(0), new IConstant(0), PandorasBoxHelper.mobs), "mobs", false);
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(2, 6), new ILinear(2, 5), new IConstant(0), new IConstant(0), new IConstant(0), PandorasBoxHelper.mobs), "mobTowers", false);
-        PBECRegistry.register(new PBECSpawnBlocks(new ILinear(10, 30), new ILinear(0, 20), PandorasBoxHelper.heavyBlocks, null, PBECSpawnBlocks.defaultShowerSpawn()), "megaton", false);
-        PBECRegistry.register(new PBECSpawnBlocks(new ILinear(30, 100), new ILinear(0, 20), PandorasBoxHelper.blocks, null, PBECSpawnBlocks.defaultShowerSpawn()), "blockGrave", false);
-        PBECRegistry.register(new PBECSpawnBlocks(new ILinear(30, 100), new ILinear(0, 20), PandorasBoxHelper.blocks), "blockShower", false);
+        PBECRegistry.register(new PBECSpawnBlocks(new ILinear(10, 30), new ILinear(0, 10), PandorasBoxHelper.heavyBlocks, null, PBECSpawnBlocks.defaultShowerSpawn()), "megaton", false);
+        PBECRegistry.register(new PBECSpawnBlocks(new ILinear(30, 100), new ILinear(0, 10), PandorasBoxHelper.blocks, null, PBECSpawnBlocks.defaultShowerSpawn()), "blockGrave", false);
+        PBECRegistry.register(new PBECSpawnBlocks(new ILinear(30, 100), new ILinear(0, 10), PandorasBoxHelper.blocks), "blockShower", false);
         PBECRegistry.register(new PBECTransform(new DLinear(10.0, 80.0), PandorasBoxHelper.blocks), "transform", false);
         PBECRegistry.register(new PBECReplace(new DLinear(10.0, 80.0), null, PandorasBoxHelper.blocks, new ZConstant(true)), "replace", false);
         PBECRegistry.register(new PBECReplace(new DLinear(40.0, 120.0), new Block[]{Blocks.water, Blocks.lava, Blocks.flowing_lava, Blocks.flowing_water}, Arrays.asList(new WeightedBlock(100, Blocks.air)), new ZConstant(false)), "dryness", false);
@@ -78,6 +78,7 @@ public class PBEffects
         PBECRegistry.register(new PBECTeleportEntities(0.1f, new ILinear(5, 100), new DLinear(10.0, 80.0), new DLinear(10.0, 100.0), new IConstant(1)), "teleRandom", false);
         PBECRegistry.register(new PBECTeleportEntities(0.5f, new ILinear(5, 200), new DLinear(10.0, 80.0), new DLinear(0.5, 5.0), new ILinear(5, 20)), "crazyPort", false);
         PBECRegistry.register(new PBECExplosion(new ILinear(50, 120), new DGaussian(1.0, 8.0), new ZChance(0.3)), "thingGoBoom", false);
+        PBECRegistry.register(new PBECSpawnBlocks(new ILinear(50, 120), new ILinear(0, 2), Arrays.asList(new WeightedBlock(1, Blocks.tnt), new WeightedBlock(1, Blocks.redstone_block)), null, new ValueSpawn(new DLinear(5.0, 10.0), new DConstant(150.0))).setShuffleBlocks(false), "dangerCall", false);
 
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(4, 20), new IConstant(1), new IWeighted(0, 100, 2, 50, 3, 30), new IConstant(0), new IConstant(0), PandorasBoxHelper.creatures), "animals", true);
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(2, 6), new ILinear(2, 5), new IWeighted(0, 100, 2, 35, 3, 20), new IConstant(0), new IConstant(0), PandorasBoxHelper.creatures), "animalTowers", true);
@@ -90,8 +91,8 @@ public class PBEffects
         PBECRegistry.register(new PBECSpawnManySameItems(new ILinear(0, 30), PandorasBoxHelper.blocksAndItems), "resources", true);
         PBECRegistry.register(new PBECSpawnItemSet(new ILinear(0, 30), PandorasBoxHelper.equipmentSets), "equipmentSet", true);
         PBECRegistry.register(new PBECSpawnManySameItems(new ILinear(0, 30), PandorasBoxHelper.blocksAndItems, null, PBECSpawnItems.defaultShowerSpawn()), "itemRain", true);
-        PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(10, 30), new IConstant(1), new IConstant(0), new IConstant(0), new IConstant(0), PandorasBoxHelper.creatures, null, new ValueSpawn(new DLinear(5.0, 20.0), new DConstant(300.0))), "deadCreatures", true);
-        PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(10, 30), new IConstant(1), new IConstant(0), new IConstant(0), new IConstant(0), PandorasBoxHelper.mobs, null, new ValueSpawn(new DLinear(5.0, 20.0), new DConstant(300.0))), "deadMobs", true);
+        PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(10, 30), new IConstant(1), new IConstant(0), new IConstant(0), new IConstant(0), PandorasBoxHelper.creatures, null, new ValueSpawn(new DLinear(5.0, 20.0), new DConstant(150.0))), "deadCreatures", true);
+        PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(10, 30), new IConstant(1), new IConstant(0), new IConstant(0), new IConstant(0), PandorasBoxHelper.mobs, null, new ValueSpawn(new DLinear(5.0, 20.0), new DConstant(150.0))), "deadMobs", true);
         PBECRegistry.register(new PBECSpawnEntities(new ILinear(20, 100), new ILinear(10, 110), new IConstant(1), new IConstant(0), new IConstant(0), new IConstant(0), Arrays.asList(new WeightedEntity(100, "pbspecial_XP", 1, 1))), "experience", true);
         PBECRegistry.register(new PBECGenTrees(new DLinear(10.0, 80.0), new DLinear(1.0f / (8.0f * 8.0f), 1.0f / (2.0f * 2.0f)), new ZConstant(true), new IFlags(1, PBEffectGenTrees.treeSmall, 0.5, PBEffectGenTrees.treeNormal, 0.5, PBEffectGenTrees.treeBig, 0.5, PBEffectGenTrees.treeComplexNormal, 0.5, PBEffectGenTrees.treeTaiga, 0.5, PBEffectGenTrees.treeBirch, 0.5)), "suddenForest", true);
         PBECRegistry.register(new PBECGenTrees(new DLinear(10.0, 80.0), new DLinear(1.0f / (8.0f * 8.0f), 1.0f / (3.0f * 3.0f)), new ZConstant(true), new IFlags(1, PBEffectGenTrees.treeJungle, 0.7, PBEffectGenTrees.treeHuge, 0.7, PBEffectGenTrees.treeComplexNormal, 0.7)), "suddenJungle", true);

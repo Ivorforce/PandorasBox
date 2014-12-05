@@ -26,6 +26,7 @@ public class PBECSpawnBlocks implements PBEffectCreator
     public IValue ticksPerBlock;
 
     public Collection<WeightedBlock> blocks;
+    public boolean shuffleBlocks = true;
 
     public ValueThrow valueThrow;
     public ValueSpawn valueSpawn;
@@ -54,13 +55,39 @@ public class PBECSpawnBlocks implements PBEffectCreator
         return new ValueSpawn(new DLinear(5.0, 30.0), new DConstant(150.0));
     }
 
+    public PBECSpawnBlocks setShuffleBlocks(boolean shuffle)
+    {
+        this.shuffleBlocks = shuffle;
+        return this;
+    }
+
     @Override
     public PBEffect constructEffect(World world, double x, double y, double z, Random random)
     {
         int number = this.number.getValue(random);
         int ticksPerBlock = this.ticksPerBlock.getValue(random);
-        Block[] selection = PandorasBoxHelper.getRandomBlockList(random, blocks);
-        Block[] blocks = constructBlocks(random, selection, number, true);
+        Block[] blocks;
+
+        if (shuffleBlocks)
+        {
+            Block[] selection = PandorasBoxHelper.getRandomBlockList(random, this.blocks);
+            blocks = constructBlocks(random, selection, number, true);
+        }
+        else
+        {
+            int max = 0;
+            for (WeightedBlock weightedBlock : this.blocks)
+                max += weightedBlock.itemWeight;
+            Block[] selection = new Block[max];
+            max = 0;
+            for (WeightedBlock weightedBlock : this.blocks)
+            {
+                for (int i = 0; i < weightedBlock.itemWeight; i++)
+                    selection[max + i] = weightedBlock.block;
+                max += weightedBlock.itemWeight;
+            }
+            blocks = constructBlocks(random, selection, number, true);
+        }
 
         return constructEffect(random, blocks, number * ticksPerBlock + 1, valueThrow, valueSpawn);
     }
