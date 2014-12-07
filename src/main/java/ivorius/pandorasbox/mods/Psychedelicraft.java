@@ -67,7 +67,7 @@ public class Psychedelicraft extends ModRepresentation
             {
                 PandorasBoxHelper.addItems(100, modItem("hop_seeds"), modItem("hop_cones"), modItem("wineGrapes"), modItem("cannabisSeeds"), modItem("cannabisLeaf"), modItem("cannabisBuds"), modItem("tobaccoSeeds"), modItem("tobaccoLeaf"), modItem("cocaSeeds"), modItem("cocaLeaf"), modItem("juniperBerries"), modItem("coffeaCherries"), modItem("peyote"));
                 PandorasBoxHelper.addItems(80, modItem("hashMuffin"), modItem("brownMagicMushrooms"), modItem("redMagicMushrooms"), modItem("cigarette"), modItem("cigar"), modItem("joint"), modItem("cocaine_powder"), modItem("peyoteJoint"));
-                PandorasBoxHelper.addItems(80, modItem("stone_cup"), modItem("woodenMug"), modItem("glassChalics"), modItem("bottle"), modItem("smokingPipe"));
+                PandorasBoxHelper.addItems(80, modItem("stone_cup"), modItem("woodenMug"), modItem("glassChalice"), modItem("bottle"), modItem("smokingPipe"));
                 PandorasBoxHelper.addItems(60, modItem("barrel"), modItem("mash_tub"), modItem("flask"), modItem("distillery"));
                 PandorasBoxHelper.addItems(30, modItem("syringe"), modItem("bong"));
             }
