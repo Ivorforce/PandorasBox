@@ -9,6 +9,7 @@ import cpw.mods.fml.client.IModGuiFactory;
 import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.GuiConfigEntries;
 import cpw.mods.fml.client.config.IConfigElement;
+import ivorius.pandorasbox.PBConfig;
 import ivorius.pandorasbox.PandorasBox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -94,8 +95,8 @@ public class PBConfigGuiFactory implements IModGuiFactory
             protected GuiScreen buildChildScreen()
             {
                 return new GuiConfig(this.owningScreen,
-                        (new ConfigElement(PandorasBox.config.getCategory("balancing"))).getChildElements(),
-                        this.owningScreen.modID, "balancing", this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart,
+                        (new ConfigElement(PandorasBox.config.getCategory(PBConfig.CATERGORY_BALANCING))).getChildElements(),
+                        this.owningScreen.modID, PBConfig.CATERGORY_BALANCING, this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart,
                         this.configElement.requiresMcRestart() || this.owningScreen.allRequireMcRestart,
                         GuiConfig.getAbridgedConfigPath(PandorasBox.config.toString()));
             }

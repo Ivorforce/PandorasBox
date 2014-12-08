@@ -32,6 +32,11 @@ public class Psychedelicraft extends ModRepresentation
 
     public static final List<WeightedDrug> drugs = new ArrayList<>();
 
+    public static boolean isLoaded()
+    {
+        return Loader.isModLoaded(MOD_ID);
+    }
+
     public static Item modItem(String id)
     {
         return item(MOD_ID, id);
@@ -55,7 +60,7 @@ public class Psychedelicraft extends ModRepresentation
 
     public static void initEffectCreators()
     {
-        if (Loader.isModLoaded(MOD_ID))
+        if (isLoaded())
         {
             addRandomDrugNames(100, 0.3f, 1.2f, "Alcohol", "Cannabis", "Cocaine");
             addRandomDrugNames(80, 0.2f, 0.8f, "BrownShrooms", "RedShrooms", "Peyote");

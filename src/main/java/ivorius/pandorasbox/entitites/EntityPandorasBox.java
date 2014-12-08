@@ -8,13 +8,16 @@ package ivorius.pandorasbox.entitites;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
+import ivorius.pandorasbox.PBConfig;
 import ivorius.pandorasbox.PandorasBox;
 import ivorius.pandorasbox.effectcreators.PBECRegistry;
 import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.effects.PBEffectRegistry;
+import ivorius.pandorasbox.mods.Psychedelicraft;
 import ivorius.pandorasbox.network.PacketEntityData;
 import ivorius.pandorasbox.network.PartialUpdateHandler;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -22,6 +25,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -249,27 +253,43 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         {
             if (getDeathTicks() < 0)
             {
-                if (worldObj.isRemote && !isInvisible())
+                if (!isInvisible())
                 {
-                    for (int e = 0; e < 2; e++)
+                    if (worldObj.isRemote)
                     {
-                        double xP = (rand.nextDouble() - rand.nextDouble()) * 0.2;
-                        double yDir = rand.nextDouble() * 0.1;
-                        double zP = (rand.nextDouble() - rand.nextDouble()) * 0.2;
+                        for (int e = 0; e < 2; e++)
+                        {
+                            double xP = (rand.nextDouble() - rand.nextDouble()) * 0.2;
+                            double yDir = rand.nextDouble() * 0.1;
+                            double zP = (rand.nextDouble() - rand.nextDouble()) * 0.2;
 
-                        worldObj.spawnParticle("smoke", posX + xP, posY + 0.2, posZ + zP, 0.0D, yDir, 0.0D);
-                    }
-                    for (int e = 0; e < 3; e++)
-                    {
-                        double xDir = (rand.nextDouble() - rand.nextDouble()) * 3.0;
-                        double yDir = rand.nextDouble() * 4.0 + 2.0;
-                        double zDir = (rand.nextDouble() - rand.nextDouble()) * 3.0;
+                            worldObj.spawnParticle("smoke", posX + xP, posY + 0.2, posZ + zP, 0.0D, yDir, 0.0D);
+                        }
+                        for (int e = 0; e < 3; e++)
+                        {
+                            double xDir = (rand.nextDouble() - rand.nextDouble()) * 3.0;
+                            double yDir = rand.nextDouble() * 4.0 + 2.0;
+                            double zDir = (rand.nextDouble() - rand.nextDouble()) * 3.0;
 
-                        worldObj.spawnParticle("enchantmenttable", posX + (rand.nextDouble() - 0.5) * width + xDir, posY + height * 0.5 + yDir - 0.3f, posZ + (rand.nextDouble() - 0.5) * width + zDir, -xDir, -yDir, -zDir);
+                            worldObj.spawnParticle("enchantmenttable", posX + (rand.nextDouble() - 0.5) * width + xDir, posY + height * 0.5 + yDir - 0.3f, posZ + (rand.nextDouble() - 0.5) * width + zDir, -xDir, -yDir, -zDir);
+                        }
+                        for (int e = 0; e < 4; e++)
+                        {
+                            worldObj.spawnParticle("portal", posX + (rand.nextDouble() * 16) - 8D, posY + height * 0.5f + (rand.nextDouble() * 5) - 2D, posZ + (rand.nextDouble() * 16D) - 8D, (rand.nextDouble() * 2D) - 1D, (rand.nextDouble() * 2D) - 1D, (rand.nextDouble() * 2D) - 1D);
+                        }
                     }
-                    for (int e = 0; e < 4; e++)
+
+                    if (Psychedelicraft.isLoaded() && PBConfig.boxPowerVisuals)
                     {
-                        worldObj.spawnParticle("portal", posX + (rand.nextDouble() * 16) - 8D, posY + height * 0.5f + (rand.nextDouble() * 5) - 2D, posZ + (rand.nextDouble() * 16D) - 8D, (rand.nextDouble() * 2D) - 1D, (rand.nextDouble() * 2D) - 1D, (rand.nextDouble() * 2D) - 1D);
+                        float powerRange = 5.0f;
+                        float powerStrength = 0.07f;
+                        List<EntityLivingBase> nearbyEntities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(powerRange, powerRange, powerRange));
+                        for (EntityLivingBase entity : nearbyEntities)
+                        {
+                            float entityDist = (float) entity.getDistanceSqToEntity(this);
+                            if (entityDist < powerRange)
+                                Psychedelicraft.addDrugValue(entity, "Power", powerStrength * (powerRange - entityDist));
+                        }
                     }
                 }
 
