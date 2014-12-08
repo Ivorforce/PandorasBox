@@ -6,6 +6,7 @@
 package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.math.IvMathHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -20,6 +21,9 @@ public abstract class PBEffectRangeBased extends PBEffectNormal
 {
     public double range;
     public int passes;
+
+    public boolean spreadSquared = true;
+    public boolean easeInOut = true;
 
     public PBEffectRangeBased()
     {
@@ -44,8 +48,13 @@ public abstract class PBEffectRangeBased extends PBEffectNormal
         }
     }
 
-    private double getRange(float ratio, int pass)
+    private double getRange(double ratio, int pass)
     {
+        if (spreadSquared)
+            ratio = Math.sqrt(ratio);
+        if (easeInOut)
+            ratio = IvMathHelper.mixEaseInOut(0.0, 1.0, ratio);
+
         double fullRange = range + (passes - 1) * 5.0;
         double tempRange = ratio * fullRange - pass * 5.0;
 
@@ -61,6 +70,8 @@ public abstract class PBEffectRangeBased extends PBEffectNormal
 
         compound.setDouble("range", range);
         compound.setInteger("passes", passes);
+        compound.setBoolean("spreadSquared", spreadSquared);
+        compound.setBoolean("easeInOut", easeInOut);
     }
 
     @Override
@@ -70,5 +81,7 @@ public abstract class PBEffectRangeBased extends PBEffectNormal
 
         range = compound.getDouble("range");
         passes = compound.getInteger("passes");
+        spreadSquared = compound.getBoolean("spreadSquared");
+        easeInOut = compound.getBoolean("easeInOut");
     }
 }

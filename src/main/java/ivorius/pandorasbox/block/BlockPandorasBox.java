@@ -5,7 +5,6 @@
 
 package ivorius.pandorasbox.block;
 
-import ivorius.pandorasbox.PandorasBox;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -71,6 +70,12 @@ public class BlockPandorasBox extends BlockContainer
         world.setBlock(x, y, z, Blocks.air);
 
         return true;
+    }
+
+    @Override
+    public void registerBlockIcons(IIconRegister iconRegister)
+    {
+
     }
 
     @Override
