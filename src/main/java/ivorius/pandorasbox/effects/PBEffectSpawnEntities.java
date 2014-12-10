@@ -83,19 +83,20 @@ public abstract class PBEffectSpawnEntities extends PBEffectNormal
                     eZ = box.posZ + (random.nextDouble() - random.nextDouble()) * range;
                 }
 
-                Entity newEntity = createEntity(world, box, random, prev + i, eX, eY, eZ);
+                Entity newEntity = spawnEntity(world, box, random, prev + i, eX, eY, eZ);
                 if (newEntity != null)
                 {
                     if (spawnFromBox)
                     {
-                        float dirSide = random.nextFloat() * 2.0f * 3.1415926f;
-                        double throwStrengthSide = throwStrengthSideMin + random.nextDouble() * (throwStrengthSideMax - throwStrengthSideMin);
-                        newEntity.motionX = MathHelper.sin(dirSide) * throwStrengthSide;
-                        newEntity.motionY = throwStrengthYMin + random.nextDouble() * (throwStrengthYMax - throwStrengthYMin);
-                        newEntity.motionZ = MathHelper.cos(dirSide) * throwStrengthSide;
+                        // FIXME Disabled because it causes mobs to sink in the ground on clients (async) >.>
+//                        float dirSide = random.nextFloat() * 2.0f * 3.1415926f;
+//                        double throwStrengthSide = throwStrengthSideMin + random.nextDouble() * (throwStrengthSideMax - throwStrengthSideMin);
+//
+//                        newEntity.addVelocity(MathHelper.sin(dirSide) * throwStrengthSide,
+//                                throwStrengthYMin + random.nextDouble() * (throwStrengthYMax - throwStrengthYMin),
+//                                MathHelper.cos(dirSide) * throwStrengthSide);
+//                        newEntity.velocityChanged = true;
                     }
-
-                    world.spawnEntityInWorld(newEntity);
                 }
             }
         }
@@ -106,7 +107,7 @@ public abstract class PBEffectSpawnEntities extends PBEffectNormal
         return MathHelper.floor_float(ratio * number);
     }
 
-    public abstract Entity createEntity(World world, EntityPandorasBox pbEntity, Random random, int number, double x, double y, double z);
+    public abstract Entity spawnEntity(World world, EntityPandorasBox pbEntity, Random random, int number, double x, double y, double z);
 
     @Override
     public void writeToNBT(NBTTagCompound compound)

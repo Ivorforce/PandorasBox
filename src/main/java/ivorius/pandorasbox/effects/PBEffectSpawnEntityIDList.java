@@ -79,7 +79,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
     }
 
     @Override
-    public Entity createEntity(World world, EntityPandorasBox pbEntity, Random random, int number, double x, double y, double z)
+    public Entity spawnEntity(World world, EntityPandorasBox pbEntity, Random random, int number, double x, double y, double z)
     {
         String[] entityTower = entityIDs[number];
         Entity previousEntity = null;
@@ -101,6 +101,9 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
 
             previousEntity = newEntity;
         }
+
+        if (previousEntity != null)
+            world.spawnEntityInWorld(previousEntity);
 
         return previousEntity;
     }
@@ -211,8 +214,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                 EntityPlayer nearest = getPlayer(world, pbEntity);
                 EntityWolf wolf = new EntityWolf(world);
 
-                wolf.setPosition(x, y, z);
-                wolf.rotationYaw = random.nextFloat() * 360.0f;
+                wolf.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
 
                 if (nearest != null)
                 {
@@ -231,8 +233,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
 
                 EntityOcelot ocelot = new EntityOcelot(world);
 
-                ocelot.setPosition(x, y, z);
-                ocelot.rotationYaw = random.nextFloat() * 360.0f;
+                ocelot.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
 
                 if (nearest != null)
                 {
@@ -264,14 +265,12 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                 ItemStack stack = new ItemStack(Items.fireworks);
                 stack.setTagInfo("Fireworks", createRandomFirework(random));
 
-                EntityFireworkRocket fireworkRocket = new EntityFireworkRocket(world, x, y, z, stack);
-                return fireworkRocket;
+                return new EntityFireworkRocket(world, x, y, z, stack);
             }
             else if ("pbspecial_angryWolf".equals(entityID))
             {
                 EntityWolf wolf = new EntityWolf(world);
-                wolf.setPosition(x, y, z);
-                wolf.rotationYaw = random.nextFloat() * 360.0f;
+                wolf.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
                 wolf.setAttackTarget(world.getClosestPlayer(x, y, z, 40.0));
 
                 return wolf;
@@ -279,16 +278,14 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
             else if ("pbspecial_superchargedCreeper".equals(entityID))
             {
                 EntityCreeper creeper = new EntityCreeper(world);
-                creeper.setPosition(x, y, z);
-                creeper.rotationYaw = random.nextFloat() * 360.0f;
+                creeper.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
                 creeper.getDataWatcher().updateObject(17, (byte) 1); // Supercharge
                 return creeper;
             }
             else if ("pbspecial_skeletonWither".equals(entityID))
             {
                 EntitySkeleton skeleton = new EntitySkeleton(world);
-                skeleton.setPosition(x, y, z);
-                skeleton.rotationYaw = random.nextFloat() * 360.0f;
+                skeleton.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
 
                 skeleton.setSkeletonType(1);
                 skeleton.setCurrentItemOrArmor(0, new ItemStack(Items.stone_sword));
@@ -298,8 +295,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
             }
 
             Entity entity = EntityList.createEntityByName(entityID, world);
-            entity.setPosition(x, y, z);
-            entity.rotationYaw = random.nextFloat() * 360.0f;
+            entity.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
 
             return entity;
         }

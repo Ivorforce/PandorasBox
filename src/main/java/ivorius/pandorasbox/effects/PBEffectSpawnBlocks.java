@@ -42,11 +42,12 @@ public class PBEffectSpawnBlocks extends PBEffectSpawnEntities
     }
 
     @Override
-    public Entity createEntity(World world, EntityPandorasBox entity, Random random, int number, double x, double y, double z)
+    public Entity spawnEntity(World world, EntityPandorasBox entity, Random random, int number, double x, double y, double z)
     {
         Block block = blocks[number];
         EntityFallingBlock entityFallingBlock = new EntityFallingBlock(world, x, y, z, block);
         entityFallingBlock.field_145812_b = 1;
+        world.spawnEntityInWorld(entityFallingBlock);
 
         return entityFallingBlock;
     }

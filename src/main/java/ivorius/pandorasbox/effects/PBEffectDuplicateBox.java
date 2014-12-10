@@ -46,8 +46,7 @@ public class PBEffectDuplicateBox extends PBEffectNormal
             PBEffect effect = PBECRegistry.createRandomEffect(world, random, box.posX, box.posY, box.posZ, true);
             EntityPandorasBox newBox = new EntityPandorasBox(world, effect);
 
-            newBox.setPosition(box.posX, box.posY, box.posZ);
-            newBox.rotationYaw = box.rotationYaw;
+            newBox.setLocationAndAngles(box.posX, box.posY, box.posZ, box.rotationYaw, box.rotationPitch);
 
             switch (spawnMode)
             {

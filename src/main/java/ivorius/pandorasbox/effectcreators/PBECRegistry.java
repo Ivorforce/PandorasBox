@@ -180,8 +180,7 @@ public class PBECRegistry
             double spawnY = entity.posY + 0.9 + look.yCoord * 0.5;
             double spawnZ = entity.posZ + look.zCoord * 0.5;
 
-            entityPandorasBox.setPosition(spawnX, spawnY, spawnZ);
-            entityPandorasBox.rotationYaw = entity.rotationYaw + 180.0f;
+            entityPandorasBox.setLocationAndAngles(spawnX, spawnY, spawnZ, entity.rotationYaw + 180.0f, 0.0f);
 
             entityPandorasBox.beginFloatingAway();
 
