@@ -7,6 +7,7 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -86,16 +87,16 @@ public abstract class PBEffectSpawnEntities extends PBEffectNormal
                 Entity newEntity = spawnEntity(world, box, random, prev + i, eX, eY, eZ);
                 if (newEntity != null)
                 {
-                    if (spawnFromBox)
+                    if (spawnFromBox && !(newEntity instanceof EntityLivingBase))
                     {
                         // FIXME Disabled because it causes mobs to sink in the ground on clients (async) >.>
-//                        float dirSide = random.nextFloat() * 2.0f * 3.1415926f;
-//                        double throwStrengthSide = throwStrengthSideMin + random.nextDouble() * (throwStrengthSideMax - throwStrengthSideMin);
-//
-//                        newEntity.addVelocity(MathHelper.sin(dirSide) * throwStrengthSide,
-//                                throwStrengthYMin + random.nextDouble() * (throwStrengthYMax - throwStrengthYMin),
-//                                MathHelper.cos(dirSide) * throwStrengthSide);
-//                        newEntity.velocityChanged = true;
+                        float dirSide = random.nextFloat() * 2.0f * 3.1415926f;
+                        double throwStrengthSide = throwStrengthSideMin + random.nextDouble() * (throwStrengthSideMax - throwStrengthSideMin);
+
+                        newEntity.addVelocity(MathHelper.sin(dirSide) * throwStrengthSide,
+                                throwStrengthYMin + random.nextDouble() * (throwStrengthYMax - throwStrengthYMin),
+                                MathHelper.cos(dirSide) * throwStrengthSide);
+                        newEntity.velocityChanged = true;
                     }
                 }
             }
