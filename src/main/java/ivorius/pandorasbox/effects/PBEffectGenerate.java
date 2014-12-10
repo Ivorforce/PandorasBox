@@ -52,7 +52,7 @@ public abstract class PBEffectGenerate extends PBEffectRangeBased
                     {
                         if (dist > prevRange)
                         {
-                            generateOnBlock(world, entity, random, pass, x + baseX, y + baseY, z + baseZ, dist);
+                            generateOnBlock(world, entity, effectCenter, random, pass, x + baseX, y + baseY, z + baseZ, dist);
                         }
                         else
                         {
@@ -64,7 +64,7 @@ public abstract class PBEffectGenerate extends PBEffectRangeBased
         }
     }
 
-    public abstract void generateOnBlock(World world, EntityPandorasBox entity, Random random, int pass, int x, int y, int z, double range);
+    public abstract void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, int x, int y, int z, double range);
 
     @Override
     public void writeToNBT(NBTTagCompound compound)

@@ -104,6 +104,7 @@ public class PBEffects
         PBECRegistry.register(new PBECConvertToHFT(new DLinear(10.0, 80.0)), "happyFunTimes", true);
         PBECRegistry.register(new PBECConvertToMushroom(new DLinear(10.0, 80.0)), "shroomify", true);
         PBECRegistry.register(new PBECConvertToHomo(new DLinear(10.0, 80.0)), "rainbows", true);
+        PBECRegistry.register(new PBECConvertToRainbowCloth(new DLinear(10.0, 80.0), new ILinear(2, 10), new DLinear(0.2, 4.0)), "allRainbow", true);
         PBECRegistry.register(new PBECConvertToFarm(new DLinear(5.0, 15.0), new DLinear(0.01, 0.5)), "farm", true);
         PBECRegistry.register(new PBECMulti(new PBECConvertToHeavenly(new DLinear(20.0, 80.0)), 0, new PBECRandomShapes(new DLinear(20.0, 80.0), new DLinear(2, 5), new ILinear(8, 10), Arrays.asList(new WeightedBlock(1, Blocks.web)), new ZConstant(true)), 0), "heavenly", true);
         PBECRegistry.register(new PBECMulti(new PBECConvertToHalloween(new DLinear(10.0, 80.0)), 0, new PBECSetTime(new ILinear(60, 120), new ILinear(15000, 20000), new ZConstant(false)), 0), "halloween", true);
@@ -136,6 +137,7 @@ public class PBEffects
         PBEffectRegistry.register(PBEffectGenConvertToHomo.class, "genConvertToHomo");
         PBEffectRegistry.register(PBEffectGenConvertToLifeless.class, "genConvertToLifeless");
         PBEffectRegistry.register(PBEffectGenConvertToHeavenly.class, "genConvertToHeavenly");
+        PBEffectRegistry.register(PBEffectGenConvertToRainbowCloth.class, "genConvertToRainbowCloth");
         PBEffectRegistry.register(PBEffectGenCreativeTowers.class, "genCreativeTowers");
         PBEffectRegistry.register(PBEffectGenHeightNoise.class, "genHeightNoise");
         PBEffectRegistry.register(PBEffectGenLavaCages.class, "genLavaCages");

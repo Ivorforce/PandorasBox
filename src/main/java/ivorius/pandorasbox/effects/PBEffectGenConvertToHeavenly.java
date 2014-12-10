@@ -8,8 +8,8 @@ package ivorius.pandorasbox.effects;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenBigMushroom;
 
 import java.util.Random;
 
@@ -28,7 +28,7 @@ public class PBEffectGenConvertToHeavenly extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Random random, int pass, int x, int y, int z, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, int x, int y, int z, double range)
     {
         Block block = world.getBlock(x, y, z);
 
@@ -42,23 +42,30 @@ public class PBEffectGenConvertToHeavenly extends PBEffectGenerate
             {
                 if (world.getBlock(x, y + 1, z) == Blocks.air)
                 {
-                    setBlockSafe(world, x, y, z, Blocks.glass);
-
-                    if (!world.isRemote)
+                    if (!world.isRemote && world.rand.nextInt(6 * 6) == 0)
                     {
-                        if (world.rand.nextInt(6 * 6) == 0)
-                        {
-                            setBlockSafe(world, x, y, z, Blocks.dirt);
-                            setBlockSafe(world, x, y + 1, z, Blocks.log);
-                            setBlockSafe(world, x, y + 2, z, Blocks.leaves);
-                        }
-                        else if (world.rand.nextInt(6 * 6) == 0)
-                        {
-                            int pHeight = random.nextInt(5) + 3;
-                            for (int yp = 0; yp < pHeight; yp++)
-                                setBlockSafe(world, x, y + yp, z, Blocks.quartz_block);
-                        }
+                        setBlockSafe(world, x, y, z, Blocks.dirt);
+                        setBlockSafe(world, x, y + 1, z, Blocks.log);
+                        setBlockSafe(world, x, y + 2, z, Blocks.leaves);
                     }
+                    else if (!world.isRemote && world.rand.nextInt(6 * 6) == 0)
+                    {
+                        int pHeight = random.nextInt(5) + 3;
+                        for (int yp = 0; yp < pHeight; yp++)
+                            setBlockSafe(world, x, y + yp, z, Blocks.quartz_block);
+                    }
+                    else if (!world.isRemote && world.rand.nextInt(2 * 2) == 0)
+                    {
+                        setBlockSafe(world, x, y, z, Blocks.glass);
+                    }
+                    else if (!world.isRemote && world.rand.nextInt(8 * 8) == 0)
+                    {
+                        setBlockSafe(world, x, y, z, Blocks.glass);
+                        setBlockSafe(world, x, y - 1, z, Blocks.redstone_lamp);
+                        setBlockSafe(world, x, y - 2, z, Blocks.redstone_block);
+                    }
+                    else
+                        setBlockSafe(world, x, y, z, Blocks.stonebrick);
                 }
                 else
                 {
