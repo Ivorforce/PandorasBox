@@ -1,6 +1,6 @@
-entity.pandorasBox.pandorasBox.name=Boite de Pantore
-tile.pandorasBox.name=Boite de Pantore
+entity.pandorasBox.pandorasBox.name=Boite de Pandore
+tile.pandorasBox.name=Boite de Pandore
 
-pandorasbox.configgui.title=Boite de Pantore
+pandorasbox.configgui.title=Boite de Pandore
 pandorasbox.configgui.ctgy.balancing=Equilibrage
 pandorasbox.configgui.ctgy.balancing.tooltip=Options affectant l'équilibrage du mod
