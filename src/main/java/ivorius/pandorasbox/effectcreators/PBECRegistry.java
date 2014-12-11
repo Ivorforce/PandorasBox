@@ -7,6 +7,7 @@ package ivorius.pandorasbox.effectcreators;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import ivorius.pandorasbox.PBConfig;
 import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.effects.PBEffectMulti;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
@@ -21,8 +22,6 @@ import java.util.*;
  */
 public class PBECRegistry
 {
-    public static final float GOOD_EFFECT_CHANCE = 0.49f;
-    public static final int MAX_EFFECTS_AT_ONCE = 3;
     public static final int MAX_DELAY_IN_MULTIEFFECT = 60;
 
     private static final ArrayList<String> goodCreators = new ArrayList<>();
@@ -114,7 +113,7 @@ public class PBECRegistry
             }
 
             if (creator == null)
-                creator = randomEffectCreatorOfType(random, random.nextFloat() < GOOD_EFFECT_CHANCE);
+                creator = randomEffectCreatorOfType(random, random.nextFloat() < PBConfig.goodEffectChance);
 
             PBEffect effect = constructEffectSafe(creator, world, x, y, z, random);
 
@@ -123,7 +122,7 @@ public class PBECRegistry
 
             currentMinChance = Math.min(currentMinChance, creator.chanceForMoreEffects(world, x, y, z, random));
         }
-        while (random.nextFloat() < currentMinChance && effects.size() < MAX_EFFECTS_AT_ONCE && multi);
+        while (random.nextFloat() < newEffectChance(currentMinChance) && effects.size() < PBConfig.maxEffectsPerBox && multi);
 
         if (effects.size() == 1)
         {
@@ -139,6 +138,11 @@ public class PBECRegistry
 
             return new PBEffectMulti(effectArray, delays);
         }
+    }
+
+    private static double newEffectChance(double effectFactor)
+    {
+        return Math.pow(effectFactor, 1.0 / PBConfig.boxIntensity);
     }
 
     public static PBEffect constructEffectSafe(PBEffectCreator creator, World world, double x, double y, double z, Random random)

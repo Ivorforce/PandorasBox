@@ -187,7 +187,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
 
                         if (canGenerateMoreEffectsAfterwards && effect.canGenerateMoreEffectsAfterwards(this))
                         {
-                            if (rand.nextFloat() < 0.2f)
+                            if (rand.nextFloat() < PBConfig.boxLongevity)
                             {
                                 startNewEffect();
 
