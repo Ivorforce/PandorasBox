@@ -23,12 +23,18 @@ if (ENV.DRONE_BUILD_NUMBER) {
     version += ".n" + ENV.DRONE_BUILD_NUMBER
 }
 
-group= "ivorius.pandorasbox" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = "ivorius.pandorasbox" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "PandorasBox"
 
 minecraft {
     version = "1.7.10-10.13.2.1230"
     runDir = "eclipse"
+}
+
+sourceSets {
+    main {
+        output.resourcesDir = output.classesDir
+    }
 }
 
 dependencies {
