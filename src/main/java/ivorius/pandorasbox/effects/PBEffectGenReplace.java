@@ -8,6 +8,7 @@ package ivorius.pandorasbox.effects;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -34,12 +35,12 @@ public class PBEffectGenReplace extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, int x, int y, int z, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
     {
         if (!world.isRemote)
         {
             Block newBlock = blocks[random.nextInt(blocks.length)];
-            Block prevBlock = world.getBlock(x, y, z);
+            Block prevBlock = world.getBlockState(pos).getBlock();
             boolean replace = false;
             for (Block block : blocksToReplace)
             {
@@ -51,7 +52,7 @@ public class PBEffectGenReplace extends PBEffectGenerate
 
             if (replace)
             {
-                setBlockVarying(world, x, y, z, newBlock, unifiedSeed);
+                setBlockVarying(world, pos, newBlock, unifiedSeed);
             }
         }
     }

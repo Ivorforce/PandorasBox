@@ -13,6 +13,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 
 /**
  * Created by lukas on 15.04.14.
@@ -25,23 +26,41 @@ public class TileEntityPandorasBox extends TileEntity
     {
         if (!worldObj.isRemote)
         {
-            PBEffect effect = PBECRegistry.createRandomEffect(getWorldObj(), getWorldObj().rand, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, true);
+            PBEffect effect = PBECRegistry.createRandomEffect(worldObj, worldObj.rand, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, true);
 
             if (effect != null)
             {
-                EntityPandorasBox entityPandorasBox = new EntityPandorasBox(getWorldObj(), effect);
+                EntityPandorasBox entityPandorasBox = new EntityPandorasBox(worldObj, effect);
 
-                entityPandorasBox.setLocationAndAngles(xCoord + 0.5, yCoord, zCoord + 0.5, boxRotationYaw, 0.0f);
+                EnumFacing facing = (EnumFacing) worldObj.getBlockState(pos).getValue(BlockPandorasBox.FACING_PROP);
+                entityPandorasBox.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, rotationFromFacing(facing), 0.0f);
 
                 entityPandorasBox.beginFloatingUp();
 
-                getWorldObj().spawnEntityInWorld(entityPandorasBox);
+                worldObj.spawnEntityInWorld(entityPandorasBox);
 
                 return entityPandorasBox;
             }
         }
 
         return null;
+    }
+
+    public static float rotationFromFacing(EnumFacing facing)
+    {
+        switch (facing)
+        {
+            case SOUTH:
+                return 0.0f;
+            case WEST:
+                return 90.0f;
+            case NORTH:
+                return 180.0f;
+            case EAST:
+                return 270.0f;
+        }
+
+        throw new IllegalArgumentException();
     }
 
     @Override
@@ -63,7 +82,7 @@ public class TileEntityPandorasBox extends TileEntity
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
-        readFromNBT(pkt.func_148857_g());
+        readFromNBT(pkt.getNbtCompound());
     }
 
     @Override
@@ -71,6 +90,6 @@ public class TileEntityPandorasBox extends TileEntity
     {
         NBTTagCompound compound = new NBTTagCompound();
         writeToNBT(compound);
-        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, compound);
+        return new S35PacketUpdateTileEntity(pos, 1, compound);
     }
 }

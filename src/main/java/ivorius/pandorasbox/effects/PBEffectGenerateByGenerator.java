@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -40,21 +41,22 @@ public abstract class PBEffectGenerateByGenerator extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, int x, int y, int z, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
     {
         if (!world.isRemote)
         {
             if (random.nextDouble() < chancePerBlock)
             {
-                Block block = world.getBlock(x, y, z);
-                Block blockBelow = world.getBlock(x, y - 1, z);
+                Block block = world.getBlockState(pos).getBlock();
+                BlockPos posBelow = pos.down();
+                Block blockBelow = world.getBlockState(posBelow).getBlock();
 
                 if (block.getMaterial() == Material.air && (!requiresSolidGround || blockBelow.isNormalCube()))
                 {
-                    setBlockSafe(world, x, y - 1, z, Blocks.dirt);
+                    setBlockSafe(world, posBelow, Blocks.dirt.getDefaultState());
 
                     WorldGenerator generator = getRandomGenerator(getGenerators(), generatorFlags, random);
-                    generator.generate(world, random, x, y, z);
+                    generator.generate(world, random, pos);
                 }
             }
         }

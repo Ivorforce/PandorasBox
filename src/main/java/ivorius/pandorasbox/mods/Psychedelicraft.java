@@ -1,13 +1,9 @@
 package ivorius.pandorasbox.mods;
 
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import ivorius.pandorasbox.PandorasBox;
 import ivorius.pandorasbox.PandorasBoxHelper;
-import ivorius.pandorasbox.effectcreators.PBECBuffEntities;
 import ivorius.pandorasbox.effectcreators.PBECDrugEntities;
 import ivorius.pandorasbox.effectcreators.PBECRegistry;
-import ivorius.pandorasbox.effectcreators.PBEffectCreator;
 import ivorius.pandorasbox.effects.PBEffectEntitiesDrug;
 import ivorius.pandorasbox.effects.PBEffectRegistry;
 import ivorius.pandorasbox.random.DLinear;
@@ -18,6 +14,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.WeightedRandom;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 import java.util.ArrayList;
 import java.util.List;

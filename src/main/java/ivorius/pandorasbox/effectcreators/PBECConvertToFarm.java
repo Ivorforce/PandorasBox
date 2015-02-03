@@ -8,7 +8,6 @@ package ivorius.pandorasbox.effectcreators;
 import ivorius.pandorasbox.PandorasBoxHelper;
 import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.effects.PBEffectGenConvertToFarm;
-import ivorius.pandorasbox.effects.PBEffectGenConvertToHalloween;
 import ivorius.pandorasbox.random.DValue;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;

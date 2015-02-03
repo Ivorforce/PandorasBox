@@ -11,8 +11,7 @@ import ivorius.pandorasbox.weighted.WeightedEntity;
 import ivorius.pandorasbox.weighted.WeightedPotion;
 import ivorius.pandorasbox.weighted.WeightedSet;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -20,7 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomChestContent;
-import net.minecraft.world.World;
 
 import java.util.*;
 
@@ -64,7 +62,8 @@ public class PandorasBoxHelper
             PandorasBoxHelper.blocks.add(new WeightedBlock(weight, block));
 
             Item item = Item.getItemFromBlock(block);
-            addItem(new WeightedRandomChestContent(item, 0, 1, item.getItemStackLimit(new ItemStack(item)), weight));
+            if (item != null)
+                addItem(new WeightedRandomChestContent(item, 0, 1, item.getItemStackLimit(new ItemStack(item)), weight));
         }
     }
 
@@ -271,7 +270,7 @@ public class PandorasBoxHelper
 
         addItems(100, Items.coal, Items.gunpowder, Items.wheat, Items.saddle, Items.redstone, Items.bone, Items.melon, Items.clay_ball, Items.book, Items.gold_nugget, Items.potato, Items.bucket, Items.stick, Items.string, Items.melon_seeds, Items.pumpkin_seeds, Items.wheat_seeds, Items.snowball, Items.sugar, Items.fishing_rod, Items.nether_star, Items.nether_wart, Items.flint, Items.egg, Items.brick, Items.paper, new ItemStack(Blocks.torch));
         addItems(100, Item.getItemFromBlock(PBBlocks.pandorasBox));
-        addItems(100, Items.chicken, Items.cooked_chicken, Items.beef, Items.pumpkin_pie, Items.cooked_beef, Items.mushroom_stew, Items.rotten_flesh, Items.carrot, Items.porkchop, Items.cooked_porkchop, Items.apple, Items.cake, Items.bread, Items.cookie, Items.fish, Items.cooked_fished);
+        addItems(100, Items.chicken, Items.cooked_chicken, Items.beef, Items.pumpkin_pie, Items.cooked_beef, Items.mushroom_stew, Items.rotten_flesh, Items.carrot, Items.porkchop, Items.cooked_porkchop, Items.apple, Items.cake, Items.bread, Items.cookie, Items.fish, Items.cooked_fish);
         addItems(80, Items.lava_bucket, Items.milk_bucket, Items.water_bucket, Items.flint_and_steel, Items.painting, Items.flower_pot, Items.bed, Items.boat, Items.minecart, Items.cauldron);
         addItems(80, Items.name_tag);
         addItems(60, Items.iron_ingot, Items.glowstone_dust, Items.blaze_powder, Items.blaze_rod, Items.clock, Items.ghast_tear, Items.ender_eye, Items.speckled_melon, Items.spider_eye, Items.fermented_spider_eye, Items.magma_cream, Items.golden_carrot);
@@ -306,7 +305,7 @@ public class PandorasBoxHelper
         addEquipmentLevelsInOrder(Items.wooden_shovel, Items.wooden_shovel, Items.golden_shovel, Items.stone_shovel, Items.iron_shovel, Items.diamond_shovel);
         addEquipmentLevelsInOrder(Items.wooden_hoe, Items.wooden_hoe, Items.golden_hoe, Items.stone_hoe, Items.iron_hoe, Items.diamond_hoe);
 
-        addPotions(buffs, 100, 0, 3, 20 * 60, 20 * 60 * 10, Potion.regeneration, Potion.moveSpeed, Potion.damageBoost, Potion.jump, Potion.resistance, Potion.waterBreathing, Potion.fireResistance, Potion.nightVision, Potion.invisibility, Potion.field_76444_x /* Absorption */);
+        addPotions(buffs, 100, 0, 3, 20 * 60, 20 * 60 * 10, Potion.regeneration, Potion.moveSpeed, Potion.damageBoost, Potion.jump, Potion.resistance, Potion.waterBreathing, Potion.fireResistance, Potion.nightVision, Potion.invisibility, Potion.absorption);
         addPotions(debuffs, 100, 0, 3, 20 * 60, 20 * 60 * 10, Potion.blindness, Potion.confusion, Potion.digSlowdown, Potion.weakness, Potion.hunger);
         addPotions(debuffs, 100, 0, 2, 20 * 30, 20 * 60, Potion.wither);
 
@@ -329,29 +328,30 @@ public class PandorasBoxHelper
         return Math.abs(random.nextInt());
     }
 
-    public static int getRandomBlockMetadata(Random rand, Block block, int unified)
+    public static IBlockState getRandomBlockState(Random rand, Block block, int unified)
     {
-        if (randomBlockMetadatas.containsKey(block))
-        {
-            int[] metas = randomBlockMetadatas.get(block);
+        // TODO
+//        if (randomBlockMetadatas.containsKey(block))
+//        {
+//            int[] metas = randomBlockMetadatas.get(block);
+//
+//            if (unified < 0)
+//            {
+//                return metas[rand.nextInt(metas.length)];
+//            }
+//            else
+//            {
+//                if (!cachedBlockHashes.containsKey(block))
+//                {
+//                    cachedBlockHashes.put(block, Math.abs(Block.blockRegistry.getNameForObject(block).hashCode()));
+//                }
+//
+//                int blockIDHash = cachedBlockHashes.get(block);
+//                return metas[((unified ^ blockIDHash) % metas.length)];
+//            }
+//        }
 
-            if (unified < 0)
-            {
-                return metas[rand.nextInt(metas.length)];
-            }
-            else
-            {
-                if (!cachedBlockHashes.containsKey(block))
-                {
-                    cachedBlockHashes.put(block, Math.abs(Block.blockRegistry.getNameForObject(block).hashCode()));
-                }
-
-                int blockIDHash = cachedBlockHashes.get(block);
-                return metas[((unified ^ blockIDHash) % metas.length)];
-            }
-        }
-
-        return 0;
+        return block.getDefaultState();
     }
 
     public static Block[] getRandomBlockList(Random rand, Collection<WeightedBlock> selection)

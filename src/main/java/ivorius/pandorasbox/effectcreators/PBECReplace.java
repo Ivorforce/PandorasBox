@@ -13,6 +13,7 @@ import ivorius.pandorasbox.random.ZValue;
 import ivorius.pandorasbox.weighted.WeightedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -63,12 +64,10 @@ public class PBECReplace implements PBEffectCreator
                 {
                     for (int zP = -5; zP <= 5; zP++)
                     {
-                        Block block = world.getBlock(baseX + xP, baseY + yP, baseZ + zP);
+                        Block block = world.getBlockState(new BlockPos(baseX + xP, baseY + yP, baseZ + zP)).getBlock();
 
                         if (block.getMaterial() != Material.air)
-                        {
                             nearbyBlocks.add(new WeightedBlock(100, block));
-                        }
 //                        else // dud
                     }
                 }

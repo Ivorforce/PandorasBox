@@ -1,10 +1,10 @@
 package ivorius.pandorasbox.events;
 
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import ivorius.pandorasbox.PBConfig;
 import ivorius.pandorasbox.PandorasBox;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Created by lukas on 29.07.14.

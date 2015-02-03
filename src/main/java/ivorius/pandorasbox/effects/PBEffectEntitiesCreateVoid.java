@@ -8,7 +8,7 @@ package ivorius.pandorasbox.effects;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -45,7 +45,7 @@ public class PBEffectEntitiesCreateVoid extends PBEffectEntityBased
                     {
                         for (int z = -1; z <= 1; z++)
                         {
-                            setBlockSafe(world, baseX + x, baseY + y, baseZ + z, Blocks.air);
+                            setBlockToAirSafe(world, new BlockPos(baseX + x, baseY + y, baseZ + z));
                         }
                     }
                 }

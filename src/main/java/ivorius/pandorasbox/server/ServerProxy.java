@@ -9,7 +9,13 @@ import ivorius.pandorasbox.PBProxy;
 
 public class ServerProxy implements PBProxy
 {
-    public void registerRenderers()
+    public void preInit()
+    {
+
+    }
+
+    @Override
+    public void load()
     {
 
     }

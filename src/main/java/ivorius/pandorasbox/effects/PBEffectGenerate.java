@@ -7,6 +7,7 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -51,20 +52,16 @@ public abstract class PBEffectGenerate extends PBEffectRangeBased
                     if (dist <= newRange)
                     {
                         if (dist > prevRange)
-                        {
-                            generateOnBlock(world, entity, effectCenter, random, pass, x + baseX, y + baseY, z + baseZ, dist);
-                        }
+                            generateOnBlock(world, entity, effectCenter, random, pass, new BlockPos(baseX + x, baseY + y, baseZ + z), dist);
                         else
-                        {
                             z = -z; // We can skip all blocks in between
-                        }
                     }
                 }
             }
         }
     }
 
-    public abstract void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, int x, int y, int z, double range);
+    public abstract void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range);
 
     @Override
     public void writeToNBT(NBTTagCompound compound)

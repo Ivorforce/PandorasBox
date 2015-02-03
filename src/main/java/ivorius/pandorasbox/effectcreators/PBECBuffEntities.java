@@ -55,7 +55,7 @@ public class PBECBuffEntities implements PBEffectCreator
                     .minDuration;
             int strength = random.nextInt(weightedPotion.maxStrength - weightedPotion.minStrength + 1) + weightedPotion
                     .minStrength;
-            effects[i] = new PotionEffect(weightedPotion.potion.getId(), duration, strength, false);
+            effects[i] = new PotionEffect(weightedPotion.potion.getId(), duration, strength, false, false);
         }
 
         PBEffectEntitiesBuff effect = new PBEffectEntitiesBuff(time, range, effects);

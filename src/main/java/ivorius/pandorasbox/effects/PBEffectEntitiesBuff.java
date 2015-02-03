@@ -43,7 +43,7 @@ public class PBEffectEntitiesBuff extends PBEffectEntityBased
 
             if (duration > 0)
             {
-                PotionEffect curEffect = new PotionEffect(effect.getPotionID(), duration, effect.getAmplifier(), effect.getIsAmbient());
+                PotionEffect curEffect = new PotionEffect(effect.getPotionID(), duration, effect.getAmplifier(), effect.getIsAmbient(), effect.getIsShowParticles());
                 addPotionEffectDuration(entity, curEffect);
             }
         }

@@ -6,10 +6,12 @@
 package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.IvBlockPosHelper;
+import ivorius.pandorasbox.utils.IvNBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -37,17 +39,17 @@ public class PBEffectGenPool extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, int x, int y, int z, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
     {
         if (!world.isRemote)
         {
-            if (world.isBlockNormalCubeDefault(x, y, z, false))
+            if (world.isBlockNormalCube(pos, false))
             {
                 boolean setPlatform = false;
 
                 if (platformBlock != null)
                 {
-                    List<EntityLivingBase> entityList = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - 2.5, y - 2.5, z - 2.5, x + 3.5, y + 3.5, z + 3.5));
+                    List<EntityLivingBase> entityList = world.getEntitiesWithinAABB(EntityLivingBase.class, IvBlockPosHelper.expandBlockPos(pos, 2.5, 2.5, 2.5));
 
                     if (entityList.size() > 0)
                     {
@@ -57,11 +59,11 @@ public class PBEffectGenPool extends PBEffectGenerate
 
                 if (setPlatform)
                 {
-                    setBlockVarying(world, x, y, z, platformBlock, unifiedSeed);
+                    setBlockVarying(world, pos, platformBlock, unifiedSeed);
                 }
                 else
                 {
-                    setBlockVarying(world, x, y, z, block, unifiedSeed);
+                    setBlockVarying(world, pos, block, unifiedSeed);
                 }
             }
         }
@@ -72,12 +74,10 @@ public class PBEffectGenPool extends PBEffectGenerate
     {
         super.writeToNBT(compound);
 
-        compound.setString("block", Block.blockRegistry.getNameForObject(block));
+        compound.setString("block", IvNBTHelper.storeBlockString(block));
 
         if (platformBlock != null)
-        {
-            compound.setString("platformBlock", Block.blockRegistry.getNameForObject(platformBlock));
-        }
+            compound.setString("platformBlock", IvNBTHelper.storeBlockString(platformBlock));
     }
 
     @Override
@@ -85,7 +85,7 @@ public class PBEffectGenPool extends PBEffectGenerate
     {
         super.readFromNBT(compound);
 
-        block = (Block) Block.blockRegistry.getObject(compound.getString("block"));
-        platformBlock = (Block) Block.blockRegistry.getObject(compound.getString("platformBlock"));
+        block = IvNBTHelper.getBlock(compound.getString("block"));
+        platformBlock = IvNBTHelper.getBlock(compound.getString("platformBlock"));
     }
 }

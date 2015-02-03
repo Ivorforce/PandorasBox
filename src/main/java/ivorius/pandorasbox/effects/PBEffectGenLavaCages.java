@@ -6,10 +6,12 @@
 package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.IvBlockPosHelper;
+import ivorius.pandorasbox.utils.IvNBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -39,17 +41,17 @@ public class PBEffectGenLavaCages extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, int x, int y, int z, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
     {
         if (!world.isRemote)
         {
-            if (!world.isBlockNormalCubeDefault(x, y, z, false))
+            if (!world.isBlockNormalCube(pos, false))
             {
-                List<EntityPlayer> innerList = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x - 2.0, y - 2.0, z - 2.0, x + 3.0, y + 3.0, z + 3.0));
+                List<EntityPlayer> innerList = world.getEntitiesWithinAABB(EntityPlayer.class, IvBlockPosHelper.expandBlockPos(pos, 2, 2, 2));
 
                 if (innerList.size() == 0)
                 {
-                    List<EntityPlayer> outerList = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x - 3.5, y - 3.5, z - 3.5, x + 4.5, y + 4.5, z + 4.5));
+                    List<EntityPlayer> outerList = world.getEntitiesWithinAABB(EntityPlayer.class, IvBlockPosHelper.expandBlockPos(pos, 3.5, 3.5, 3.5));
 
                     if (outerList.size() > 0)
                     {
@@ -57,7 +59,7 @@ public class PBEffectGenLavaCages extends PBEffectGenerate
 
                         if (lavaBlock != null)
                         {
-                            if (x % 3 == 0 && z % 3 == 0 && y % 3 == 0)
+                            if (pos.getX() % 3 == 0 && pos.getZ() % 3 == 0 && pos.getY() % 3 == 0)
                             {
                                 isCage = false;
                             }
@@ -65,11 +67,11 @@ public class PBEffectGenLavaCages extends PBEffectGenerate
 
                         if (isCage)
                         {
-                            setBlockVarying(world, x, y, z, cageBlock, unifiedSeed);
+                            setBlockVarying(world, pos, cageBlock, unifiedSeed);
                         }
                         else
                         {
-                            setBlockVarying(world, x, y, z, lavaBlock, unifiedSeed);
+                            setBlockVarying(world, pos, lavaBlock, unifiedSeed);
                         }
                     }
                 }
@@ -77,7 +79,7 @@ public class PBEffectGenLavaCages extends PBEffectGenerate
                 {
                     if (fillBlock != null)
                     {
-                        setBlockVarying(world, x, y, z, fillBlock, unifiedSeed);
+                        setBlockVarying(world, pos, fillBlock, unifiedSeed);
                     }
                 }
             }
@@ -90,15 +92,11 @@ public class PBEffectGenLavaCages extends PBEffectGenerate
         super.writeToNBT(compound);
 
         if (lavaBlock != null)
-        {
-            compound.setString("lavaBlock", Block.blockRegistry.getNameForObject(lavaBlock));
-        }
+            compound.setString("lavaBlock", IvNBTHelper.storeBlockString(lavaBlock));
         if (fillBlock != null)
-        {
-            compound.setString("fillBlock", Block.blockRegistry.getNameForObject(fillBlock));
-        }
+            compound.setString("fillBlock", IvNBTHelper.storeBlockString(fillBlock));
 
-        compound.setString("cageBlock", Block.blockRegistry.getNameForObject(cageBlock));
+        compound.setString("cageBlock", IvNBTHelper.storeBlockString(cageBlock));
     }
 
     @Override
@@ -106,8 +104,8 @@ public class PBEffectGenLavaCages extends PBEffectGenerate
     {
         super.readFromNBT(compound);
 
-        lavaBlock = (Block) Block.blockRegistry.getObject(compound.getString("lavaBlock"));
-        fillBlock = (Block) Block.blockRegistry.getObject(compound.getString("fillBlock"));
-        cageBlock = (Block) Block.blockRegistry.getObject(compound.getString("cageBlock"));
+        lavaBlock = IvNBTHelper.getBlock(compound.getString("lavaBlock"));
+        fillBlock = IvNBTHelper.getBlock(compound.getString("fillBlock"));
+        cageBlock = IvNBTHelper.getBlock(compound.getString("cageBlock"));
     }
 }

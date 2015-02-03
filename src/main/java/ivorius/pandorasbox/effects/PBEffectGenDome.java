@@ -6,8 +6,10 @@
 package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.IvNBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -34,33 +36,35 @@ public class PBEffectGenDome extends PBEffectGenerate2D
     }
 
     @Override
-    public void generateOnSurface(World world, EntityPandorasBox box, Vec3 effectCenter, Random random, int pass, int x, int baseY, int z, double dist)
+    public void generateOnSurface(World world, EntityPandorasBox box, Vec3 effectCenter, Random random, BlockPos pos, double dist, int pass)
     {
         int domeHeightY = MathHelper.ceiling_double_int(range);
 
         for (int y = -domeHeightY; y <= domeHeightY; y++)
         {
+            BlockPos shiftedPos = pos.up(y);
+
             if (pass == 0)
             {
-                if (isSpherePart(x + 0.5, baseY + y + 0.5, z + 0.5, effectCenter.xCoord, effectCenter.yCoord, effectCenter.zCoord, range - 1.5, range))
+                if (isSpherePart(shiftedPos.getX() + 0.5, shiftedPos.getY() + 0.5, shiftedPos.getZ() + 0.5, effectCenter.xCoord, effectCenter.yCoord, effectCenter.zCoord, range - 1.5, range))
                 {
-                    Block block = world.getBlock(x, baseY + y, z);
+                    Block block = world.getBlockState(shiftedPos).getBlock();
 
-                    if (block.isReplaceable(world, x, baseY + y, z))
+                    if (block.isReplaceable(world, shiftedPos))
                     {
-                        setBlockVarying(world, x, baseY + y, z, this.block, unifiedSeed);
+                        setBlockVarying(world, shiftedPos, this.block, unifiedSeed);
                     }
                 }
             }
             else if (pass == 1 && fillBlock != null)
             {
-                if (isSpherePart(x + 0.5, baseY + y + 0.5, z + 0.5, effectCenter.xCoord, effectCenter.yCoord, effectCenter.zCoord, 0.0, range - 1.5))
+                if (isSpherePart(shiftedPos.getX() + 0.5, shiftedPos.getY() + 0.5, shiftedPos.getZ() + 0.5, effectCenter.xCoord, effectCenter.yCoord, effectCenter.zCoord, 0.0, range - 1.5))
                 {
-                    Block block = world.getBlock(x, baseY + y, z);
+                    Block block = world.getBlockState(shiftedPos).getBlock();
 
-                    if (block.isReplaceable(world, x, baseY + y, z))
+                    if (block.isReplaceable(world, shiftedPos))
                     {
-                        setBlockVarying(world, x, baseY + y, z, this.fillBlock, unifiedSeed);
+                        setBlockVarying(world, shiftedPos, this.fillBlock, unifiedSeed);
                     }
                 }
             }
@@ -82,12 +86,10 @@ public class PBEffectGenDome extends PBEffectGenerate2D
     {
         super.writeToNBT(compound);
 
-        compound.setString("block", Block.blockRegistry.getNameForObject(block));
+        compound.setString("block", IvNBTHelper.storeBlockString(block));
 
         if (fillBlock != null)
-        {
-            compound.setString("fillBlock", Block.blockRegistry.getNameForObject(fillBlock));
-        }
+            compound.setString("fillBlock", IvNBTHelper.storeBlockString(fillBlock));
     }
 
     @Override
@@ -95,7 +97,7 @@ public class PBEffectGenDome extends PBEffectGenerate2D
     {
         super.readFromNBT(compound);
 
-        block = (Block) Block.blockRegistry.getObject(compound.getString("block"));
-        fillBlock = (Block) Block.blockRegistry.getObject(compound.getString("fillBlock"));
+        block = IvNBTHelper.getBlock(compound.getString("block"));
+        fillBlock = IvNBTHelper.getBlock(compound.getString("fillBlock"));
     }
 }

@@ -14,7 +14,6 @@ import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import scala.actors.threadpool.Arrays;
 
 import java.util.ArrayList;
 import java.util.Collection;

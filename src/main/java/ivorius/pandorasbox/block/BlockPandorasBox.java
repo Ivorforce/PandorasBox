@@ -7,24 +7,27 @@ package ivorius.pandorasbox.block;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-
-import java.util.Random;
 
 /**
  * Created by lukas on 15.04.14.
  */
 public class BlockPandorasBox extends BlockContainer
 {
+    public static final PropertyDirection FACING_PROP = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+
     public BlockPandorasBox()
     {
         super(Material.wood);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING_PROP, EnumFacing.NORTH));
         setBlockBounds(0.2f, 0.0f, 0.2f, 0.8f, 0.6f, 0.8f);
     }
 
@@ -35,9 +38,16 @@ public class BlockPandorasBox extends BlockContainer
     }
 
     @Override
-    public int getRenderType()
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        return -1;
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+
+        if (tileEntity instanceof TileEntityPandorasBox)
+            ((TileEntityPandorasBox) tileEntity).spawnPandorasBox();
+
+        worldIn.setBlockToAir(pos);
+
+        return true;
     }
 
     @Override
@@ -46,41 +56,42 @@ public class BlockPandorasBox extends BlockContainer
         return false;
     }
 
-    public boolean renderAsNormalBlock()
+    @Override
+    public boolean isFullCube()
     {
         return false;
     }
 
     @Override
-    public Item getItemDropped(int metadata, Random random, int fortune)
+    public int getRenderType()
     {
-        return Item.getItemFromBlock(PBBlocks.pandorasBox);
+        return 3;
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
-        TileEntity tileEntity = world.getTileEntity(x, y, z);
-
-        if (tileEntity instanceof TileEntityPandorasBox)
-        {
-            ((TileEntityPandorasBox) tileEntity).spawnPandorasBox();
-        }
-
-        world.setBlock(x, y, z, Blocks.air);
-
-        return true;
+        return this.getDefaultState().withProperty(FACING_PROP, placer.getHorizontalFacing());
     }
 
     @Override
-    public void registerBlockIcons(IIconRegister iconRegister)
+    public IBlockState getStateFromMeta(int meta)
     {
-
+        return this.getDefaultState().withProperty(FACING_PROP, EnumFacing.getFront(meta & 7));
     }
 
     @Override
-    public IIcon getIcon(int side, int metadata)
+    public int getMetaFromState(IBlockState state)
     {
-        return Blocks.planks.getIcon(2, 2);
+        byte b0 = 0;
+        int i = b0 | ((EnumFacing) state.getValue(FACING_PROP)).getIndex();
+
+        return i;
+    }
+
+    @Override
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, FACING_PROP);
     }
 }

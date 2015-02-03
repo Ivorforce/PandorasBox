@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "pandorasbox:pandoras_box.b3d", "y": 180 },
+        "facing=south": { "model": "pandorasbox:pandoras_box.b3d" },
+        "facing=west":  { "model": "pandorasbox:pandoras_box.b3d", "y": 90 },
+        "facing=east":  { "model": "pandorasbox:pandoras_box.b3d", "y": 270 }
+    }
+}

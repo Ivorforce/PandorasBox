@@ -8,6 +8,7 @@ package ivorius.pandorasbox.effects;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -32,42 +33,42 @@ public class PBEffectGenCover extends PBEffectGenerateByFlag
     }
 
     @Override
-    public boolean hasFlag(World world, EntityPandorasBox entity, Random random, int x, int y, int z)
+    public boolean hasFlag(World world, EntityPandorasBox entity, Random random, BlockPos pos)
     {
         if (overSurface)
         {
-            if (!isReplacable(world, x, y, z))
+            if (!isReplacable(world, pos))
             {
                 return false;
             }
 
-            return world.isBlockNormalCubeDefault(x - 1, y, z, false) || world.isBlockNormalCubeDefault(x + 1, y, z, false)
-                    || world.isBlockNormalCubeDefault(x, y - 1, z, false) || world.isBlockNormalCubeDefault(x, y + 1, z, false)
-                    || world.isBlockNormalCubeDefault(x, y, z - 1, false) || world.isBlockNormalCubeDefault(x, y, z + 1, false);
+            return world.isBlockNormalCube(pos.west(), false) || world.isBlockNormalCube(pos.east(), false)
+                    || world.isBlockNormalCube(pos.down(), false) || world.isBlockNormalCube(pos.up(), false)
+                    || world.isBlockNormalCube(pos.north(), false) || world.isBlockNormalCube(pos.south(), false);
         }
         else
         {
-//            if (!world.isBlockNormalCubeDefault(x, y, z, false))
+//            if (!world.isBlockNormalCubeDefault(pos, false))
 //                return false;
 //
-            return isReplacable(world, x - 1, y, z) || isReplacable(world, x + 1, y, z)
-                    || isReplacable(world, x, y - 1, z) || isReplacable(world, x, y + 1, z)
-                    || isReplacable(world, x, y, z - 1) || isReplacable(world, x, y, z + 1);
+            return isReplacable(world, pos.west()) || isReplacable(world, pos.east())
+                    || isReplacable(world, pos.down()) || isReplacable(world, pos.up())
+                    || isReplacable(world, pos.north()) || isReplacable(world, pos.south());
         }
     }
 
-    private boolean isReplacable(World world, int x, int y, int z)
+    private boolean isReplacable(World world, BlockPos pos)
     {
-        return world.getBlock(x, y, z).isReplaceable(world, x, y, z);
+        return world.getBlockState(pos).getBlock().isReplaceable(world, pos);
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Random random, int pass, int x, int y, int z, boolean flag, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Random random, int pass, BlockPos pos, double range, boolean flag)
     {
         if (flag)
         {
             Block newBlock = blocks[random.nextInt(blocks.length)];
-            world.setBlock(x, y, z, newBlock);
+            world.setBlockState(pos, newBlock.getDefaultState());
         }
     }
 

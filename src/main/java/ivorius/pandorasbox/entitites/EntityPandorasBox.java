@@ -5,8 +5,6 @@
 
 package ivorius.pandorasbox.entitites;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
 import ivorius.pandorasbox.PBConfig;
 import ivorius.pandorasbox.PandorasBox;
@@ -20,10 +18,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
 import java.util.List;
 import java.util.Random;
@@ -46,7 +47,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
 
     protected float scaleInProgress = 1.0f;
 
-    protected final Vec3 effectCenter = Vec3.createVectorHelper(0, 0, 0);
+    protected Vec3 effectCenter = new Vec3(0, 0, 0);
 
     public EntityPandorasBox(World world)
     {
@@ -120,9 +121,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
 
     public void setEffectCenter(double x, double y, double z)
     {
-        this.effectCenter.xCoord = x;
-        this.effectCenter.yCoord = y;
-        this.effectCenter.zCoord = z;
+        this.effectCenter = new Vec3(x, y, z);
     }
 
     public float getCurrentScale()
@@ -157,9 +156,9 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                     double zP = (rand.nextDouble() - rand.nextDouble()) * 0.5;
 
                     if (rand.nextBoolean())
-                        worldObj.spawnParticle("smoke", posX + xP, posY + yP, posZ + zP, 0.0D, 0.0D, 0.0D);
+                        worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + xP, posY + yP, posZ + zP, 0.0D, 0.0D, 0.0D);
                     else
-                        worldObj.spawnParticle("largesmoke", posX + xP, posY + yP, posZ + zP, 0.0D, 0.0D, 0.0D);
+                        worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, posX + xP, posY + yP, posZ + zP, 0.0D, 0.0D, 0.0D);
                 }
             }
 
@@ -263,7 +262,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                             double yDir = rand.nextDouble() * 0.1;
                             double zP = (rand.nextDouble() - rand.nextDouble()) * 0.2;
 
-                            worldObj.spawnParticle("smoke", posX + xP, posY + 0.2, posZ + zP, 0.0D, yDir, 0.0D);
+                            worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + xP, posY + 0.2, posZ + zP, 0.0D, yDir, 0.0D);
                         }
                         for (int e = 0; e < 3; e++)
                         {
@@ -271,11 +270,11 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                             double yDir = rand.nextDouble() * 4.0 + 2.0;
                             double zDir = (rand.nextDouble() - rand.nextDouble()) * 3.0;
 
-                            worldObj.spawnParticle("enchantmenttable", posX + (rand.nextDouble() - 0.5) * width + xDir, posY + height * 0.5 + yDir - 0.3f, posZ + (rand.nextDouble() - 0.5) * width + zDir, -xDir, -yDir, -zDir);
+                            worldObj.spawnParticle(EnumParticleTypes.ENCHANTMENT_TABLE, posX + (rand.nextDouble() - 0.5) * width + xDir, posY + height * 0.5 + yDir - 0.3f, posZ + (rand.nextDouble() - 0.5) * width + zDir, -xDir, -yDir, -zDir);
                         }
                         for (int e = 0; e < 4; e++)
                         {
-                            worldObj.spawnParticle("portal", posX + (rand.nextDouble() * 16) - 8D, posY + height * 0.5f + (rand.nextDouble() * 5) - 2D, posZ + (rand.nextDouble() * 16D) - 8D, (rand.nextDouble() * 2D) - 1D, (rand.nextDouble() * 2D) - 1D, (rand.nextDouble() * 2D) - 1D);
+                            worldObj.spawnParticle(EnumParticleTypes.PORTAL, posX + (rand.nextDouble() * 16) - 8D, posY + height * 0.5f + (rand.nextDouble() * 5) - 2D, posZ + (rand.nextDouble() * 16D) - 8D, (rand.nextDouble() * 2D) - 1D, (rand.nextDouble() * 2D) - 1D, (rand.nextDouble() * 2D) - 1D);
                         }
                     }
 
@@ -283,7 +282,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                     {
                         float powerRange = 5.0f;
                         float powerStrength = 0.07f;
-                        List<EntityLivingBase> nearbyEntities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(powerRange, powerRange, powerRange));
+                        List<EntityLivingBase> nearbyEntities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox().expand(powerRange, powerRange, powerRange));
                         for (EntityLivingBase entity : nearbyEntities)
                         {
                             float entityDist = (float) entity.getDistanceSqToEntity(this);
@@ -293,7 +292,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                     }
                 }
 
-                effectTicksExisted ++;
+                effectTicksExisted++;
             }
         }
         else
@@ -307,7 +306,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
 
         boxEffect = PBECRegistry.createRandomEffect(worldObj, rand, effectCenter.xCoord, effectCenter.yCoord, effectCenter.zCoord, true);
 
-        PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), worldObj.provider.dimensionId);
+        PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), worldObj.provider.getDimensionId());
     }
 
     public void startFadingOut()
@@ -331,7 +330,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
     {
         floatAwayProgress = -1.0f;
         effectTicksExisted = 0;
-        PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), worldObj.provider.dimensionId);
+        PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), worldObj.provider.getDimensionId());
     }
 
     public void beginScalingIn()
@@ -375,7 +374,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
     @Override
     public AxisAlignedBB getBoundingBox()
     {
-        return boundingBox;
+        return getEntityBoundingBox();
     }
 
     @Override

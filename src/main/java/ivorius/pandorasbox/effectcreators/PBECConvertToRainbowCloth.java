@@ -7,7 +7,6 @@ package ivorius.pandorasbox.effectcreators;
 
 import ivorius.pandorasbox.PandorasBoxHelper;
 import ivorius.pandorasbox.effects.PBEffect;
-import ivorius.pandorasbox.effects.PBEffectGenConvertToIce;
 import ivorius.pandorasbox.effects.PBEffectGenConvertToRainbowCloth;
 import ivorius.pandorasbox.random.DValue;
 import ivorius.pandorasbox.random.IValue;

@@ -6,7 +6,6 @@
 package ivorius.pandorasbox.effectcreators;
 
 import ivorius.pandorasbox.effects.PBEffect;
-import ivorius.pandorasbox.effects.PBEffectEntitiesBombpack;
 import ivorius.pandorasbox.effects.PBEffectExplode;
 import ivorius.pandorasbox.random.DValue;
 import ivorius.pandorasbox.random.IValue;

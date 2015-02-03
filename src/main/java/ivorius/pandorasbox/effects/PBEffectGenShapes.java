@@ -10,6 +10,7 @@ import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import ivorius.pandorasbox.weighted.WeightedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -64,7 +65,7 @@ public class PBEffectGenShapes extends PBEffectGenerateByStructure
     }
 
     @Override
-    public void generateStructure(World world, EntityPandorasBox entity, Random random, Structure structure, int x, int y, int z, float newRatio, float prevRatio)
+    public void generateStructure(World world, EntityPandorasBox entity, Random random, Structure structure, BlockPos pos, float newRatio, float prevRatio)
     {
         if (!world.isRemote)
         {
@@ -88,7 +89,7 @@ public class PBEffectGenShapes extends PBEffectGenerateByStructure
                             {
                                 if (dist > prevSize)
                                 {
-                                    generateOnBlock(world, entity, random, structureShape, x + structure.x + xPlus, y + structure.y + yPlus, z + structure.z + zPlus);
+                                    generateOnBlock(world, entity, random, structureShape, pos.add(structure.x + xPlus, structure.y + yPlus, structure.z + zPlus));
                                 }
                                 else
                                 {
@@ -117,7 +118,7 @@ public class PBEffectGenShapes extends PBEffectGenerateByStructure
                             {
                                 if (xDist > prevSize || yDist > prevSize || zDist > prevSize)
                                 {
-                                    generateOnBlock(world, entity, random, structureShape, x + structure.x + xPlus, y + structure.y + yPlus, z + structure.z + zPlus);
+                                    generateOnBlock(world, entity, random, structureShape, pos.add(structure.x + xPlus, structure.y + yPlus, structure.z + zPlus));
                                 }
                                 else
                                 {
@@ -147,7 +148,7 @@ public class PBEffectGenShapes extends PBEffectGenerateByStructure
                             {
                                 for (int zPlus = -levelSize; zPlus <= levelSize; zPlus++)
                                 {
-                                    generateOnBlock(world, entity, random, structureShape, x + structure.x + xPlus, y + structure.y + yPlus, z + structure.z + zPlus);
+                                    generateOnBlock(world, entity, random, structureShape, pos.add(structure.x + xPlus, structure.y + yPlus, structure.z + zPlus));
                                 }
                             }
                         }
@@ -161,10 +162,10 @@ public class PBEffectGenShapes extends PBEffectGenerateByStructure
         }
     }
 
-    public void generateOnBlock(World world, EntityPandorasBox entity, Random random, StructureShape structure, int x, int y, int z)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Random random, StructureShape structure, BlockPos pos)
     {
         Block block = structure.blocks[random.nextInt(structure.blocks.length)];
-        setBlockVarying(world, x, y, z, block, structure.unifiedSeed);
+        setBlockVarying(world, pos, block, structure.unifiedSeed);
     }
 
     @Override

@@ -9,6 +9,7 @@ import ivorius.pandorasbox.PandorasBoxHelper;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -47,7 +48,7 @@ public abstract class PBEffectGenerateByStructure extends PBEffectNormal
 
             if (newStructureRatio > prevStructureRatio)
             {
-                generateStructure(world, entity, random, structure, baseX, baseY, baseZ, newStructureRatio, prevStructureRatio);
+                generateStructure(world, entity, random, structure, new BlockPos(baseX, baseY, baseZ), newStructureRatio, prevStructureRatio);
             }
         }
     }
@@ -57,7 +58,7 @@ public abstract class PBEffectGenerateByStructure extends PBEffectNormal
         return MathHelper.clamp_float((ratio - structure.structureStart) / structure.structureLength, 0.0f, 1.0f);
     }
 
-    public abstract void generateStructure(World world, EntityPandorasBox entity, Random random, Structure structure, int x, int y, int z, float newRatio, float prevRatio);
+    public abstract void generateStructure(World world, EntityPandorasBox entity, Random random, Structure structure, BlockPos pos, float newRatio, float prevRatio);
 
     @Override
     public void writeToNBT(NBTTagCompound compound)

@@ -81,7 +81,7 @@ public class PBEffectEntitiesThrowItems extends PBEffectEntityBased
     private void throwItem(Entity entity, World world, ItemStack itemStack)
     {
         EntityItem entityItem = new EntityItem(world, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, itemStack);
-        entityItem.delayBeforeCanPickup = 20;
+        entityItem.setPickupDelay(20);
         entityItem.motionX = (world.rand.nextDouble() - world.rand.nextDouble()) * 1.0;
         entityItem.motionZ = (world.rand.nextDouble() - world.rand.nextDouble()) * 1.0;
         entityItem.motionY = world.rand.nextDouble();

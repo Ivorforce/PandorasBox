@@ -7,6 +7,7 @@ package ivorius.pandorasbox.worldgen;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
@@ -32,9 +33,13 @@ public class WorldGenRainbow extends WorldGenAbstractTree
     }
 
     @Override
-    public boolean generate(World par1World, Random var2, int par3, int par4, int par5)
+    public boolean generate(World par1World, Random var2, BlockPos pos)
     {
-        if (par1World.getBlock(par3, par4, par5) == soil && par1World.getBlock(par3, par4 + 1, par5) == Blocks.air)
+        int par3 = pos.getX();
+        int par4 = pos.getY();
+        int par5 = pos.getZ();
+
+        if (par1World.getBlockState(pos).getBlock() == soil && par1World.getBlockState(pos.up()).getBlock() == Blocks.air)
         {
             boolean rotated = var2.nextBoolean();
             int l = var2.nextInt(addition) + 5;
@@ -53,9 +58,10 @@ public class WorldGenRainbow extends WorldGenAbstractTree
                             int z = (rotated ? s : shift) + par5;
                             int rY = y + par4;
 
-                            Block block1 = par1World.getBlock(x, rY, z);
+                            BlockPos placePos = new BlockPos(x, rY, z);
+                            Block block1 = par1World.getBlockState(placePos).getBlock();
 
-                            if (block1.isAir(par1World, x, rY, z) || block1.isLeaves(par1World, x, rY, z))
+                            if (block1.isAir(par1World, placePos) || block1.isLeaves(par1World, placePos))
                             {
                                 int meta = distance;
                                 if (meta < 0)
@@ -67,7 +73,7 @@ public class WorldGenRainbow extends WorldGenAbstractTree
                                     meta = 15;
                                 }
 
-                                this.setBlockAndNotifyAdequately(par1World, x, rY, z, block, meta);
+                                this.setBlockAndNotifyAdequately(par1World, placePos, block.getStateFromMeta(meta));
                             }
                         }
                     }

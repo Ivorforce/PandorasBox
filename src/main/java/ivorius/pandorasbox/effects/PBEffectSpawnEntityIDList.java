@@ -219,9 +219,9 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                 if (nearest != null)
                 {
                     wolf.setTamed(true);
-                    wolf.setPathToEntity(null);
+                    wolf.getNavigator().clearPathEntity();
                     wolf.setAttackTarget(null);
-                    wolf.func_152115_b(nearest.getUniqueID().toString());
+                    wolf.setOwnerId(nearest.getUniqueID().toString());
                     wolf.worldObj.setEntityState(wolf, (byte) 7);
                 }
 
@@ -239,7 +239,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                 {
                     ocelot.setTamed(true);
                     ocelot.setTameSkin(1 + ocelot.worldObj.rand.nextInt(3));
-                    ocelot.func_152115_b(nearest.getUniqueID().toString());
+                    ocelot.setOwnerId(nearest.getUniqueID().toString());
                     ocelot.worldObj.setEntityState(ocelot, (byte) 7);
                 }
 
@@ -338,7 +338,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
         int[] colors = new int[(random.nextInt(15) != 0) ? 1 : (random.nextInt(2) + 2)];
         for (int i = 0; i < colors.length; i++)
         {
-            colors[i] = ItemDye.field_150922_c[random.nextInt(16)];
+            colors[i] = ItemDye.dyeColors[random.nextInt(16)];
         }
         fireworkCompound.setIntArray("Colors", colors);
 
@@ -347,7 +347,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
             int[] fadeColors = new int[random.nextInt(2) + 1];
             for (int i = 0; i < fadeColors.length; i++)
             {
-                fadeColors[i] = ItemDye.field_150922_c[random.nextInt(16)];
+                fadeColors[i] = ItemDye.dyeColors[random.nextInt(16)];
             }
             fireworkCompound.setIntArray("FadeColors", fadeColors);
         }

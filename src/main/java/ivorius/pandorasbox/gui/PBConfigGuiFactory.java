@@ -5,22 +5,22 @@
 
 package ivorius.pandorasbox.gui;
 
-import cpw.mods.fml.client.IModGuiFactory;
-import cpw.mods.fml.client.config.GuiConfig;
-import cpw.mods.fml.client.config.GuiConfigEntries;
-import cpw.mods.fml.client.config.IConfigElement;
 import ivorius.pandorasbox.PBConfig;
 import ivorius.pandorasbox.PandorasBox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.common.config.ConfigElement;
+import net.minecraftforge.fml.client.IModGuiFactory;
+import net.minecraftforge.fml.client.config.GuiConfig;
+import net.minecraftforge.fml.client.config.GuiConfigEntries;
+import net.minecraftforge.fml.client.config.IConfigElement;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static cpw.mods.fml.client.config.DummyConfigElement.DummyCategoryElement;
+import static net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
 
 /**
  * Created by lukas on 29.06.14.
