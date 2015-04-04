@@ -7,7 +7,6 @@ package ivorius.pandorasbox;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.sun.jdi.InternalException;
 import ivorius.pandorasbox.block.PBBlocks;
 import ivorius.pandorasbox.weighted.WeightedBlock;
 import ivorius.pandorasbox.weighted.WeightedEntity;
@@ -349,7 +348,7 @@ public class PandorasBoxHelper
         for (T t : collection)
             if ((i++) == num)
                 return t;
-        throw new InternalException();
+        throw new InternalError();
     }
 
     public static IBlockState getRandomBlockState(Random rand, Block block, int unified)
