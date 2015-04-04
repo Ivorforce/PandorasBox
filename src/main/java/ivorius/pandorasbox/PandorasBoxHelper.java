@@ -5,12 +5,17 @@
 
 package ivorius.pandorasbox;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.sun.jdi.InternalException;
 import ivorius.pandorasbox.block.PBBlocks;
 import ivorius.pandorasbox.weighted.WeightedBlock;
 import ivorius.pandorasbox.weighted.WeightedEntity;
 import ivorius.pandorasbox.weighted.WeightedPotion;
 import ivorius.pandorasbox.weighted.WeightedSet;
-import net.minecraft.block.Block;
+import net.minecraft.block.*;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -30,8 +35,7 @@ public class PandorasBoxHelper
     public static List<WeightedEntity> tameableCreatures = new ArrayList<WeightedEntity>();
 
     public static List<WeightedRandomChestContent> blocksAndItems = new ArrayList<WeightedRandomChestContent>();
-    public static Hashtable<Block, int[]> randomBlockMetadatas = new Hashtable<Block, int[]>();
-    private static Hashtable<Block, Integer> cachedBlockHashes = new Hashtable<Block, Integer>();
+    public static Multimap<Block, IProperty> randomizableBlockProperties = HashMultimap.create();
 
     public static List<WeightedBlock> blocks = new ArrayList<WeightedBlock>();
 
@@ -181,9 +185,7 @@ public class PandorasBoxHelper
     public static void addEquipmentForLevel(Item base, int level, ItemStack stack)
     {
         if (!equipmentForLevels.containsKey(base))
-        {
             equipmentForLevels.put(base, new Hashtable<Integer, ItemStack>());
-        }
 
         equipmentForLevels.get(base).put(level, stack);
     }
@@ -195,32 +197,29 @@ public class PandorasBoxHelper
             Object object = items[i];
 
             if (object instanceof Item)
-            {
                 addEquipmentForLevel(base, i, new ItemStack((Item) items[i]));
-            }
             else if (object instanceof ItemStack)
-            {
                 addEquipmentForLevel(base, i, (ItemStack) items[i]);
-            }
         }
     }
 
-    public static void addBlockMetadatas(int[] metas, Block... blocks)
+    public static void addAllRandomizableBlockProperties(Block... blocks)
     {
         for (Block block : blocks)
-        {
-            randomBlockMetadatas.put(block, metas);
-        }
+            randomizableBlockProperties.putAll(block, block.getDefaultState().getProperties().keySet());
     }
 
-    public static void addBlockMetadatas(int maxMetadata, Block... blocks)
+    public static void addRandomizableBlockProperty(Block[] blocks, IProperty... properties)
     {
-        int[] array = new int[maxMetadata + 1];
-        for (int i = 0; i <= maxMetadata; i++)
-        {
-            array[i] = i;
-        }
-        addBlockMetadatas(array, blocks);
+        for (Block block : blocks)
+            for (IProperty property : properties)
+                randomizableBlockProperties.put(block, property);
+    }
+
+    public static void addRandomizableBlockProperty(Block block, IProperty... properties)
+    {
+        for (IProperty property : properties)
+            randomizableBlockProperties.put(block, property);
     }
 
     public static void initialize()
@@ -315,12 +314,27 @@ public class PandorasBoxHelper
 
         addBlocks(heavyBlocks, 100, Blocks.anvil);
 
-        addBlockMetadatas(15, Blocks.wool, Blocks.stained_glass, Blocks.stained_glass_pane, Blocks.stained_hardened_clay);
-        addBlockMetadatas(7, Blocks.double_stone_slab, Blocks.double_wooden_slab);
-        addBlockMetadatas(5, Blocks.planks);
-        addBlockMetadatas(3, Blocks.leaves, Blocks.leaves2, Blocks.log, Blocks.log2, Blocks.stonebrick);
-        addBlockMetadatas(2, Blocks.quartz_block, Blocks.sandstone);
-        addBlockMetadatas(1, Blocks.sand);
+        addAllRandomizableBlockProperties(
+                Blocks.wool, Blocks.stained_hardened_clay,
+                Blocks.stained_glass, Blocks.stained_glass_pane,
+                Blocks.wooden_slab, Blocks.double_wooden_slab,
+                Blocks.stone_slab, Blocks.double_stone_slab,
+                Blocks.stone_slab2, Blocks.double_stone_slab2,
+                Blocks.planks,
+                Blocks.leaves, Blocks.leaves2,
+                Blocks.log, Blocks.log2,
+                Blocks.sapling,
+                Blocks.stonebrick, Blocks.stone_brick_stairs,
+                Blocks.quartz_block, Blocks.quartz_stairs,
+                Blocks.sandstone, Blocks.sandstone_stairs,
+                Blocks.red_sandstone, Blocks.red_sandstone_stairs,
+                Blocks.sand,
+                Blocks.rail,
+                Blocks.furnace, Blocks.pumpkin, Blocks.lit_pumpkin,
+                Blocks.snow, Blocks.snow_layer,
+                Blocks.chest, Blocks.ender_chest, Blocks.trapped_chest,
+                Blocks.flower_pot
+        );
     }
 
     public static int getRandomUnifiedSeed(Random random)
@@ -328,30 +342,31 @@ public class PandorasBoxHelper
         return Math.abs(random.nextInt());
     }
 
+    private static <T> T randomElement(Collection<T> collection, Random random)
+    {
+        int num = random.nextInt(collection.size());
+        int i = 0;
+        for (T t : collection)
+            if ((i++) == num)
+                return t;
+        throw new InternalException();
+    }
+
     public static IBlockState getRandomBlockState(Random rand, Block block, int unified)
     {
-        // TODO
-//        if (randomBlockMetadatas.containsKey(block))
-//        {
-//            int[] metas = randomBlockMetadatas.get(block);
-//
-//            if (unified < 0)
-//            {
-//                return metas[rand.nextInt(metas.length)];
-//            }
-//            else
-//            {
-//                if (!cachedBlockHashes.containsKey(block))
-//                {
-//                    cachedBlockHashes.put(block, Math.abs(Block.blockRegistry.getNameForObject(block).hashCode()));
-//                }
-//
-//                int blockIDHash = cachedBlockHashes.get(block);
-//                return metas[((unified ^ blockIDHash) % metas.length)];
-//            }
-//        }
+        IBlockState state = block.getDefaultState();
 
-        return block.getDefaultState();
+        Collection<IProperty> randomizableProperties = randomizableBlockProperties.get(block);
+        if (randomizableProperties != null)
+        {
+            if (unified >= 0)
+                rand = new Random(unified ^ Block.blockRegistry.getNameForObject(block).hashCode());
+
+            for (IProperty property : randomizableProperties)
+                state = state.withProperty(property, PandorasBoxHelper.<Comparable>randomElement(property.getAllowedValues(), rand));
+        }
+
+        return state;
     }
 
     public static Block[] getRandomBlockList(Random rand, Collection<WeightedBlock> selection)
