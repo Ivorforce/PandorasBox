@@ -63,7 +63,7 @@ public class RenderPandorasBox extends Render
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y + MathHelper.sin((entity.ticksExisted + partialTicks) * 0.04f) * 0.05, z);
-        GlStateManager.rotate(-yaw + 180.0f, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(-yaw, 0.0F, 1.0F, 0.0F);
 
         PBEffect effect = entityPandorasBox.getBoxEffect();
         if (!effect.isDone(entityPandorasBox, entityPandorasBox.getEffectTicksExisted()) && entityPandorasBox.getDeathTicks() < 0)
