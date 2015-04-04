@@ -3,7 +3,7 @@
  * http://lukas.axxim.net
  */
 
-package ivorius.pandorasbox.client;
+package ivorius.pandorasbox.client.rendering;
 
 import com.google.common.base.Function;
 import ivorius.pandorasbox.PandorasBox;
@@ -12,6 +12,7 @@ import ivorius.pandorasbox.client.rendering.effects.PBEffectRenderingRegistry;
 import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -23,6 +24,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -39,13 +41,19 @@ import javax.annotation.Nullable;
 @SideOnly(Side.CLIENT)
 public class RenderPandorasBox extends Render
 {
-    public ResourceLocation model;
+    public ModelBase model;
+    public ResourceLocation texture;
+
+//    public ResourceLocation model;
 
     public RenderPandorasBox(RenderManager renderManager)
     {
         super(renderManager);
 
-        model = new ResourceLocation(PandorasBox.MODID, "block/pandoras_box.b3d");
+        model = new ModelPandorasBox();
+        texture = new ResourceLocation(PandorasBox.MODID, "textures/pbTexture.png");
+
+//        model = new ResourceLocation(PandorasBox.MODID, "block/pandoras_box.b3d");
     }
 
     @Override
@@ -71,11 +79,15 @@ public class RenderPandorasBox extends Render
             if (boxScale < 1.0f)
                 GlStateManager.scale(boxScale, boxScale, boxScale);
 
-//            GlStateManager.translate(0.0f, 1.5f, 0.0f);
-//            GlStateManager.rotate(180.0f, 0.0f, 0.0f, 1.0f);
+            GlStateManager.translate(0.0f, 1.5f, 0.0f);
+            GlStateManager.rotate(180.0f, 0.0f, 0.0f, 1.0f);
+            EntityArrow emptyEntity = new EntityArrow(entity.worldObj);
+            emptyEntity.rotationPitch = entityPandorasBox.getRatioBoxOpen(partialTicks) * 120.0f / 180.0f * 3.1415926f;
+            bindEntityTexture(entity);
+            model.render(emptyEntity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 
-            int animationCounter = Math.min(89, MathHelper.floor_float((entityPandorasBox.getRatioBoxOpen(partialTicks) + 0.5f) * 90));
-            renderB3DModel(renderManager.renderEngine, model, animationCounter);
+//            int animationCounter = Math.min(89, MathHelper.floor_float((entityPandorasBox.getRatioBoxOpen(partialTicks) + 0.5f) * 90));
+//            renderB3DModel(renderManager.renderEngine, model, animationCounter);
         }
 
         GlStateManager.popMatrix();
@@ -139,6 +151,6 @@ public class RenderPandorasBox extends Render
     @Override
     protected ResourceLocation getEntityTexture(Entity var1)
     {
-        return TextureMap.LOCATION_MISSING_TEXTURE;
+        return texture;
     }
 }

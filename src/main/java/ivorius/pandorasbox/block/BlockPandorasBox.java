@@ -12,6 +12,7 @@ import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -66,6 +67,15 @@ public class BlockPandorasBox extends BlockContainer
     public int getRenderType()
     {
         return 3;
+    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+    {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+
+        if (tileEntity instanceof TileEntityPandorasBox)
+            ((TileEntityPandorasBox) tileEntity).setPartialRotationYaw(placer.rotationYaw % 90.0f);
     }
 
     @Override

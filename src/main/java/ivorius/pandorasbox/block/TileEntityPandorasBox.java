@@ -20,31 +20,7 @@ import net.minecraft.util.EnumFacing;
  */
 public class TileEntityPandorasBox extends TileEntity
 {
-    public float boxRotationYaw;
-
-    public EntityPandorasBox spawnPandorasBox()
-    {
-        if (!worldObj.isRemote)
-        {
-            PBEffect effect = PBECRegistry.createRandomEffect(worldObj, worldObj.rand, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, true);
-
-            if (effect != null)
-            {
-                EntityPandorasBox entityPandorasBox = new EntityPandorasBox(worldObj, effect);
-
-                EnumFacing facing = (EnumFacing) worldObj.getBlockState(pos).getValue(BlockPandorasBox.FACING_PROP);
-                entityPandorasBox.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, rotationFromFacing(facing), 0.0f);
-
-                entityPandorasBox.beginFloatingUp();
-
-                worldObj.spawnEntityInWorld(entityPandorasBox);
-
-                return entityPandorasBox;
-            }
-        }
-
-        return null;
-    }
+    private float partialRotationYaw;
 
     public static float rotationFromFacing(EnumFacing facing)
     {
@@ -63,12 +39,55 @@ public class TileEntityPandorasBox extends TileEntity
         throw new IllegalArgumentException();
     }
 
+    public void setPartialRotationYaw(float partialRotationYaw)
+    {
+        this.partialRotationYaw = partialRotationYaw;
+    }
+
+    public float getPartialRotationYaw()
+    {
+        return partialRotationYaw;
+    }
+
+    public float getBaseRotationYaw()
+    {
+        return rotationFromFacing((EnumFacing) this.worldObj.getBlockState(this.pos).getValue(BlockPandorasBox.FACING_PROP));
+    }
+
+    public float getRotationYaw()
+    {
+        return getBaseRotationYaw()/* + partialRotationYaw*/; // TODO Block model doesn't support gradual rotation yet
+    }
+
+    public EntityPandorasBox spawnPandorasBox()
+    {
+        if (!worldObj.isRemote)
+        {
+            PBEffect effect = PBECRegistry.createRandomEffect(worldObj, worldObj.rand, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, true);
+
+            if (effect != null)
+            {
+                EntityPandorasBox entityPandorasBox = new EntityPandorasBox(worldObj, effect);
+
+                entityPandorasBox.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, getRotationYaw(), 0.0f);
+
+                entityPandorasBox.beginFloatingUp();
+
+                worldObj.spawnEntityInWorld(entityPandorasBox);
+
+                return entityPandorasBox;
+            }
+        }
+
+        return null;
+    }
+
     @Override
     public void writeToNBT(NBTTagCompound nbtTagCompound)
     {
         super.writeToNBT(nbtTagCompound);
 
-        nbtTagCompound.setFloat("boxRotationYaw", boxRotationYaw);
+        nbtTagCompound.setFloat("boxRotationYaw", partialRotationYaw);
     }
 
     @Override
@@ -76,7 +95,7 @@ public class TileEntityPandorasBox extends TileEntity
     {
         super.readFromNBT(nbtTagCompound);
 
-        boxRotationYaw = nbtTagCompound.getFloat("boxRotationYaw");
+        partialRotationYaw = nbtTagCompound.getFloat("boxRotationYaw");
     }
 
     @Override
