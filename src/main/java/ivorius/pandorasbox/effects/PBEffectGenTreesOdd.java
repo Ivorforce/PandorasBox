@@ -5,7 +5,7 @@
 
 package ivorius.pandorasbox.effects;
 
-import ivorius.pandorasbox.utils.IvNBTHelper;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import ivorius.pandorasbox.worldgen.WorldGenMegaJungleCustom;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
@@ -53,8 +53,8 @@ public class PBEffectGenTreesOdd extends PBEffectGenerateByGenerator
     {
         super.writeToNBT(compound);
 
-        compound.setString("trunkBlock", IvNBTHelper.storeBlockString(trunkBlock));
-        compound.setString("leafBlock", IvNBTHelper.storeBlockString(leafBlock));
+        compound.setString("trunkBlock", PBNBTHelper.storeBlockString(trunkBlock));
+        compound.setString("leafBlock", PBNBTHelper.storeBlockString(leafBlock));
     }
 
     @Override
@@ -62,8 +62,8 @@ public class PBEffectGenTreesOdd extends PBEffectGenerateByGenerator
     {
         super.readFromNBT(compound);
 
-        trunkBlock = IvNBTHelper.getBlock(compound.getString("trunkBlock"));
-        leafBlock = IvNBTHelper.getBlock(compound.getString("leafBlock"));
+        trunkBlock = PBNBTHelper.getBlock(compound.getString("trunkBlock"));
+        leafBlock = PBNBTHelper.getBlock(compound.getString("leafBlock"));
 
         initializeGens();
     }

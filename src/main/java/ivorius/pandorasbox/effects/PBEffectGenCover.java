@@ -6,6 +6,7 @@
 package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
@@ -78,7 +79,7 @@ public class PBEffectGenCover extends PBEffectGenerateByFlag
         super.writeToNBT(compound);
 
         compound.setBoolean("overSurface", overSurface);
-        setNBTBlocks("blocks", blocks, compound);
+        PBNBTHelper.writeNBTBlocks("blocks", blocks, compound);
     }
 
     @Override
@@ -87,6 +88,6 @@ public class PBEffectGenCover extends PBEffectGenerateByFlag
         super.readFromNBT(compound);
 
         overSurface = compound.getBoolean("overSurface");
-        blocks = getNBTBlocks("blocks", compound);
+        blocks = PBNBTHelper.readNBTBlocks("blocks", compound);
     }
 }

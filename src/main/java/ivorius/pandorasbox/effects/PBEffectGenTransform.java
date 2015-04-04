@@ -6,6 +6,7 @@
 package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
@@ -51,7 +52,7 @@ public class PBEffectGenTransform extends PBEffectGenerate
     {
         super.writeToNBT(compound);
 
-        setNBTBlocks("blocks", blocks, compound);
+        PBNBTHelper.writeNBTBlocks("blocks", blocks, compound);
     }
 
     @Override
@@ -59,6 +60,6 @@ public class PBEffectGenTransform extends PBEffectGenerate
     {
         super.readFromNBT(compound);
 
-        blocks = getNBTBlocks("blocks", compound);
+        blocks = PBNBTHelper.readNBTBlocks("blocks", compound);
     }
 }

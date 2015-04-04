@@ -6,6 +6,7 @@
 package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -95,7 +96,7 @@ public class PBEffectEntitiesThrowItems extends PBEffectEntityBased
 
         compound.setDouble("chancePerItem", chancePerItem);
         compound.setDouble("itemDeletionChance", itemDeletionChance);
-        setNBTStacks("smuggledInItems", smuggledInItems, compound);
+        PBNBTHelper.writeNBTStacks("smuggledInItems", smuggledInItems, compound);
     }
 
     @Override
@@ -105,6 +106,6 @@ public class PBEffectEntitiesThrowItems extends PBEffectEntityBased
 
         chancePerItem = compound.getDouble("chancePerItem");
         itemDeletionChance = compound.getDouble("itemDeletionChance");
-        smuggledInItems = getNBTStacks("smuggledInItems", compound);
+        smuggledInItems = PBNBTHelper.readNBTStacks("smuggledInItems", compound);
     }
 }

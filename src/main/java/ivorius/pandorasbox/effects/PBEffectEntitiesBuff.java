@@ -6,6 +6,7 @@
 package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -54,7 +55,7 @@ public class PBEffectEntitiesBuff extends PBEffectEntityBased
     {
         super.writeToNBT(compound);
 
-        setNBTPotions("potions", effects, compound);
+        PBNBTHelper.writeNBTPotions("potions", effects, compound);
     }
 
     @Override
@@ -62,6 +63,6 @@ public class PBEffectEntitiesBuff extends PBEffectEntityBased
     {
         super.readFromNBT(compound);
 
-        effects = getNBTPotions("potions", compound);
+        effects = PBNBTHelper.readNBTPotions("potions", compound);
     }
 }

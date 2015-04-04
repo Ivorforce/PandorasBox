@@ -7,6 +7,7 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.PandorasBoxHelper;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import ivorius.pandorasbox.weighted.WeightedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
@@ -190,7 +191,7 @@ public class PBEffectGenShapes extends PBEffectGenerateByStructure
         {
             super.writeToNBT(compound);
 
-            setNBTBlocks("blocks", blocks, compound);
+            PBNBTHelper.writeNBTBlocks("blocks", blocks, compound);
 
             compound.setInteger("shapeType", shapeType);
             compound.setDouble("size", size);
@@ -201,7 +202,7 @@ public class PBEffectGenShapes extends PBEffectGenerateByStructure
         {
             super.readFromNBT(compound);
 
-            blocks = getNBTBlocks("blocks", compound);
+            blocks = PBNBTHelper.readNBTBlocks("blocks", compound);
 
             shapeType = compound.getInteger("shapeType");
             size = compound.getDouble("size");

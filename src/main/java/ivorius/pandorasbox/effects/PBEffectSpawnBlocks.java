@@ -6,6 +6,7 @@
 package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFallingBlock;
@@ -57,7 +58,7 @@ public class PBEffectSpawnBlocks extends PBEffectSpawnEntities
     {
         super.writeToNBT(compound);
 
-        setNBTBlocks("blocks", blocks, compound);
+        PBNBTHelper.writeNBTBlocks("blocks", blocks, compound);
     }
 
     @Override
@@ -65,6 +66,6 @@ public class PBEffectSpawnBlocks extends PBEffectSpawnEntities
     {
         super.readFromNBT(compound);
 
-        blocks = getNBTBlocks("blocks", compound);
+        blocks = PBNBTHelper.readNBTBlocks("blocks", compound);
     }
 }

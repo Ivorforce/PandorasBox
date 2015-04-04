@@ -7,7 +7,7 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import ivorius.pandorasbox.utils.IvBlockPosHelper;
-import ivorius.pandorasbox.utils.IvNBTHelper;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -92,11 +92,11 @@ public class PBEffectGenLavaCages extends PBEffectGenerate
         super.writeToNBT(compound);
 
         if (lavaBlock != null)
-            compound.setString("lavaBlock", IvNBTHelper.storeBlockString(lavaBlock));
+            compound.setString("lavaBlock", PBNBTHelper.storeBlockString(lavaBlock));
         if (fillBlock != null)
-            compound.setString("fillBlock", IvNBTHelper.storeBlockString(fillBlock));
+            compound.setString("fillBlock", PBNBTHelper.storeBlockString(fillBlock));
 
-        compound.setString("cageBlock", IvNBTHelper.storeBlockString(cageBlock));
+        compound.setString("cageBlock", PBNBTHelper.storeBlockString(cageBlock));
     }
 
     @Override
@@ -104,8 +104,8 @@ public class PBEffectGenLavaCages extends PBEffectGenerate
     {
         super.readFromNBT(compound);
 
-        lavaBlock = IvNBTHelper.getBlock(compound.getString("lavaBlock"));
-        fillBlock = IvNBTHelper.getBlock(compound.getString("fillBlock"));
-        cageBlock = IvNBTHelper.getBlock(compound.getString("cageBlock"));
+        lavaBlock = PBNBTHelper.getBlock(compound.getString("lavaBlock"));
+        fillBlock = PBNBTHelper.getBlock(compound.getString("fillBlock"));
+        cageBlock = PBNBTHelper.getBlock(compound.getString("cageBlock"));
     }
 }

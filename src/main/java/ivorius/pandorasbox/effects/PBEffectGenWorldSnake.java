@@ -6,6 +6,7 @@
 package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
@@ -116,7 +117,7 @@ public class PBEffectGenWorldSnake extends PBEffectNormal
     {
         super.writeToNBT(compound);
 
-        setNBTBlocks("block", blocks, compound);
+        PBNBTHelper.writeNBTBlocks("block", blocks, compound);
         compound.setInteger("unifiedSeed", unifiedSeed);
 
         compound.setDouble("currentX", currentX);
@@ -137,7 +138,7 @@ public class PBEffectGenWorldSnake extends PBEffectNormal
     {
         super.readFromNBT(compound);
 
-        blocks = getNBTBlocks("block", compound);
+        blocks = PBNBTHelper.readNBTBlocks("block", compound);
         unifiedSeed = compound.getInteger("unifiedSeed");
 
         currentX = compound.getDouble("currentX");

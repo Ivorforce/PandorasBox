@@ -7,7 +7,7 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.PandorasBoxHelper;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
-import ivorius.pandorasbox.utils.IvNBTHelper;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -16,7 +16,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.potion.Potion;
@@ -36,161 +35,6 @@ public abstract class PBEffect
     public String getEffectID()
     {
         return PBEffectRegistry.getEffectID(this);
-    }
-
-    public static String[] getNBTStrings(String id, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = compound.getTagList(id, Constants.NBT.TAG_STRING);
-        String[] strings = new String[nbtTagList.tagCount()];
-
-        for (int i = 0; i < strings.length; i++)
-        {
-            strings[i] = nbtTagList.getStringTagAt(i);
-        }
-
-        return strings;
-    }
-
-    public static void setNBTStrings(String id, String[] strings, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = new NBTTagList();
-
-        for (String s : strings)
-        {
-            nbtTagList.appendTag(new NBTTagString(s));
-        }
-
-        compound.setTag(id, nbtTagList);
-    }
-
-    public static String[][] getNBTStrings2D(String id, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = compound.getTagList(id, Constants.NBT.TAG_COMPOUND);
-        String[][] strings = new String[nbtTagList.tagCount()][];
-
-        for (int i = 0; i < strings.length; i++)
-        {
-            strings[i] = getNBTStrings("Strings", nbtTagList.getCompoundTagAt(i));
-        }
-
-        return strings;
-    }
-
-    public static void setNBTStrings2D(String id, String[][] strings, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = new NBTTagList();
-
-        for (String[] s : strings)
-        {
-            NBTTagCompound compound1 = new NBTTagCompound();
-            setNBTStrings("Strings", s, compound1);
-            nbtTagList.appendTag(compound1);
-        }
-
-        compound.setTag(id, nbtTagList);
-    }
-
-    public static ItemStack[] getNBTStacks(String id, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = compound.getTagList(id, Constants.NBT.TAG_COMPOUND);
-        ItemStack[] itemStacks = new ItemStack[nbtTagList.tagCount()];
-
-        for (int i = 0; i < itemStacks.length; i++)
-        {
-            itemStacks[i] = ItemStack.loadItemStackFromNBT(nbtTagList.getCompoundTagAt(i));
-        }
-
-        return itemStacks;
-    }
-
-    public static void setNBTStacks(String id, ItemStack[] stacks, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = new NBTTagList();
-
-        for (ItemStack stack : stacks)
-        {
-            NBTTagCompound tagCompound = new NBTTagCompound();
-            stack.writeToNBT(tagCompound);
-            nbtTagList.appendTag(tagCompound);
-        }
-
-        compound.setTag(id, nbtTagList);
-    }
-
-    public static Block[] getNBTBlocks(String id, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = compound.getTagList(id, Constants.NBT.TAG_STRING);
-        Block[] blocks = new Block[nbtTagList.tagCount()];
-
-        for (int i = 0; i < blocks.length; i++)
-        {
-            blocks[i] = IvNBTHelper.getBlock(nbtTagList.getStringTagAt(i));
-        }
-
-        return blocks;
-    }
-
-    public static void setNBTBlocks(String id, Block[] blocks, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = new NBTTagList();
-
-        for (Block b : blocks)
-            nbtTagList.appendTag(IvNBTHelper.storeBlock(b));
-
-        compound.setTag(id, nbtTagList);
-    }
-
-    public static long[] getNBTLongs(String id, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = compound.getTagList(id, Constants.NBT.TAG_STRING);
-        long[] longs = new long[nbtTagList.tagCount()];
-
-        for (int i = 0; i < longs.length; i++)
-        {
-            int[] parts = nbtTagList.getIntArrayAt(i);
-            longs[i] = (long) parts[0] + ((long) parts[1] << 32);
-        }
-
-        return longs;
-    }
-
-    public static void setNBTLongs(String id, long[] longs, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = new NBTTagList();
-
-        for (long l : longs)
-        {
-            int lower = (int) l;
-            int upper = (int) (l >>> 32);
-            nbtTagList.appendTag(new NBTTagIntArray(new int[]{(int) l, (int) (l >>> 32)}));
-        }
-
-        compound.setTag(id, nbtTagList);
-    }
-
-    public static PotionEffect[] getNBTPotions(String id, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = compound.getTagList(id, Constants.NBT.TAG_STRING);
-        PotionEffect[] potions = new PotionEffect[nbtTagList.tagCount()];
-
-        for (int i = 0; i < potions.length; i++)
-        {
-            potions[i] = PotionEffect.readCustomPotionEffectFromNBT(nbtTagList.getCompoundTagAt(i));
-        }
-
-        return potions;
-    }
-
-    public static void setNBTPotions(String id, PotionEffect[] potions, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = new NBTTagList();
-
-        for (PotionEffect p : potions)
-        {
-            nbtTagList.appendTag(p.writeCustomPotionEffectToNBT(new NBTTagCompound()));
-        }
-
-        compound.setTag(id, nbtTagList);
     }
 
     public static boolean setBlockToAirSafe(World world, BlockPos pos)

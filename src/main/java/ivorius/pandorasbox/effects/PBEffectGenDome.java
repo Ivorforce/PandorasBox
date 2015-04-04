@@ -6,7 +6,7 @@
 package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
-import ivorius.pandorasbox.utils.IvNBTHelper;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
@@ -86,10 +86,10 @@ public class PBEffectGenDome extends PBEffectGenerate2D
     {
         super.writeToNBT(compound);
 
-        compound.setString("block", IvNBTHelper.storeBlockString(block));
+        compound.setString("block", PBNBTHelper.storeBlockString(block));
 
         if (fillBlock != null)
-            compound.setString("fillBlock", IvNBTHelper.storeBlockString(fillBlock));
+            compound.setString("fillBlock", PBNBTHelper.storeBlockString(fillBlock));
     }
 
     @Override
@@ -97,7 +97,7 @@ public class PBEffectGenDome extends PBEffectGenerate2D
     {
         super.readFromNBT(compound);
 
-        block = IvNBTHelper.getBlock(compound.getString("block"));
-        fillBlock = IvNBTHelper.getBlock(compound.getString("fillBlock"));
+        block = PBNBTHelper.getBlock(compound.getString("block"));
+        fillBlock = PBNBTHelper.getBlock(compound.getString("fillBlock"));
     }
 }

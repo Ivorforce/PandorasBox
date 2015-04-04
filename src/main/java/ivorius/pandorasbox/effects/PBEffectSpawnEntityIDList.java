@@ -8,6 +8,7 @@ package ivorius.pandorasbox.effects;
 import ivorius.pandorasbox.PandorasBoxHelper;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import ivorius.pandorasbox.random.PandorasBoxEntityNamer;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -360,7 +361,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
     {
         super.writeToNBT(compound);
 
-        setNBTStrings2D("entityIDs", entityIDs, compound);
+        PBNBTHelper.writeNBTStrings2D("entityIDs", entityIDs, compound);
 
         compound.setInteger("nameEntities", nameEntities);
         compound.setInteger("equipLevel", equipLevel);
@@ -372,7 +373,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
     {
         super.readFromNBT(compound);
 
-        entityIDs = getNBTStrings2D("entityIDs", compound);
+        entityIDs = PBNBTHelper.readNBTStrings2D("entityIDs", compound);
 
         nameEntities = compound.getInteger("nameEntities");
         equipLevel = compound.getInteger("equipLevel");
