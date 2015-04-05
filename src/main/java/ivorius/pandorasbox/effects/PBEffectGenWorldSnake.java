@@ -6,8 +6,10 @@
 package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -86,7 +88,7 @@ public class PBEffectGenWorldSnake extends PBEffectNormal
                         {
                             if (!PBEffectGenDome.isSpherePart(baseX + x + 0.5, baseY + y + 0.5, baseZ + z + 0.5, currentX, currentY, currentZ, 0.0, size))
                             {
-                                generateOnBlock(world, entity, random, x + baseX, y + baseY, z + baseZ);
+                                generateOnBlock(world, entity, random, new BlockPos(x + baseX, y + baseY, z + baseZ));
                             }
                         }
                     }
@@ -105,9 +107,9 @@ public class PBEffectGenWorldSnake extends PBEffectNormal
         }
     }
 
-    public void generateOnBlock(World world, EntityPandorasBox entity, Random random, int x, int y, int z)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Random random, BlockPos pos)
     {
-        setBlockVarying(world, x, y, z, blocks[random.nextInt(blocks.length)], unifiedSeed);
+        setBlockVarying(world, pos, blocks[random.nextInt(blocks.length)], unifiedSeed);
     }
 
     @Override
@@ -115,7 +117,7 @@ public class PBEffectGenWorldSnake extends PBEffectNormal
     {
         super.writeToNBT(compound);
 
-        setNBTBlocks("block", blocks, compound);
+        PBNBTHelper.writeNBTBlocks("block", blocks, compound);
         compound.setInteger("unifiedSeed", unifiedSeed);
 
         compound.setDouble("currentX", currentX);
@@ -136,7 +138,7 @@ public class PBEffectGenWorldSnake extends PBEffectNormal
     {
         super.readFromNBT(compound);
 
-        blocks = getNBTBlocks("block", compound);
+        blocks = PBNBTHelper.readNBTBlocks("block", compound);
         unifiedSeed = compound.getInteger("unifiedSeed");
 
         currentX = compound.getDouble("currentX");

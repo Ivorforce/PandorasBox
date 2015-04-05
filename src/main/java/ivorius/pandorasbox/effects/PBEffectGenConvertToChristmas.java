@@ -7,6 +7,8 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.PandorasBoxHelper;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.RandomizedItemStack;
+import ivorius.pandorasbox.utils.WeightedSelector;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -16,9 +18,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
-import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
 import java.util.Collection;
@@ -39,35 +40,36 @@ public class PBEffectGenConvertToChristmas extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, int x, int y, int z, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
     {
         if (!world.isRemote)
         {
-            Block block = world.getBlock(x, y, z);
+            Block block = world.getBlockState(pos).getBlock();
 
             if (pass == 0)
             {
                 if (isBlockAnyOf(block, Blocks.flowing_water, Blocks.water))
                 {
-                    setBlockSafe(world, x, y, z, Blocks.ice);
+                    setBlockSafe(world, pos, Blocks.ice.getDefaultState());
                 }
-                else if (block.getMaterial() == Material.air && Blocks.snow_layer.canPlaceBlockAt(world, x, y, z))
+                else if (block.getMaterial() == Material.air && Blocks.snow_layer.canPlaceBlockAt(world, pos))
                 {
                     boolean setSnow = true;
 
-                    if (world.isBlockNormalCubeDefault(x, y - 1, z, false))
+                    BlockPos posBelow = pos.down();
+                    if (world.isBlockNormalCube(posBelow, false))
                     {
                         if (random.nextInt(10 * 10) == 0)
                         {
-                            setBlockAndMetaSafe(world, x, y, z, Blocks.chest, world.rand.nextInt(4));
-                            TileEntityChest tileentitychest = (TileEntityChest) world.getTileEntity(x, y, z);
+                            setBlockSafe(world, pos, Blocks.chest.getStateFromMeta(world.rand.nextInt(4)));
+                            TileEntityChest tileentitychest = (TileEntityChest) world.getTileEntity(pos);
 
                             if (tileentitychest != null)
                             {
-                                Collection<WeightedRandomChestContent> itemSelection = PandorasBoxHelper.blocksAndItems;
-                                WeightedRandomChestContent chestContent = (WeightedRandomChestContent) WeightedRandom.getRandomItem(random, itemSelection);
-                                ItemStack stack = chestContent.theItemId.copy();
-                                stack.stackSize = chestContent.theMinimumChanceToGenerateItem + random.nextInt(chestContent.theMaximumChanceToGenerateItem - chestContent.theMinimumChanceToGenerateItem + 1);
+                                Collection<RandomizedItemStack> itemSelection = PandorasBoxHelper.blocksAndItems;
+                                RandomizedItemStack chestContent = WeightedSelector.selectItem(random, itemSelection);
+                                ItemStack stack = chestContent.itemStack.copy();
+                                stack.stackSize = chestContent.min + random.nextInt(chestContent.max - chestContent.min + 1);
 
                                 tileentitychest.setInventorySlotContents(world.rand.nextInt(tileentitychest.getSizeInventory()), stack);
                             }
@@ -76,56 +78,56 @@ public class PBEffectGenConvertToChristmas extends PBEffectGenerate
                         }
                         else if (random.nextInt(10 * 10) == 0)
                         {
-                            setBlockSafe(world, x, y, z, Blocks.redstone_lamp);
-                            setBlockSafe(world, x, y - 1, z, Blocks.redstone_block);
+                            setBlockSafe(world, pos, Blocks.redstone_lamp.getDefaultState());
+                            setBlockSafe(world, posBelow, Blocks.redstone_block.getDefaultState());
                             setSnow = false;
                         }
                         else if (random.nextInt(10 * 10) == 0)
                         {
-                            setBlockSafe(world, x, y, z, Blocks.cake);
+                            setBlockSafe(world, pos, Blocks.cake.getDefaultState());
                             setSnow = false;
                         }
                         else if (random.nextInt(10 * 10) == 0)
                         {
-                            EntityItem entityItem = new EntityItem(world, x + 0.5, y + 0.5f, z + 0.5f, new ItemStack(Items.cookie));
-                            entityItem.delayBeforeCanPickup = 20;
+                            EntityItem entityItem = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5f, pos.getZ() + 0.5f, new ItemStack(Items.cookie));
+                            entityItem.setPickupDelay(20);
                             world.spawnEntityInWorld(entityItem);
                         }
                     }
 
                     if (setSnow)
                     {
-                        setBlockSafe(world, x, y, z, Blocks.snow_layer);
+                        setBlockSafe(world, pos, Blocks.snow_layer.getDefaultState());
                     }
                 }
                 else if (block == Blocks.fire)
                 {
-                    setBlockSafe(world, x, y, z, Blocks.air);
+                    setBlockToAirSafe(world, pos);
                 }
                 else if (block == Blocks.flowing_lava)
                 {
-                    setBlockSafe(world, x, y, z, Blocks.cobblestone);
+                    setBlockSafe(world, pos, Blocks.cobblestone.getDefaultState());
                 }
                 else if (block == Blocks.lava)
                 {
-                    setBlockSafe(world, x, y, z, Blocks.obsidian);
+                    setBlockSafe(world, pos, Blocks.obsidian.getDefaultState());
                 }
             }
             else
             {
-                if (canSpawnEntity(world, block, x, y, z))
+                if (canSpawnEntity(world, block, pos))
                 {
-                    Entity santa = lazilySpawnEntity(world, entity, random, "Zombie", 1.0f / (150 * 150), x, y, z);
+                    Entity santa = lazilySpawnEntity(world, entity, random, "Zombie", 1.0f / (150 * 150), pos);
                     if (santa != null)
                     {
                         ItemStack helmet = new ItemStack(Items.leather_helmet);
-                        Items.leather_helmet.func_82813_b(helmet, 0xff0000);
+                        Items.leather_helmet.setColor(helmet, 0xff0000);
                         ItemStack chestPlate = new ItemStack(Items.leather_chestplate);
-                        Items.leather_chestplate.func_82813_b(chestPlate, 0xff0000);
+                        Items.leather_chestplate.setColor(chestPlate, 0xff0000);
                         ItemStack leggings = new ItemStack(Items.leather_leggings);
-                        Items.leather_leggings.func_82813_b(leggings, 0xff0000);
+                        Items.leather_leggings.setColor(leggings, 0xff0000);
                         ItemStack boots = new ItemStack(Items.leather_boots);
-                        Items.leather_boots.func_82813_b(boots, 0xff0000);
+                        Items.leather_boots.setColor(boots, 0xff0000);
 
                         santa.setCurrentItemOrArmor(4, helmet);
                         santa.setCurrentItemOrArmor(3, chestPlate);
@@ -136,7 +138,7 @@ public class PBEffectGenConvertToChristmas extends PBEffectGenerate
                         ((EntityLiving) santa).setCustomNameTag("Hogfather");
                     }
 
-                    lazilySpawnEntity(world, entity, random, "SnowMan", 1.0f / (20 * 20), x, y, z);
+                    lazilySpawnEntity(world, entity, random, "SnowMan", 1.0f / (20 * 20), pos);
                 }
             }
         }

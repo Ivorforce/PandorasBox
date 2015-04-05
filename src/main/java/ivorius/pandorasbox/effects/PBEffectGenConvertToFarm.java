@@ -9,6 +9,7 @@ import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -32,17 +33,18 @@ public class PBEffectGenConvertToFarm extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, int x, int y, int z, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
     {
         if (!world.isRemote)
         {
-            Block block = world.getBlock(x, y, z);
+            Block block = world.getBlockState(pos).getBlock();
 
             if (pass == 0)
             {
-                Block blockBelow = world.getBlock(x, y - 1, z);
+                BlockPos posBelow = pos.down();
+                Block blockBelow = world.getBlockState(posBelow).getBlock();
 
-                if (blockBelow.isNormalCube(world, x, y - 1, z) && Blocks.snow_layer.canPlaceBlockAt(world, x, y, z) && block != Blocks.water)
+                if (blockBelow.isNormalCube(world, posBelow) && Blocks.snow_layer.canPlaceBlockAt(world, pos) && block != Blocks.water)
                 {
                     if (random.nextDouble() < cropChance)
                     {
@@ -50,50 +52,50 @@ public class PBEffectGenConvertToFarm extends PBEffectGenerate
 
                         if (b == 0)
                         {
-                            setBlockSafe(world, x, y - 1, z, Blocks.farmland);
-                            setBlockAndMetaSafe(world, x, y, z, Blocks.pumpkin_stem, world.rand.nextInt(4) + 4);
+                            setBlockSafe(world, posBelow, Blocks.farmland.getDefaultState());
+                            setBlockSafe(world, pos, Blocks.pumpkin_stem.getStateFromMeta(world.rand.nextInt(4) + 4));
                         }
                         else if (b == 1)
                         {
-                            setBlockSafe(world, x, y - 1, z, Blocks.farmland);
-                            setBlockAndMetaSafe(world, x, y, z, Blocks.melon_stem, world.rand.nextInt(4) + 4);
+                            setBlockSafe(world, posBelow, Blocks.farmland.getDefaultState());
+                            setBlockSafe(world, pos, Blocks.melon_stem.getStateFromMeta(world.rand.nextInt(4) + 4));
                         }
                         else if (b == 2)
                         {
-                            setBlockSafe(world, x, y - 1, z, Blocks.farmland);
-                            setBlockAndMetaSafe(world, x, y, z, Blocks.wheat, world.rand.nextInt(8));
+                            setBlockSafe(world, posBelow, Blocks.farmland.getDefaultState());
+                            setBlockSafe(world, pos, Blocks.wheat.getStateFromMeta(world.rand.nextInt(8)));
                         }
                         else if (b == 3)
                         {
-                            setBlockSafe(world, x, y - 1, z, Blocks.farmland);
-                            setBlockAndMetaSafe(world, x, y, z, Blocks.carrots, world.rand.nextInt(8));
+                            setBlockSafe(world, posBelow, Blocks.farmland.getDefaultState());
+                            setBlockSafe(world, pos, Blocks.carrots.getStateFromMeta(world.rand.nextInt(8)));
                         }
                         else if (b == 4)
                         {
-                            setBlockSafe(world, x, y - 1, z, Blocks.farmland);
-                            setBlockAndMetaSafe(world, x, y, z, Blocks.potatoes, world.rand.nextInt(8));
+                            setBlockSafe(world, posBelow, Blocks.farmland.getDefaultState());
+                            setBlockSafe(world, pos, Blocks.potatoes.getStateFromMeta(world.rand.nextInt(8)));
                         }
                         else if (b == 5)
                         {
-                            setBlockAndMetaSafe(world, x, y, z, Blocks.hay_block, 0);
+                            setBlockSafe(world, pos, Blocks.hay_block.getDefaultState());
                         }
                         else if (b == 6)
                         {
-                            setBlockAndMetaSafe(world, x, y - 1, z, Blocks.water, 0);
+                            setBlockSafe(world, posBelow, Blocks.water.getDefaultState());
                         }
                     }
                 }
             }
             else
             {
-                if (canSpawnEntity(world, block, x, y, z))
+                if (canSpawnEntity(world, block, pos))
                 {
-                    lazilySpawnEntity(world, entity, random, "EntityHorse", 1.0f / (50 * 50), x, y, z);
-                    lazilySpawnEntity(world, entity, random, "Villager", 1.0f / (50 * 50), x, y, z);
-                    lazilySpawnEntity(world, entity, random, "Sheep", 1.0f / (50 * 50), x, y, z);
-                    lazilySpawnEntity(world, entity, random, "Pig", 1.0f / (50 * 50), x, y, z);
-                    lazilySpawnEntity(world, entity, random, "Cow", 1.0f / (50 * 50), x, y, z);
-                    lazilySpawnEntity(world, entity, random, "Chicken", 1.0f / (50 * 50), x, y, z);
+                    lazilySpawnEntity(world, entity, random, "EntityHorse", 1.0f / (50 * 50), pos);
+                    lazilySpawnEntity(world, entity, random, "Villager", 1.0f / (50 * 50), pos);
+                    lazilySpawnEntity(world, entity, random, "Sheep", 1.0f / (50 * 50), pos);
+                    lazilySpawnEntity(world, entity, random, "Pig", 1.0f / (50 * 50), pos);
+                    lazilySpawnEntity(world, entity, random, "Cow", 1.0f / (50 * 50), pos);
+                    lazilySpawnEntity(world, entity, random, "Chicken", 1.0f / (50 * 50), pos);
                 }
             }
         }

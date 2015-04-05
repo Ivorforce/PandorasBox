@@ -7,6 +7,7 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -56,9 +57,7 @@ public abstract class PBEffectGenerateByFlag extends PBEffectRangeBased
                     double dist = MathHelper.sqrt_double(x * x + y * y + z * z);
 
                     if (dist <= range)
-                    {
-                        flags[y + 15] = hasFlag(world, entity, random, baseX + x, baseY + y, baseZ + z);
-                    }
+                        flags[y + 15] = hasFlag(world, entity, random, new BlockPos(baseX + x, baseY + y, baseZ + z));
                 }
 
                 setAllFlags(x, z, flags);
@@ -66,7 +65,7 @@ public abstract class PBEffectGenerateByFlag extends PBEffectRangeBased
         }
     }
 
-    public abstract boolean hasFlag(World world, EntityPandorasBox entity, Random random, int x, int y, int z);
+    public abstract boolean hasFlag(World world, EntityPandorasBox entity, Random random, BlockPos pos);
 
     @Override
     public void generateInRange(World world, EntityPandorasBox entity, Random random, Vec3 effectCenter, double prevRange, double newRange, int pass)
@@ -89,7 +88,7 @@ public abstract class PBEffectGenerateByFlag extends PBEffectRangeBased
                     {
                         if (dist > prevRange)
                         {
-                            generateOnBlock(world, entity, random, pass, x + baseX, y + baseY, z + baseZ, getFlag(x, y, z), dist);
+                            generateOnBlock(world, entity, random, pass, new BlockPos(baseX + x, baseY + y, baseZ + z), dist, getFlag(x, y, z));
                         }
                         else
                         {
@@ -101,7 +100,7 @@ public abstract class PBEffectGenerateByFlag extends PBEffectRangeBased
         }
     }
 
-    public abstract void generateOnBlock(World world, EntityPandorasBox entity, Random random, int pass, int x, int y, int z, boolean flag, double dist);
+    public abstract void generateOnBlock(World world, EntityPandorasBox entity, Random random, int pass, BlockPos pos, double dist, boolean flag);
 
     public void setAllFlags(byte x, byte z, boolean... flags)
     {

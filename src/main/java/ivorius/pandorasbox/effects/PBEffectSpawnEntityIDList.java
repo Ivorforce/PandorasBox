@@ -8,6 +8,7 @@ package ivorius.pandorasbox.effects;
 import ivorius.pandorasbox.PandorasBoxHelper;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import ivorius.pandorasbox.random.PandorasBoxEntityNamer;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -18,6 +19,7 @@ import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityGuardian;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityWolf;
@@ -219,9 +221,9 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                 if (nearest != null)
                 {
                     wolf.setTamed(true);
-                    wolf.setPathToEntity(null);
+                    wolf.getNavigator().clearPathEntity();
                     wolf.setAttackTarget(null);
-                    wolf.func_152115_b(nearest.getUniqueID().toString());
+                    wolf.setOwnerId(nearest.getUniqueID().toString());
                     wolf.worldObj.setEntityState(wolf, (byte) 7);
                 }
 
@@ -239,7 +241,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                 {
                     ocelot.setTamed(true);
                     ocelot.setTameSkin(1 + ocelot.worldObj.rand.nextInt(3));
-                    ocelot.func_152115_b(nearest.getUniqueID().toString());
+                    ocelot.setOwnerId(nearest.getUniqueID().toString());
                     ocelot.worldObj.setEntityState(ocelot, (byte) 7);
                 }
 
@@ -293,6 +295,15 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
 
                 return skeleton;
             }
+            else if ("pbspecial_elderGuardian".equals(entityID))
+            {
+                EntityGuardian entity = new EntityGuardian(world);
+                entity.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
+
+                entity.setElder(true);
+
+                return entity;
+            }
 
             Entity entity = EntityList.createEntityByName(entityID, world);
             entity.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
@@ -338,7 +349,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
         int[] colors = new int[(random.nextInt(15) != 0) ? 1 : (random.nextInt(2) + 2)];
         for (int i = 0; i < colors.length; i++)
         {
-            colors[i] = ItemDye.field_150922_c[random.nextInt(16)];
+            colors[i] = ItemDye.dyeColors[random.nextInt(16)];
         }
         fireworkCompound.setIntArray("Colors", colors);
 
@@ -347,7 +358,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
             int[] fadeColors = new int[random.nextInt(2) + 1];
             for (int i = 0; i < fadeColors.length; i++)
             {
-                fadeColors[i] = ItemDye.field_150922_c[random.nextInt(16)];
+                fadeColors[i] = ItemDye.dyeColors[random.nextInt(16)];
             }
             fireworkCompound.setIntArray("FadeColors", fadeColors);
         }
@@ -360,7 +371,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
     {
         super.writeToNBT(compound);
 
-        setNBTStrings2D("entityIDs", entityIDs, compound);
+        PBNBTHelper.writeNBTStrings2D("entityIDs", entityIDs, compound);
 
         compound.setInteger("nameEntities", nameEntities);
         compound.setInteger("equipLevel", equipLevel);
@@ -372,7 +383,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
     {
         super.readFromNBT(compound);
 
-        entityIDs = getNBTStrings2D("entityIDs", compound);
+        entityIDs = PBNBTHelper.readNBTStrings2D("entityIDs", compound);
 
         nameEntities = compound.getInteger("nameEntities");
         equipLevel = compound.getInteger("equipLevel");

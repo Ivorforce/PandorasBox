@@ -8,10 +8,12 @@ package ivorius.pandorasbox.commands;
 import ivorius.pandorasbox.effectcreators.PBECRegistry;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +35,7 @@ public class CommandPandorasBox extends CommandBase
     }
 
     @Override
-    public void processCommand(ICommandSender var1, String[] var2)
+    public void processCommand(ICommandSender var1, String[] var2) throws CommandException
     {
         Hashtable<String, String> arguments = new Hashtable<String, String>();
         for (String arg : var2)
@@ -89,10 +91,10 @@ public class CommandPandorasBox extends CommandBase
                 }
             }
 
-            byte[] playerNameBytes = new byte[player.getCommandSenderName().length()];
+            byte[] playerNameBytes = new byte[player.getName().length()];
             for (int i = 0; i < playerNameBytes.length; i++)
             {
-                playerNameBytes[i] = (byte) player.getCommandSenderName().charAt(i);
+                playerNameBytes[i] = (byte) player.getName().charAt(i);
             }
         }
         else
@@ -102,7 +104,7 @@ public class CommandPandorasBox extends CommandBase
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+    public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, BlockPos pos)
     {
         if (par2ArrayOfStr.length == 0)
             return null;

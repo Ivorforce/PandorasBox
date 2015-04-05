@@ -77,14 +77,14 @@ public class PBECSpawnBlocks implements PBEffectCreator
         {
             int max = 0;
             for (WeightedBlock weightedBlock : this.blocks)
-                max += weightedBlock.itemWeight;
+                max += weightedBlock.weight;
             Block[] selection = new Block[max];
             max = 0;
             for (WeightedBlock weightedBlock : this.blocks)
             {
-                for (int i = 0; i < weightedBlock.itemWeight; i++)
+                for (int i = 0; i < weightedBlock.weight; i++)
                     selection[max + i] = weightedBlock.block;
-                max += weightedBlock.itemWeight;
+                max += weightedBlock.weight;
             }
             blocks = constructBlocks(random, selection, number, true);
         }

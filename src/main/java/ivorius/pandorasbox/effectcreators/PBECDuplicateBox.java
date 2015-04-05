@@ -7,10 +7,8 @@ package ivorius.pandorasbox.effectcreators;
 
 import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.effects.PBEffectDuplicateBox;
-import ivorius.pandorasbox.effects.PBEffectSetTime;
 import ivorius.pandorasbox.random.DValue;
 import ivorius.pandorasbox.random.IValue;
-import ivorius.pandorasbox.random.ZValue;
 import net.minecraft.world.World;
 
 import java.util.Random;

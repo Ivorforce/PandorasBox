@@ -5,20 +5,28 @@
 
 package ivorius.pandorasbox.weighted;
 
+import ivorius.pandorasbox.utils.WeightedSelector;
 import net.minecraft.block.Block;
 import net.minecraft.util.WeightedRandom;
 
 /**
  * Created by lukas on 31.03.14.
  */
-public class WeightedBlock extends WeightedRandom.Item
+public class WeightedBlock implements WeightedSelector.Item
 {
+    public double weight;
+
     public Block block;
 
-    public WeightedBlock(int weight, Block block)
+    public WeightedBlock(double weight, Block block)
     {
-        super(weight);
-
+        this.weight = weight;
         this.block = block;
+    }
+
+    @Override
+    public double getWeight()
+    {
+        return weight;
     }
 }

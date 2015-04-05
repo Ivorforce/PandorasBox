@@ -6,6 +6,7 @@
 package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -45,7 +46,7 @@ public class PBEffectSpawnItemStacks extends PBEffectSpawnEntities
     public Entity spawnEntity(World world, EntityPandorasBox entity, Random random, int number, double x, double y, double z)
     {
         EntityItem entityItem = new EntityItem(world, x, y, z, stacks[number]);
-        entityItem.delayBeforeCanPickup = 10;
+        entityItem.setPickupDelay(10);
         world.spawnEntityInWorld(entityItem);
         return entityItem;
     }
@@ -55,7 +56,7 @@ public class PBEffectSpawnItemStacks extends PBEffectSpawnEntities
     {
         super.writeToNBT(compound);
 
-        setNBTStacks("stacks", stacks, compound);
+        PBNBTHelper.writeNBTStacks("stacks", stacks, compound);
     }
 
     @Override
@@ -63,6 +64,6 @@ public class PBEffectSpawnItemStacks extends PBEffectSpawnEntities
     {
         super.readFromNBT(compound);
 
-        stacks = getNBTStacks("stacks", compound);
+        stacks = PBNBTHelper.readNBTStacks("stacks", compound);
     }
 }

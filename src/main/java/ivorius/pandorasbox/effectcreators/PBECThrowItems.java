@@ -9,6 +9,7 @@ import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.effects.PBEffectEntitiesThrowItems;
 import ivorius.pandorasbox.random.DValue;
 import ivorius.pandorasbox.random.IValue;
+import ivorius.pandorasbox.utils.RandomizedItemStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
@@ -27,9 +28,9 @@ public class PBECThrowItems implements PBEffectCreator
     public DValue deletionChancePerThrow;
     public IValue smuggledInItems;
 
-    public List<WeightedRandomChestContent> items;
+    public List<RandomizedItemStack> items;
 
-    public PBECThrowItems(IValue time, DValue range, DValue throwChancePerItem, DValue deletionChancePerThrow, IValue smuggledInItems, List<WeightedRandomChestContent> items)
+    public PBECThrowItems(IValue time, DValue range, DValue throwChancePerItem, DValue deletionChancePerThrow, IValue smuggledInItems, List<RandomizedItemStack> items)
     {
         this.time = time;
         this.range = range;

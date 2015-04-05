@@ -7,18 +7,20 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.PandorasBoxHelper;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
@@ -35,205 +37,28 @@ public abstract class PBEffect
         return PBEffectRegistry.getEffectID(this);
     }
 
-    public static String[] getNBTStrings(String id, NBTTagCompound compound)
+    public static boolean setBlockToAirSafe(World world, BlockPos pos)
     {
-        NBTTagList nbtTagList = compound.getTagList(id, Constants.NBT.TAG_STRING);
-        String[] strings = new String[nbtTagList.tagCount()];
-
-        for (int i = 0; i < strings.length; i++)
-        {
-            strings[i] = nbtTagList.getStringTagAt(i);
-        }
-
-        return strings;
+        boolean safeDest = world.getBlockState(pos) == Blocks.air || world.getBlockState(pos).getBlock().getBlockHardness(world, pos) >= 0f;
+        return safeDest && world.setBlockToAir(pos);
     }
 
-    public static void setNBTStrings(String id, String[] strings, NBTTagCompound compound)
+    public static boolean setBlockSafe(World world, BlockPos pos, IBlockState state)
     {
-        NBTTagList nbtTagList = new NBTTagList();
+        boolean safeDest = world.getBlockState(pos) == Blocks.air || world.getBlockState(pos).getBlock().getBlockHardness(world, pos) >= 0f;
+        boolean safeSrc = state.getBlock() == Blocks.air || state.getBlock().getBlockHardness(world, pos) >= 0f;
 
-        for (String s : strings)
-        {
-            nbtTagList.appendTag(new NBTTagString(s));
-        }
-
-        compound.setTag(id, nbtTagList);
+        return safeDest && safeSrc && world.setBlockState(pos, state);
     }
 
-    public static String[][] getNBTStrings2D(String id, NBTTagCompound compound)
+    public static boolean setBlockVarying(World world, BlockPos pos, Block block, int unified)
     {
-        NBTTagList nbtTagList = compound.getTagList(id, Constants.NBT.TAG_COMPOUND);
-        String[][] strings = new String[nbtTagList.tagCount()][];
-
-        for (int i = 0; i < strings.length; i++)
-        {
-            strings[i] = getNBTStrings("Strings", nbtTagList.getCompoundTagAt(i));
-        }
-
-        return strings;
-    }
-
-    public static void setNBTStrings2D(String id, String[][] strings, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = new NBTTagList();
-
-        for (String[] s : strings)
-        {
-            NBTTagCompound compound1 = new NBTTagCompound();
-            setNBTStrings("Strings", s, compound1);
-            nbtTagList.appendTag(compound1);
-        }
-
-        compound.setTag(id, nbtTagList);
-    }
-
-    public static ItemStack[] getNBTStacks(String id, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = compound.getTagList(id, Constants.NBT.TAG_COMPOUND);
-        ItemStack[] itemStacks = new ItemStack[nbtTagList.tagCount()];
-
-        for (int i = 0; i < itemStacks.length; i++)
-        {
-            itemStacks[i] = ItemStack.loadItemStackFromNBT(nbtTagList.getCompoundTagAt(i));
-        }
-
-        return itemStacks;
-    }
-
-    public static void setNBTStacks(String id, ItemStack[] stacks, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = new NBTTagList();
-
-        for (ItemStack stack : stacks)
-        {
-            NBTTagCompound tagCompound = new NBTTagCompound();
-            stack.writeToNBT(tagCompound);
-            nbtTagList.appendTag(tagCompound);
-        }
-
-        compound.setTag(id, nbtTagList);
-    }
-
-    public static Block[] getNBTBlocks(String id, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = compound.getTagList(id, Constants.NBT.TAG_STRING);
-        Block[] blocks = new Block[nbtTagList.tagCount()];
-
-        for (int i = 0; i < blocks.length; i++)
-        {
-            blocks[i] = (Block) Block.blockRegistry.getObject(nbtTagList.getStringTagAt(i));
-        }
-
-        return blocks;
-    }
-
-    public static void setNBTBlocks(String id, Block[] blocks, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = new NBTTagList();
-
-        for (Block b : blocks)
-        {
-            nbtTagList.appendTag(new NBTTagString(Block.blockRegistry.getNameForObject(b)));
-        }
-
-        compound.setTag(id, nbtTagList);
-    }
-
-    public static long[] getNBTLongs(String id, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = compound.getTagList(id, Constants.NBT.TAG_STRING);
-        long[] longs = new long[nbtTagList.tagCount()];
-
-        for (int i = 0; i < longs.length; i++)
-        {
-            int[] parts = nbtTagList.func_150306_c(i);
-            longs[i] = (long) parts[0] + ((long) parts[1] << 32);
-        }
-
-        return longs;
-    }
-
-    public static void setNBTLongs(String id, long[] longs, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = new NBTTagList();
-
-        for (long l : longs)
-        {
-            int lower = (int) l;
-            int upper = (int) (l >>> 32);
-            nbtTagList.appendTag(new NBTTagIntArray(new int[]{(int) l, (int) (l >>> 32)}));
-        }
-
-        compound.setTag(id, nbtTagList);
-    }
-
-    public static PotionEffect[] getNBTPotions(String id, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = compound.getTagList(id, Constants.NBT.TAG_STRING);
-        PotionEffect[] potions = new PotionEffect[nbtTagList.tagCount()];
-
-        for (int i = 0; i < potions.length; i++)
-        {
-            potions[i] = PotionEffect.readCustomPotionEffectFromNBT(nbtTagList.getCompoundTagAt(i));
-        }
-
-        return potions;
-    }
-
-    public static void setNBTPotions(String id, PotionEffect[] potions, NBTTagCompound compound)
-    {
-        NBTTagList nbtTagList = new NBTTagList();
-
-        for (PotionEffect p : potions)
-        {
-            nbtTagList.appendTag(p.writeCustomPotionEffectToNBT(new NBTTagCompound()));
-        }
-
-        compound.setTag(id, nbtTagList);
-    }
-
-    public static boolean setBlockSafe(World world, int x, int y, int z, Block block)
-    {
-        boolean safeDest = world.getBlock(x, y, z) == Blocks.air || world.getBlock(x, y, z).getBlockHardness(world, x, y, z) >= 0f;
-        boolean safeSrc = block == Blocks.air || block.getBlockHardness(world, x, y, z) >= 0f;
-
-        if (safeDest && safeSrc)
-        {
-            world.setBlock(x, y, z, block, 0, 3);
-            return true;
-        }
-
-        else
-        {
-            return false;
-        }
-    }
-
-    public static boolean setBlockAndMetaSafe(World world, int x, int y, int z, Block id, int meta)
-    {
-        boolean safeDest = world.getBlock(x, y, z) == Blocks.air || world.getBlock(x, y, z).getBlockHardness(world, x, y, z) >= 0f;
-        boolean safeSrc = id == Blocks.air || id.getBlockHardness(world, x, y, z) >= 0f;
-
-        if (safeDest && safeSrc)
-        {
-            world.setBlock(x, y, z, id, meta, 3);
-            return true;
-        }
-
-        else
-        {
-            return false;
-        }
-    }
-
-    public static boolean setBlockVarying(World world, int x, int y, int z, Block block, int unified)
-    {
-        return setBlockAndMetaSafe(world, x, y, z, block, PandorasBoxHelper.getRandomBlockMetadata(world.rand, block, unified));
+        return setBlockSafe(world, pos, PandorasBoxHelper.getRandomBlockState(world.rand, block, unified));
     }
 
     public static EntityPlayer getRandomNearbyPlayer(World world, EntityPandorasBox box)
     {
-        return (EntityPlayer) world.findNearestEntityWithinAABB(EntityPlayer.class, box.boundingBox.expand(30.0, 30.0, 30.0), box);
+        return (EntityPlayer) world.findNearestEntityWithinAABB(EntityPlayer.class, box.getEntityBoundingBox().expand(30.0, 30.0, 30.0), box);
     }
 
     public static EntityPlayer getPlayer(World world, EntityPandorasBox box)
@@ -252,11 +77,11 @@ public abstract class PBEffect
         return false;
     }
 
-    public static Entity lazilySpawnEntity(World world, EntityPandorasBox box, Random random, String entityID, float chance, int x, int y, int z)
+    public static Entity lazilySpawnEntity(World world, EntityPandorasBox box, Random random, String entityID, float chance, BlockPos pos)
     {
         if (random.nextFloat() < chance)
         {
-            Entity entity = PBEffectSpawnEntityIDList.createEntity(world, box, random, entityID, x, y, z);
+            Entity entity = PBEffectSpawnEntityIDList.createEntity(world, box, random, entityID, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 
             if (entity != null)
             {
@@ -268,26 +93,26 @@ public abstract class PBEffect
         return null;
     }
 
-    public static boolean canSpawnEntity(World world, Block block, int x, int y, int z)
+    public static boolean canSpawnEntity(World world, Block block, BlockPos pos)
     {
         if (world.isRemote)
             return false;
 
-        if (block.getLightOpacity(world, x, y, z) > 0)
+        if (block.getLightOpacity(world, pos) > 0)
             return false;
 
-        if (!world.isBlockNormalCubeDefault(x, y - 1, z, false))
+        if (!world.isBlockNormalCube(pos.down(), false))
             return false;
 
         return true;
     }
 
-    public boolean canSpawnFlyingEntity(World world, Block block, int x, int y, int z)
+    public boolean canSpawnFlyingEntity(World world, Block block, BlockPos pos)
     {
         if (world.isRemote)
             return false;
 
-        if (block.getLightOpacity(world, x, y, z) > 0 || world.getBlockLightOpacity(x, y - 1, z) > 0 || world.getBlockLightOpacity(x, y - 2, z) > 0)
+        if (block.getLightOpacity(world, pos) > 0 || world.getBlockLightOpacity(pos.down()) > 0 || world.getBlockLightOpacity(pos.down(2)) > 0)
             return false;
 
         return true;
@@ -305,7 +130,7 @@ public abstract class PBEffect
                 if (prevEffect.getAmplifier() == potionEffect.getAmplifier())
                 {
                     int duration = prevEffect.getDuration() + potionEffect.getDuration();
-                    PotionEffect combined = new PotionEffect(potionEffect.getPotionID(), duration, potionEffect.getAmplifier(), potionEffect.getIsAmbient());
+                    PotionEffect combined = new PotionEffect(potionEffect.getPotionID(), duration, potionEffect.getAmplifier(), potionEffect.getIsAmbient(), potionEffect.getIsShowParticles());
                     entity.addPotionEffect(combined);
                 }
             }

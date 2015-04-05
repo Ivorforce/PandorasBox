@@ -15,6 +15,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -40,26 +41,26 @@ public class PBEffectGenConvertToHFT extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, int x, int y, int z, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
     {
-        Block block = world.getBlock(x, y, z);
+        Block block = world.getBlockState(pos).getBlock();
         Block placeBlock = Blocks.stained_hardened_clay;
 
         if (pass == 0)
         {
             if (isBlockAnyOf(block, Blocks.log, Blocks.log2, Blocks.leaves, Blocks.leaves2, Blocks.lava, Blocks.flowing_lava))
             {
-                setBlockSafe(world, x, y, z, Blocks.air);
+                setBlockToAirSafe(world, pos);
             }
             else if (block == Blocks.wool || block == Blocks.stained_hardened_clay)
             {
 
             }
-            else if (block.isNormalCube(world, x, y, z))
+            else if (block.isNormalCube(world, pos))
             {
                 if (!world.isRemote)
                 {
-                    setBlockAndMetaSafe(world, x, y, z, placeBlock, groundMetas[world.rand.nextInt(groundMetas.length)]);
+                    setBlockSafe(world, pos, placeBlock.getStateFromMeta(groundMetas[world.rand.nextInt(groundMetas.length)]));
                 }
             }
         }
@@ -90,20 +91,20 @@ public class PBEffectGenConvertToHFT extends PBEffectGenerate
                         treeGen = new WorldGenRainbow(true, Blocks.wool, 20, placeBlock);
                     }
 
-                    treeGen.generate(world, world.rand, x, y, z);
+                    treeGen.generate(world, world.rand, pos);
                 }
                 else if (world.rand.nextInt(5 * 5) == 0)
                 {
-                    if (world.getBlock(x, y - 1, z) == placeBlock && world.getBlock(x, y, z) == Blocks.air)
+                    if (world.getBlockState(pos.down()) == placeBlock && world.getBlockState(pos).getBlock() == Blocks.air)
                     {
                         if (world.rand.nextBoolean())
                         {
-                            setBlockSafe(world, x, y, z, Blocks.cake);
+                            setBlockSafe(world, pos, Blocks.cake.getDefaultState());
                         }
                         else
                         {
-                            EntityItem entityItem = new EntityItem(world, x + 0.5f, y + 0.5f, z + 0.5f, new ItemStack(Items.cookie));
-                            entityItem.delayBeforeCanPickup = 20;
+                            EntityItem entityItem = new EntityItem(world, pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, new ItemStack(Items.cookie));
+                            entityItem.setPickupDelay(20);
                             world.spawnEntityInWorld(entityItem);
                         }
                     }

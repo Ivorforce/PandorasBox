@@ -10,7 +10,7 @@
 // - ZeuX
 
 
-package ivorius.pandorasbox.client;
+package ivorius.pandorasbox.client.rendering;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -32,7 +32,7 @@ public class ModelPandorasBox extends ModelBase
 
     public ModelPandorasBox()
     {
-        textureWidth = 64;
+        textureWidth = 32;
         textureHeight = 32;
 
         mainBody = new ModelRenderer(this, 0, 0);

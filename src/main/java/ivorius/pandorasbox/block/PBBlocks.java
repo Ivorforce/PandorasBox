@@ -7,5 +7,5 @@ import net.minecraft.block.Block;
  */
 public class PBBlocks
 {
-    public static Block pandorasBox;
+    public static BlockPandorasBox pandorasBox;
 }

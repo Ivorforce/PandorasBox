@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "2.1"
+version = "2.1.1"
 def ENV = System.getenv()
 if (ENV.DRONE_BUILD_NUMBER) {
     version += ".n" + ENV.DRONE_BUILD_NUMBER
@@ -27,8 +27,9 @@ group = "ivorius.pandorasbox" // http://maven.apache.org/guides/mini/guide-namin
 archivesBaseName = "PandorasBox"
 
 minecraft {
-    version = "1.7.10-10.13.2.1230"
+    version = "1.8-11.14.1.1313"
     runDir = "eclipse"
+    mappings = "snapshot_20150207"
 }
 
 sourceSets {

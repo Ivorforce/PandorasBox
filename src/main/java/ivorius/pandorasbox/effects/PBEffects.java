@@ -2,8 +2,9 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.PandorasBoxHelper;
 import ivorius.pandorasbox.effectcreators.*;
-import ivorius.pandorasbox.mods.Psychedelicraft;
+import ivorius.pandorasbox.mods.PsychedelicraftModule;
 import ivorius.pandorasbox.random.*;
+import ivorius.pandorasbox.utils.RandomizedItemStack;
 import ivorius.pandorasbox.weighted.WeightedBlock;
 import ivorius.pandorasbox.weighted.WeightedEntity;
 import ivorius.pandorasbox.weighted.WeightedPotion;
@@ -11,7 +12,6 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.WeightedRandomChestContent;
 
 import java.util.Arrays;
 
@@ -62,6 +62,7 @@ public class PBEffects
         PBECRegistry.register(new PBECSpawnExploMobs(new ILinear(20, 60), new ILinear(8, 16), new ILinear(60, 200), new IWeighted(0, 100, 2, 100, 3, 100), PandorasBoxHelper.creatures), "exploCreatures", false);
         PBECRegistry.register(new PBECSpawnExploMobs(new ILinear(20, 60), new ILinear(8, 16), new ILinear(60, 200), new IConstant(0), PandorasBoxHelper.mobs), "exploMobs", false);
         PBECRegistry.register(new PBECMulti(new PBECDome(new ILinear(60, 200), new DLinear(10.0, 30.0), Arrays.asList(new WeightedBlock(100, Blocks.glass)), Blocks.water), 0, new PBECSpawnEntities(new ILinear(60, 100), new ILinear(4, 20), new IConstant(1), new IConstant(0), new IConstant(0), new IConstant(0), PandorasBoxHelper.waterCreatures), 100), "aquarium", false);
+        PBECRegistry.register(new PBECMulti(new PBECDome(new ILinear(60, 200), new DLinear(10.0, 30.0), Arrays.asList(new WeightedBlock(100, Blocks.glass)), Blocks.water), 0, new PBECSpawnEntities(new ILinear(60, 100), new ILinear(1, 10), new IConstant(1), new IConstant(0), new IConstant(0), new IConstant(0), PandorasBoxHelper.waterMobs), 100), "aquaridoom", false);
         PBECRegistry.register(new PBECWorldSnake(new ILinear(160, 600), new DConstant(0.0), new DLinear(0.1, 0.5), new DLinear(0.5, 3.0), PandorasBoxHelper.blocks), "worldSnake", false);
         PBECWorldSnake doubleSnakeGen = new PBECWorldSnake(new ILinear(160, 600), new DLinear(5.0, 20.0), new DLinear(0.1, 0.5), new DLinear(0.5, 3.0), PandorasBoxHelper.blocks);
         PBECRegistry.register(new PBECMulti(doubleSnakeGen, 0, doubleSnakeGen, 0), "doubleSnake", false);
@@ -88,7 +89,7 @@ public class PBEffects
         PBECRegistry.register(new PBECSpawnEnchantedItems(new ILinear(1, 2), new ILinear(0, 30), new IExp(1, 30, 10.0), PandorasBoxHelper.enchantableArmorList, new ZChance(0.7)), "epicArmor", true);
         PBECRegistry.register(new PBECSpawnEnchantedItems(new ILinear(1, 2), new ILinear(0, 30), new IExp(1, 30, 10.0), PandorasBoxHelper.enchantableToolList, new ZChance(0.7)), "epicTool", true);
         PBECRegistry.register(new PBECSpawnEnchantedItems(new ILinear(1, 2), new ILinear(0, 30), new IExp(1, 30, 10.0), PandorasBoxHelper.items, new ZChance(0.7)), "epicThing", true);
-        PBECRegistry.register(new PBECSpawnEnchantedItems(new ILinear(1, 4), new ILinear(0, 30), new IExp(1, 30, 10.0), Arrays.asList(new WeightedRandomChestContent(Items.enchanted_book, 0, 1, 1, 100)), new ZChance(0.1)), "enchantedBook", true);
+        PBECRegistry.register(new PBECSpawnEnchantedItems(new ILinear(1, 4), new ILinear(0, 30), new IExp(1, 30, 10.0), Arrays.asList(new RandomizedItemStack(Items.enchanted_book, 0, 1, 1, 100)), new ZChance(0.1)), "enchantedBook", true);
         PBECRegistry.register(new PBECSpawnManySameItems(new ILinear(0, 30), PandorasBoxHelper.blocksAndItems), "resources", true);
         PBECRegistry.register(new PBECSpawnItemSet(new ILinear(0, 30), PandorasBoxHelper.equipmentSets), "equipmentSet", true);
         PBECRegistry.register(new PBECSpawnManySameItems(new ILinear(0, 30), PandorasBoxHelper.blocksAndItems, null, PBECSpawnItems.defaultShowerSpawn()), "itemRain", true);
@@ -114,7 +115,7 @@ public class PBEffects
         PBECRegistry.register(new PBECMulti(new PBECDome(new ILinear(60, 200), new DLinear(10.0, 30.0), Arrays.asList(new WeightedBlock(100, Blocks.glass)), null), 0, new PBECSpawnEntities(new ILinear(60, 100), new ILinear(4, 20), new IConstant(1), new IConstant(0), new IConstant(0), new IConstant(0), PandorasBoxHelper.creatures), 0), "terrarium", true);
         PBECRegistry.register(new PBECSpawnArmy(new ILinear(1, 3), new IConstant(0), PandorasBoxHelper.creatures), "animalFarm", true);
 
-        Psychedelicraft.initEffectCreators();
+        PsychedelicraftModule.initEffectCreators();
     }
 
     public static void registerEffects()
@@ -165,6 +166,6 @@ public class PBEffects
         PBEffectRegistry.register(PBEffectDuplicateBox.class, "duplicateBox");
         PBEffectRegistry.register(PBEffectExplode.class, "explode");
 
-        Psychedelicraft.initEffects();
+        PsychedelicraftModule.initEffects();
     }
 }

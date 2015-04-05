@@ -9,6 +9,7 @@ import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.random.IValue;
 import ivorius.pandorasbox.random.ValueSpawn;
 import ivorius.pandorasbox.random.ValueThrow;
+import ivorius.pandorasbox.utils.RandomizedItemStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
@@ -22,11 +23,11 @@ import java.util.Random;
 public class PBECSpawnManySameItems implements PBEffectCreator
 {
     public IValue ticksPerStack;
-    public List<WeightedRandomChestContent> items;
+    public List<RandomizedItemStack> items;
     public ValueThrow valueThrow;
     public ValueSpawn valueSpawn;
 
-    public PBECSpawnManySameItems(IValue ticksPerStack, List<WeightedRandomChestContent> items, ValueThrow valueThrow, ValueSpawn valueSpawn)
+    public PBECSpawnManySameItems(IValue ticksPerStack, List<RandomizedItemStack> items, ValueThrow valueThrow, ValueSpawn valueSpawn)
     {
         this.ticksPerStack = ticksPerStack;
         this.items = items;
@@ -34,7 +35,7 @@ public class PBECSpawnManySameItems implements PBEffectCreator
         this.valueSpawn = valueSpawn;
     }
 
-    public PBECSpawnManySameItems(IValue ticksPerStack, List<WeightedRandomChestContent> items)
+    public PBECSpawnManySameItems(IValue ticksPerStack, List<RandomizedItemStack> items)
     {
         this(ticksPerStack, items, PBECSpawnItems.defaultThrow(), null);
     }

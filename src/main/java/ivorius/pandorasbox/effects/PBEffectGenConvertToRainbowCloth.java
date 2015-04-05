@@ -9,6 +9,7 @@ import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -35,18 +36,18 @@ public class PBEffectGenConvertToRainbowCloth extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, int x, int y, int z, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
     {
-        Block block = world.getBlock(x, y, z);
+        Block block = world.getBlockState(pos).getBlock();
 
         if (pass == 0)
         {
-            if (world.isBlockNormalCubeDefault(x, y, z, false))
+            if (world.isBlockNormalCube(pos, false))
             {
-                if (world.getBlock(x, y + 1, z) == Blocks.air)
+                if (world.getBlockState(pos.up()) == Blocks.air)
                 {
-                    double dist = MathHelper.sqrt_double(effectCenter.squareDistanceTo(x + 0.5, y + 0.5, z + 0.5));
-                    setBlockAndMetaSafe(world, x, y, z, Blocks.wool, woolMetas[MathHelper.floor_double(dist / ringSize) % woolMetas.length]);
+                    double dist = MathHelper.sqrt_double(effectCenter.squareDistanceTo(new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)));
+                    setBlockSafe(world, pos, Blocks.wool.getStateFromMeta(woolMetas[MathHelper.floor_double(dist / ringSize) % woolMetas.length]));
                 }
             }
         }

@@ -11,6 +11,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -32,39 +34,39 @@ public class PBEffectGenConvertToHomo extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, int x, int y, int z, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
     {
-        Block block = world.getBlock(x, y, z);
+        Block block = world.getBlockState(pos).getBlock();
 
         if (pass == 0)
         {
             if (isBlockAnyOf(block, Blocks.snow, Blocks.snow_layer))
             {
-                setBlockSafe(world, x, y, z, Blocks.air);
+                setBlockToAirSafe(world, pos);
             }
             else if (isBlockAnyOf(block, Blocks.stone, Blocks.end_stone, Blocks.netherrack, Blocks.soul_sand, Blocks.sand, Blocks.mycelium))
             {
-                if (world.getBlock(x, y + 1, z) == Blocks.air)
+                if (world.getBlockState(pos.up()) == Blocks.air)
                 {
-                    setBlockSafe(world, x, y, z, Blocks.grass);
+                    setBlockSafe(world, pos, Blocks.grass.getDefaultState());
                 }
                 else
                 {
-                    setBlockSafe(world, x, y, z, Blocks.dirt);
+                    setBlockSafe(world, pos, Blocks.dirt.getDefaultState());
                 }
             }
             else if (isBlockAnyOf(block, Blocks.fire, Blocks.brown_mushroom, Blocks.red_mushroom, Blocks.brown_mushroom_block, Blocks.red_mushroom_block))
             {
-                setBlockSafe(world, x, y, z, Blocks.air);
+                setBlockToAirSafe(world, pos);
             }
 
             if (isBlockAnyOf(block, Blocks.flowing_lava, Blocks.lava))
             {
-                setBlockSafe(world, x, y, z, Blocks.water);
+                setBlockSafe(world, pos, Blocks.water.getDefaultState());
             }
             if (isBlockAnyOf(block, Blocks.obsidian, Blocks.ice))
             {
-                setBlockSafe(world, x, y, z, Blocks.water);
+                setBlockSafe(world, pos, Blocks.water.getDefaultState());
             }
         }
         else if (pass == 1)
@@ -83,9 +85,9 @@ public class PBEffectGenConvertToHomo extends PBEffectGenerate
 
                     treeGen = new WorldGenRainbow(true, Blocks.wool, 20, Blocks.grass);
 
-                    treeGen.generate(world, world.rand, x, y, z);
+                    treeGen.generate(world, world.rand, pos);
                 }
-                else if (block.getMaterial() == Material.air && Blocks.snow_layer.canPlaceBlockAt(world, x, y, z))
+                else if (block.getMaterial() == Material.air && Blocks.snow_layer.canPlaceBlockAt(world, pos))
                 {
                     if (random.nextInt(3 * 3) == 0)
                     {
@@ -103,19 +105,19 @@ public class PBEffectGenConvertToHomo extends PBEffectGenerate
                             meta = random.nextInt(9);
                         }
 
-                        setBlockAndMetaSafe(world, x, y, z, flowerBlock, meta);
+                        setBlockSafe(world, pos, flowerBlock.getStateFromMeta(meta));
                     }
                 }
             }
         }
         else
         {
-            if (canSpawnEntity(world, block, x, y, z))
+            if (canSpawnEntity(world, block, pos))
             {
-                EntitySheep sheep = (EntitySheep) lazilySpawnEntity(world, entity, random, "Sheep", 1.0f / (10 * 10), x, y, z);
+                EntitySheep sheep = (EntitySheep) lazilySpawnEntity(world, entity, random, "Sheep", 1.0f / (10 * 10), pos);
                 if (sheep != null)
                 {
-                    sheep.setFleeceColor(random.nextInt(16));
+                    sheep.setFleeceColor(EnumDyeColor.byMetadata(random.nextInt(16)));
                 }
             }
         }

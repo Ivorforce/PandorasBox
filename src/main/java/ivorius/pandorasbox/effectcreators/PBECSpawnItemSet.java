@@ -9,6 +9,7 @@ import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.random.IValue;
 import ivorius.pandorasbox.random.ValueSpawn;
 import ivorius.pandorasbox.random.ValueThrow;
+import ivorius.pandorasbox.utils.WeightedSelector;
 import ivorius.pandorasbox.weighted.WeightedSet;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandom;
@@ -45,7 +46,7 @@ public class PBECSpawnItemSet implements PBEffectCreator
     {
         int ticksPerItem = this.ticksPerItem.getValue(random);
 
-        ItemStack[] itemSet = ((WeightedSet) WeightedRandom.getRandomItem(random, items)).set;
+        ItemStack[] itemSet = WeightedSelector.selectItem(random, items).set;
         ItemStack[] stacks = new ItemStack[itemSet.length];
         for (int i = 0; i < itemSet.length; i++)
         {

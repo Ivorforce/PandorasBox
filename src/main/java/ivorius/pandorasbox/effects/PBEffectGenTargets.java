@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -42,7 +43,7 @@ public class PBEffectGenTargets extends PBEffectGenerateByStructure
 
     public void createTargets(World world, double x, double y, double z, Random random)
     {
-        List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x - range, y - range, z - range, x + range, y + range, z + range));
+        List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.fromBounds(x - range, y - range, z - range, x + range, y + range, z + range));
         this.structures = new Structure[players.size()];
 
         for (int i = 0; i < players.size(); i++)
@@ -66,7 +67,7 @@ public class PBEffectGenTargets extends PBEffectGenerateByStructure
     }
 
     @Override
-    public void generateStructure(World world, EntityPandorasBox entity, Random random, Structure structure, int x, int y, int z, float newRatio, float prevRatio)
+    public void generateStructure(World world, EntityPandorasBox entity, Random random, Structure structure, BlockPos pos, float newRatio, float prevRatio)
     {
         if (!world.isRemote)
         {
@@ -87,7 +88,7 @@ public class PBEffectGenTargets extends PBEffectGenerateByStructure
                     {
                         if (dist >= prevRange)
                         {
-                            setBlockAndMetaSafe(world, structureTarget.x + xP, structureTarget.y, structureTarget.z + zP, Blocks.stained_hardened_clay, structureTarget.colors[MathHelper.floor_double(dist)]);
+                            setBlockSafe(world, new BlockPos(structureTarget.x + xP, structureTarget.y, structureTarget.z + zP), Blocks.stained_hardened_clay.getStateFromMeta(structureTarget.colors[MathHelper.floor_double(dist)]));
 
                             double nextDist = MathHelper.sqrt_double((xP * xP + 3 * 3) + (zP * zP + 3 * 3));
 
@@ -105,7 +106,7 @@ public class PBEffectGenTargets extends PBEffectGenerateByStructure
 
                         if (dist3D < newRange && dist3D >= prevRange) // -3 so we have a bit of a height bonus
                         {
-                            setBlockSafe(world, structureTarget.x + xP, structureTarget.y + yP, structureTarget.z + zP, Blocks.air);
+                            setBlockToAirSafe(world, new BlockPos(structureTarget.x + xP, structureTarget.y, structureTarget.z + zP));
                         }
                     }
                 }
