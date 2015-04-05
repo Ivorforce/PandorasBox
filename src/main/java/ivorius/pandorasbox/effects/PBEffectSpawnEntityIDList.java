@@ -19,6 +19,7 @@ import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityGuardian;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityWolf;
@@ -293,6 +294,15 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                 skeleton.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
 
                 return skeleton;
+            }
+            else if ("pbspecial_elderGuardian".equals(entityID))
+            {
+                EntityGuardian entity = new EntityGuardian(world);
+                entity.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
+
+                entity.setElder(true);
+
+                return entity;
             }
 
             Entity entity = EntityList.createEntityByName(entityID, world);

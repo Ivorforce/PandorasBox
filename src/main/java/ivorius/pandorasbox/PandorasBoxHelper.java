@@ -28,12 +28,13 @@ import java.util.*;
 
 public class PandorasBoxHelper
 {
-    public static List<WeightedEntity> mobs = new ArrayList<WeightedEntity>();
-    public static List<WeightedEntity> creatures = new ArrayList<WeightedEntity>();
-    public static List<WeightedEntity> waterCreatures = new ArrayList<WeightedEntity>();
-    public static List<WeightedEntity> tameableCreatures = new ArrayList<WeightedEntity>();
+    public static List<WeightedEntity> mobs = new ArrayList<>();
+    public static List<WeightedEntity> creatures = new ArrayList<>();
+    public static List<WeightedEntity> waterCreatures = new ArrayList<>();
+    public static List<WeightedEntity> waterMobs = new ArrayList<>();
+    public static List<WeightedEntity> tameableCreatures = new ArrayList<>();
 
-    public static List<WeightedRandomChestContent> blocksAndItems = new ArrayList<WeightedRandomChestContent>();
+    public static List<WeightedRandomChestContent> blocksAndItems = new ArrayList<>();
     public static Multimap<Block, IProperty> randomizableBlockProperties = HashMultimap.create();
 
     public static List<WeightedBlock> blocks = new ArrayList<WeightedBlock>();
@@ -226,24 +227,26 @@ public class PandorasBoxHelper
         addEntities(mobs, 100, 3, 10, "Zombie");
         addEntities(mobs, 100, 2, 8, "Spider");
         addEntities(mobs, 100, 2, 5, "Skeleton");
+        addEntities(mobs, 50, 2, 5, "pbspecial_skeletonWither");
         addEntities(mobs, 100, 2, 8, "Creeper");
         addEntities(mobs, 60, 2, 8, "Slime");
         addEntities(mobs, 40, 1, 4, "Ghast");
-        addEntities(mobs, 60, 2, 6, "Enderman");
         addEntities(mobs, 60, 2, 8, "PigZombie");
-        addEntities(mobs, 50, 2, 5, "pbspecial_skeletonWither");
+        addEntities(mobs, 60, 2, 6, "Enderman");
         addEntities(mobs, 50, 2, 4, "CaveSpider");
         addEntities(mobs, 50, 10, 20, "Silverfish");
-        addEntities(mobs, 50, 2, 6, "LavaSlime");
-        addEntities(mobs, 50, 2, 6, "pbspecial_angryWolf");
         addEntities(mobs, 40, 2, 5, "Blaze");
-        addEntities(mobs, 40, 2, 4, "Witch");
-        addEntities(mobs, 40, 2, 5, "pbspecial_superchargedCreeper");
+        addEntities(mobs, 50, 2, 6, "LavaSlime");
         addEntities(mobs, 10, 1, 1, "WitherBoss");
+        addEntities(mobs, 40, 2, 4, "Witch");
+        addEntities(mobs, 60, 10, 20, "Endermite");
+        addEntities(mobs, 50, 2, 6, "pbspecial_angryWolf");
+        addEntities(mobs, 40, 2, 5, "pbspecial_superchargedCreeper");
 
         addEntities(creatures, 100, 3, 10, "Pig", "Sheep", "Cow", "Chicken");
         addEntities(creatures, 60, 2, 6, "Wolf");
         addEntities(creatures, 50, 4, 10, "Bat");
+        addEntities(creatures, 70, 6, 20, "Rabbit");
         addEntities(creatures, 40, 3, 7, "MushroomCow");
         addEntities(creatures, 40, 3, 7, "SnowMan");
         addEntities(creatures, 40, 2, 5, "EntityHorse");
@@ -253,22 +256,27 @@ public class PandorasBoxHelper
 
         addEntities(waterCreatures, 60, 3, 10, "Squid");
 
+        addEntities(waterMobs, 60, 3, 10, "Guardian");
+        addEntities(waterMobs, 5, 1, 1, "pbspecial_elderGuardian");
+
         addEntities(tameableCreatures, 40, 1, 4, "pbspecial_wolfTamed");
         addEntities(tameableCreatures, 40, 1, 4, "pbspecial_ocelotTamed");
 
-        addBlocks(100, Blocks.dirt, Blocks.grass, Blocks.planks, Blocks.sand, Blocks.gravel, Blocks.log, Blocks.log2, Blocks.leaves, Blocks.leaves2, Blocks.pumpkin, Blocks.wool, Blocks.clay, Blocks.mycelium, Blocks.double_stone_slab, Blocks.double_wooden_slab);
-        addBlocks(100, Blocks.stone, Blocks.cobblestone, Blocks.sandstone, Blocks.brick_block, Blocks.mossy_cobblestone, Blocks.netherrack, Blocks.nether_brick, Blocks.stonebrick, Blocks.end_stone, Blocks.hardened_clay, Blocks.stained_hardened_clay);
+        addBlocks(400, Blocks.stone, Blocks.sandstone, Blocks.planks, Blocks.sand, Blocks.log, Blocks.log2, Blocks.leaves, Blocks.leaves2, Blocks.wool, Blocks.double_stone_slab, Blocks.double_stone_slab2, Blocks.double_wooden_slab, Blocks.stonebrick, Blocks.stained_hardened_clay);
+        addBlocks(150, Blocks.prismarine, Blocks.quartz_block);
+        addBlocks(100, Blocks.cobblestone, Blocks.mossy_cobblestone, Blocks.netherrack, Blocks.nether_brick, Blocks.brick_block, Blocks.end_stone, Blocks.hardened_clay);
+        addBlocks(100, Blocks.dirt, Blocks.grass, Blocks.gravel, Blocks.pumpkin, Blocks.clay, Blocks.mycelium);
         addBlocks(80, Blocks.coal_ore, Blocks.lapis_ore, Blocks.redstone_ore, Blocks.quartz_ore, Blocks.glass, Blocks.stained_glass, Blocks.soul_sand);
         addBlocks(2, Blocks.diamond_block, Blocks.emerald_block, Blocks.gold_block);
         addBlocks(3, Blocks.iron_block);
         addBlocks(5, Blocks.diamond_ore, Blocks.emerald_ore, Blocks.gold_ore);
         addBlocks(10, Blocks.iron_ore);
-        addBlocks(20, Blocks.tnt, Blocks.obsidian, Blocks.glowstone, Blocks.coal_block, Blocks.lapis_block, Blocks.redstone_block);
-        addBlocks(50, Blocks.monster_egg, Blocks.redstone_lamp, Blocks.quartz_block, Blocks.snow, Blocks.bookshelf, Blocks.lit_pumpkin, Blocks.hay_block, Blocks.melon_block);
+        addBlocks(20, Blocks.tnt, Blocks.glowstone, Blocks.coal_block, Blocks.lapis_block, Blocks.redstone_block, Blocks.slime_block, Blocks.sponge);
+        addBlocks(50, Blocks.monster_egg, Blocks.redstone_lamp, Blocks.sea_lantern, Blocks.snow, Blocks.bookshelf, Blocks.lit_pumpkin, Blocks.hay_block, Blocks.obsidian, Blocks.melon_block);
 
         addItems(100, Items.coal, Items.gunpowder, Items.wheat, Items.saddle, Items.redstone, Items.bone, Items.melon, Items.clay_ball, Items.book, Items.gold_nugget, Items.potato, Items.bucket, Items.stick, Items.string, Items.melon_seeds, Items.pumpkin_seeds, Items.wheat_seeds, Items.snowball, Items.sugar, Items.fishing_rod, Items.nether_star, Items.nether_wart, Items.flint, Items.egg, Items.brick, Items.paper, new ItemStack(Blocks.torch));
         addItems(100, Item.getItemFromBlock(PBBlocks.pandorasBox));
-        addItems(100, Items.chicken, Items.cooked_chicken, Items.beef, Items.pumpkin_pie, Items.cooked_beef, Items.mushroom_stew, Items.rotten_flesh, Items.carrot, Items.porkchop, Items.cooked_porkchop, Items.apple, Items.cake, Items.bread, Items.cookie, Items.fish, Items.cooked_fish);
+        addItems(100, Items.chicken, Items.cooked_chicken, Items.beef, Items.pumpkin_pie, Items.cooked_beef, Items.mushroom_stew, Items.rotten_flesh, Items.carrot, Items.porkchop, Items.cooked_porkchop, Items.apple, Items.cake, Items.bread, Items.cookie, Items.fish, Items.cooked_fish, Items.mutton, Items.cooked_mutton, Items.rabbit, Items.rabbit_foot, Items.rabbit_hide, Items.rabbit_stew, Items.cooked_rabbit);
         addItems(80, Items.lava_bucket, Items.milk_bucket, Items.water_bucket, Items.flint_and_steel, Items.painting, Items.flower_pot, Items.bed, Items.boat, Items.minecart, Items.cauldron);
         addItems(80, Items.name_tag);
         addItems(60, Items.iron_ingot, Items.glowstone_dust, Items.blaze_powder, Items.blaze_rod, Items.clock, Items.ghast_tear, Items.ender_eye, Items.speckled_melon, Items.spider_eye, Items.fermented_spider_eye, Items.magma_cream, Items.golden_carrot);
@@ -279,13 +287,11 @@ public class PandorasBoxHelper
         addItems(20, Items.diamond_horse_armor);
         addItemsMinMax(20, 1, 1, new ItemStack(Blocks.beacon), new ItemStack(Blocks.anvil), new ItemStack(Blocks.brewing_stand), new ItemStack(Blocks.dispenser), new ItemStack(Blocks.ender_chest), new ItemStack(Blocks.jukebox), new ItemStack(Blocks.enchanting_table));
         addItemsMinMax(50, 1, 1, new ItemStack(Blocks.chest));
-        addItems(20, Items.diamond, Items.emerald, Items.gold_ingot, Items.golden_apple, Items.ender_pearl);
+        addItems(20, Items.diamond, Items.emerald, Items.gold_ingot, Items.golden_apple, Items.ender_pearl, Items.prismarine_crystals, Items.prismarine_shard);
         addItems(20, Items.diamond_helmet, Items.diamond_chestplate, Items.diamond_leggings, Items.diamond_boots, Items.diamond_sword, Items.diamond_pickaxe, Items.diamond_shovel, Items.diamond_axe, Items.diamond_hoe);
         addItems(20, Items.record_11, Items.record_13, Items.record_blocks, Items.record_cat, Items.record_chirp, Items.record_far, Items.record_mall, Items.record_mellohi, Items.record_stal, Items.record_strad, Items.record_wait, Items.record_ward);
         for (int i = 0; i < 16; i++)
-        {
             addItems(100, new ItemStack(Items.dye, 1, i));
-        }
 
         addEquipmentSet(100, Items.leather_helmet, Items.leather_chestplate, Items.leather_leggings, Items.leather_boots, Items.wooden_sword, Items.wooden_pickaxe, Items.wooden_shovel, Items.wooden_axe, Items.wooden_hoe);
         addEquipmentSet(60, Items.iron_helmet, Items.iron_chestplate, Items.iron_leggings, Items.iron_boots, Items.iron_sword, Items.iron_pickaxe, Items.iron_shovel, Items.iron_axe, Items.iron_hoe);
@@ -314,6 +320,7 @@ public class PandorasBoxHelper
         addBlocks(heavyBlocks, 100, Blocks.anvil);
 
         addAllRandomizableBlockProperties(
+                Blocks.stone, Blocks.dirt, Blocks.sand,
                 Blocks.wool, Blocks.stained_hardened_clay,
                 Blocks.stained_glass, Blocks.stained_glass_pane,
                 Blocks.wooden_slab, Blocks.double_wooden_slab,
@@ -327,12 +334,12 @@ public class PandorasBoxHelper
                 Blocks.quartz_block, Blocks.quartz_stairs,
                 Blocks.sandstone, Blocks.sandstone_stairs,
                 Blocks.red_sandstone, Blocks.red_sandstone_stairs,
-                Blocks.sand,
                 Blocks.rail,
                 Blocks.furnace, Blocks.pumpkin, Blocks.lit_pumpkin,
                 Blocks.snow, Blocks.snow_layer,
                 Blocks.chest, Blocks.ender_chest, Blocks.trapped_chest,
-                Blocks.flower_pot
+                Blocks.flower_pot,
+                Blocks.sponge
         );
     }
 
