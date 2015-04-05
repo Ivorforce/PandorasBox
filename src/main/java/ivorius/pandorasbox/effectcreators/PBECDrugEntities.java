@@ -10,6 +10,7 @@ import ivorius.pandorasbox.effects.PBEffectEntitiesDrug;
 import ivorius.pandorasbox.mods.Psychedelicraft;
 import ivorius.pandorasbox.random.DValue;
 import ivorius.pandorasbox.random.IValue;
+import ivorius.pandorasbox.utils.WeightedSelector;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -52,10 +53,10 @@ public class PBECDrugEntities implements PBEffectCreator
         List<Pair<String, Float>> effects = new ArrayList<>(number);
         for (int i = 0; i < number; i++)
         {
-            Psychedelicraft.WeightedDrug weightedDrug = (Psychedelicraft.WeightedDrug) WeightedRandom.getRandomItem(random, applicableDrugs);
+            Psychedelicraft.WeightedDrug weightedDrug = WeightedSelector.selectItem(random, applicableDrugs);
             float value = random.nextFloat() * (weightedDrug.maxAddValue - weightedDrug.minAddValue) + weightedDrug.minAddValue;
 
-            effects.add(new ImmutablePair<String, Float>(weightedDrug.drugName, value));
+            effects.add(new ImmutablePair<>(weightedDrug.drugName, value));
         }
 
         PBEffectEntitiesDrug effect = new PBEffectEntitiesDrug(time, range, effects);

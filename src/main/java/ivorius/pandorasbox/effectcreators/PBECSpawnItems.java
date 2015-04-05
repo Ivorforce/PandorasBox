@@ -8,6 +8,8 @@ package ivorius.pandorasbox.effectcreators;
 import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.effects.PBEffectSpawnItemStacks;
 import ivorius.pandorasbox.random.*;
+import ivorius.pandorasbox.utils.RandomizedItemStack;
+import ivorius.pandorasbox.utils.WeightedSelector;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
@@ -27,11 +29,11 @@ public class PBECSpawnItems implements PBEffectCreator
 {
     public IValue number;
     public IValue ticksPerItem;
-    public List<WeightedRandomChestContent> items;
+    public List<RandomizedItemStack> items;
     public ValueThrow valueThrow;
     public ValueSpawn valueSpawn;
 
-    public PBECSpawnItems(IValue number, IValue ticksPerItem, List<WeightedRandomChestContent> items, ValueThrow valueThrow, ValueSpawn valueSpawn)
+    public PBECSpawnItems(IValue number, IValue ticksPerItem, List<RandomizedItemStack> items, ValueThrow valueThrow, ValueSpawn valueSpawn)
     {
         this.number = number;
         this.ticksPerItem = ticksPerItem;
@@ -40,7 +42,7 @@ public class PBECSpawnItems implements PBEffectCreator
         this.valueSpawn = valueSpawn;
     }
 
-    public PBECSpawnItems(IValue number, IValue ticksPerItem, List<WeightedRandomChestContent> items)
+    public PBECSpawnItems(IValue number, IValue ticksPerItem, List<RandomizedItemStack> items)
     {
         this(number, ticksPerItem, items, defaultThrow(), null);
     }
@@ -86,14 +88,14 @@ public class PBECSpawnItems implements PBEffectCreator
         throw new RuntimeException("Both spawnRange and throwStrength are null!");
     }
 
-    public static ItemStack[] getItemStacks(Random random, List<WeightedRandomChestContent> items, int number, boolean split, boolean mixUp, int enchantLevel, boolean giveNames)
+    public static ItemStack[] getItemStacks(Random random, List<RandomizedItemStack> items, int number, boolean split, boolean mixUp, int enchantLevel, boolean giveNames)
     {
         ArrayList<ItemStack> list = new ArrayList<ItemStack>();
         for (int i = 0; i < number; i++)
         {
-            WeightedRandomChestContent wrcc = mixUp ? ((WeightedRandomChestContent) WeightedRandom.getRandomItem(random, items)) : items.get(i);
-            ItemStack stack = wrcc.theItemId.copy();
-            stack.stackSize = wrcc.theMinimumChanceToGenerateItem + random.nextInt(wrcc.theMaximumChanceToGenerateItem - wrcc.theMinimumChanceToGenerateItem + 1);
+            RandomizedItemStack wrcc = mixUp ? WeightedSelector.selectItem(random, items) : items.get(i);
+            ItemStack stack = wrcc.itemStack.copy();
+            stack.stackSize = wrcc.min + random.nextInt(wrcc.max - wrcc.min + 1);
 
             if (enchantLevel > 0)
             {

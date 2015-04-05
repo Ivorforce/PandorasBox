@@ -9,6 +9,7 @@ import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.effects.PBEffectEntitiesBuff;
 import ivorius.pandorasbox.random.DValue;
 import ivorius.pandorasbox.random.IValue;
+import ivorius.pandorasbox.utils.WeightedSelector;
 import ivorius.pandorasbox.weighted.WeightedPotion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.WeightedRandom;
@@ -49,7 +50,7 @@ public class PBECBuffEntities implements PBEffectCreator
         PotionEffect[] effects = new PotionEffect[number];
         for (int i = 0; i < effects.length; i++)
         {
-            WeightedPotion weightedPotion = (WeightedPotion) WeightedRandom.getRandomItem(random, applicablePotions);
+            WeightedPotion weightedPotion = WeightedSelector.selectItem(random, applicablePotions);
 
             int duration = random.nextInt(weightedPotion.maxDuration - weightedPotion.minDuration + 1) + weightedPotion
                     .minDuration;

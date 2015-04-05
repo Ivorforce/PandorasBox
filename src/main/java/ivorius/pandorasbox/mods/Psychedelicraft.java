@@ -9,6 +9,7 @@ import ivorius.pandorasbox.effects.PBEffectRegistry;
 import ivorius.pandorasbox.random.DLinear;
 import ivorius.pandorasbox.random.ILinear;
 import ivorius.pandorasbox.random.IWeighted;
+import ivorius.pandorasbox.utils.WeightedSelector;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -53,7 +54,7 @@ public class Psychedelicraft extends ModRepresentation
 
     public static WeightedDrug getRandomDrug(Random random)
     {
-        return ((WeightedDrug) WeightedRandom.getRandomItem(random, drugs));
+        return WeightedSelector.selectItem(random, drugs);
     }
 
     public static void initEffectCreators()
@@ -98,18 +99,26 @@ public class Psychedelicraft extends ModRepresentation
         FMLInterModComms.sendMessage(MOD_ID, "drugAddValue", message);
     }
 
-    public static class WeightedDrug extends WeightedRandom.Item
+    public static class WeightedDrug implements WeightedSelector.Item
     {
+        public double weight;
+
         public String drugName;
         public float minAddValue;
         public float maxAddValue;
 
-        public WeightedDrug(int weight, String drugName, float minAddValue, float maxAddValue)
+        public WeightedDrug(double weight, String drugName, float minAddValue, float maxAddValue)
         {
-            super(weight);
+            this.weight = weight;
             this.drugName = drugName;
             this.minAddValue = minAddValue;
             this.maxAddValue = maxAddValue;
+        }
+
+        @Override
+        public double getWeight()
+        {
+            return weight;
         }
     }
 }

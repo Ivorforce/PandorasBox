@@ -8,21 +8,20 @@ package ivorius.pandorasbox;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import ivorius.pandorasbox.block.PBBlocks;
+import ivorius.pandorasbox.utils.RandomizedItemStack;
+import ivorius.pandorasbox.utils.WeightedSelector;
 import ivorius.pandorasbox.weighted.WeightedBlock;
 import ivorius.pandorasbox.weighted.WeightedEntity;
 import ivorius.pandorasbox.weighted.WeightedPotion;
 import ivorius.pandorasbox.weighted.WeightedSet;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.WeightedRandomChestContent;
 
 import java.util.*;
 
@@ -34,20 +33,20 @@ public class PandorasBoxHelper
     public static List<WeightedEntity> waterMobs = new ArrayList<>();
     public static List<WeightedEntity> tameableCreatures = new ArrayList<>();
 
-    public static List<WeightedRandomChestContent> blocksAndItems = new ArrayList<>();
+    public static List<RandomizedItemStack> blocksAndItems = new ArrayList<>();
     public static Multimap<Block, IProperty> randomizableBlockProperties = HashMultimap.create();
 
     public static List<WeightedBlock> blocks = new ArrayList<WeightedBlock>();
 
-    public static List<WeightedRandomChestContent> items = new ArrayList<WeightedRandomChestContent>();
+    public static List<RandomizedItemStack> items = new ArrayList<RandomizedItemStack>();
     public static List<WeightedSet> equipmentSets = new ArrayList<WeightedSet>();
     public static Hashtable<Item, Hashtable<Integer, ItemStack>> equipmentForLevels = new Hashtable<Item, Hashtable<Integer, ItemStack>>();
 
     public static List<WeightedPotion> buffs = new ArrayList<WeightedPotion>();
     public static List<WeightedPotion> debuffs = new ArrayList<WeightedPotion>();
 
-    public static List<WeightedRandomChestContent> enchantableArmorList = new ArrayList<WeightedRandomChestContent>();
-    public static List<WeightedRandomChestContent> enchantableToolList = new ArrayList<WeightedRandomChestContent>();
+    public static List<RandomizedItemStack> enchantableArmorList = new ArrayList<RandomizedItemStack>();
+    public static List<RandomizedItemStack> enchantableToolList = new ArrayList<RandomizedItemStack>();
 
     public static List<WeightedBlock> heavyBlocks = new ArrayList<WeightedBlock>();
 
@@ -67,7 +66,7 @@ public class PandorasBoxHelper
 
             Item item = Item.getItemFromBlock(block);
             if (item != null)
-                addItem(new WeightedRandomChestContent(item, 0, 1, item.getItemStackLimit(new ItemStack(item)), weight));
+                addItem(new RandomizedItemStack(item, 0, 1, item.getItemStackLimit(new ItemStack(item)), weight));
         }
     }
 
@@ -79,10 +78,10 @@ public class PandorasBoxHelper
         }
     }
 
-    public static void addItem(WeightedRandomChestContent weightedRandomChestContent)
+    public static void addItem(RandomizedItemStack RandomizedItemStack)
     {
-        items.add(weightedRandomChestContent);
-        blocksAndItems.add(weightedRandomChestContent);
+        items.add(RandomizedItemStack);
+        blocksAndItems.add(RandomizedItemStack);
     }
 
     public static void addItems(int weight, Object... items)
@@ -92,12 +91,12 @@ public class PandorasBoxHelper
             if (object instanceof Item)
             {
                 Item item = (Item) object;
-                addItem(new WeightedRandomChestContent(item, 0, 1, item.getItemStackLimit(new ItemStack(item)), weight));
+                addItem(new RandomizedItemStack(item, 0, 1, item.getItemStackLimit(new ItemStack(item)), weight));
             }
             else if (object instanceof ItemStack)
             {
                 ItemStack itemStack = (ItemStack) object;
-                addItem(new WeightedRandomChestContent(itemStack, 1, itemStack.getItem().getItemStackLimit(itemStack), weight));
+                addItem(new RandomizedItemStack(itemStack, 1, itemStack.getItem().getItemStackLimit(itemStack), weight));
             }
         }
     }
@@ -109,12 +108,12 @@ public class PandorasBoxHelper
             if (object instanceof Item)
             {
                 Item item = (Item) object;
-                addItem(new WeightedRandomChestContent(item, 0, min, max, weight));
+                addItem(new RandomizedItemStack(item, 0, min, max, weight));
             }
             else if (object instanceof ItemStack)
             {
                 ItemStack itemStack = (ItemStack) object;
-                addItem(new WeightedRandomChestContent(itemStack, min, max, weight));
+                addItem(new RandomizedItemStack(itemStack, min, max, weight));
             }
         }
     }
@@ -155,12 +154,12 @@ public class PandorasBoxHelper
             if (object instanceof Item)
             {
                 Item item = (Item) object;
-                enchantableArmorList.add(new WeightedRandomChestContent(item, 0, 1, 1, weight));
+                enchantableArmorList.add(new RandomizedItemStack(item, 0, 1, 1, weight));
             }
             else if (object instanceof ItemStack)
             {
                 ItemStack itemStack = (ItemStack) object;
-                enchantableArmorList.add(new WeightedRandomChestContent(itemStack, 1, 1, weight));
+                enchantableArmorList.add(new RandomizedItemStack(itemStack, 1, 1, weight));
             }
         }
     }
@@ -172,12 +171,12 @@ public class PandorasBoxHelper
             if (object instanceof Item)
             {
                 Item item = (Item) object;
-                enchantableToolList.add(new WeightedRandomChestContent(item, 0, 1, 1, weight));
+                enchantableToolList.add(new RandomizedItemStack(item, 0, 1, 1, weight));
             }
             else if (object instanceof ItemStack)
             {
                 ItemStack itemStack = (ItemStack) object;
-                enchantableToolList.add(new WeightedRandomChestContent(itemStack, 1, 1, weight));
+                enchantableToolList.add(new RandomizedItemStack(itemStack, 1, 1, weight));
             }
         }
     }
@@ -399,7 +398,7 @@ public class PandorasBoxHelper
 
         for (int i = 0; i < number; i++)
         {
-            Block block = ((WeightedBlock) WeightedRandom.getRandomItem(rand, selection)).block;
+            Block block = WeightedSelector.selectItem(rand, selection).block;
 
             for (int j = 0; j < weights[i]; j++)
             {
@@ -414,11 +413,9 @@ public class PandorasBoxHelper
     public static Block getRandomBlock(Random rand, Collection<WeightedBlock> randomBlockList)
     {
         if (randomBlockList != null && randomBlockList.size() > 0)
-        {
-            return ((WeightedBlock) WeightedRandom.getRandomItem(rand, randomBlockList)).block;
-        }
+            return WeightedSelector.selectItem(rand, randomBlockList).block;
 
-        return ((WeightedBlock) WeightedRandom.getRandomItem(rand, blocks)).block;
+        return WeightedSelector.selectItem(rand, blocks).block;
     }
 
     public static WeightedEntity[] getRandomEntityList(Random rand, Collection<WeightedEntity> selection)
@@ -426,16 +423,14 @@ public class PandorasBoxHelper
         WeightedEntity[] entities = new WeightedEntity[rand.nextInt(5) + 1];
 
         for (int i = 0; i < entities.length; i++)
-        {
             entities[i] = getRandomEntityFromList(rand, selection);
-        }
 
         return entities;
     }
 
     public static WeightedEntity getRandomEntityFromList(Random rand, Collection<WeightedEntity> entityList)
     {
-        return (WeightedEntity) WeightedRandom.getRandomItem(rand, entityList);
+        return WeightedSelector.selectItem(rand, entityList);
     }
 
     public static ItemStack getRandomWeaponItemForLevel(Random random, int level)
@@ -455,9 +450,7 @@ public class PandorasBoxHelper
             while (level > 0)
             {
                 if (levels.containsKey(level))
-                {
                     return levels.get(level);
-                }
 
                 level--;
             }

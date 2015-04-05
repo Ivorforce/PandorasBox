@@ -10,6 +10,7 @@ import ivorius.pandorasbox.random.IValue;
 import ivorius.pandorasbox.random.ValueSpawn;
 import ivorius.pandorasbox.random.ValueThrow;
 import ivorius.pandorasbox.random.ZValue;
+import ivorius.pandorasbox.utils.RandomizedItemStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
@@ -25,13 +26,13 @@ public class PBECSpawnEnchantedItems implements PBEffectCreator
     public IValue number;
     public IValue ticksPerItem;
     public IValue enchantmentLevel;
-    public List<WeightedRandomChestContent> items;
+    public List<RandomizedItemStack> items;
     public ValueThrow valueThrow;
     public ValueSpawn valueSpawn;
 
     public ZValue giveNames;
 
-    public PBECSpawnEnchantedItems(IValue number, IValue ticksPerItem, IValue enchantmentLevel, List<WeightedRandomChestContent> items, ValueThrow valueThrow, ValueSpawn valueSpawn, ZValue giveNames)
+    public PBECSpawnEnchantedItems(IValue number, IValue ticksPerItem, IValue enchantmentLevel, List<RandomizedItemStack> items, ValueThrow valueThrow, ValueSpawn valueSpawn, ZValue giveNames)
     {
         this.number = number;
         this.ticksPerItem = ticksPerItem;
@@ -42,7 +43,7 @@ public class PBECSpawnEnchantedItems implements PBEffectCreator
         this.giveNames = giveNames;
     }
 
-    public PBECSpawnEnchantedItems(IValue number, IValue ticksPerItem, IValue enchantmentLevel, List<WeightedRandomChestContent> items, ZValue giveNames)
+    public PBECSpawnEnchantedItems(IValue number, IValue ticksPerItem, IValue enchantmentLevel, List<RandomizedItemStack> items, ZValue giveNames)
     {
         this(number, ticksPerItem, enchantmentLevel, items, PBECSpawnItems.defaultThrow(), null, giveNames);
     }

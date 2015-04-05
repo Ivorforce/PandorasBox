@@ -7,6 +7,8 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.PandorasBoxHelper;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import ivorius.pandorasbox.utils.RandomizedItemStack;
+import ivorius.pandorasbox.utils.WeightedSelector;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -18,8 +20,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
-import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
 import java.util.Collection;
@@ -66,10 +66,10 @@ public class PBEffectGenConvertToChristmas extends PBEffectGenerate
 
                             if (tileentitychest != null)
                             {
-                                Collection<WeightedRandomChestContent> itemSelection = PandorasBoxHelper.blocksAndItems;
-                                WeightedRandomChestContent chestContent = (WeightedRandomChestContent) WeightedRandom.getRandomItem(random, itemSelection);
-                                ItemStack stack = chestContent.theItemId.copy();
-                                stack.stackSize = chestContent.theMinimumChanceToGenerateItem + random.nextInt(chestContent.theMaximumChanceToGenerateItem - chestContent.theMinimumChanceToGenerateItem + 1);
+                                Collection<RandomizedItemStack> itemSelection = PandorasBoxHelper.blocksAndItems;
+                                RandomizedItemStack chestContent = WeightedSelector.selectItem(random, itemSelection);
+                                ItemStack stack = chestContent.itemStack.copy();
+                                stack.stackSize = chestContent.min + random.nextInt(chestContent.max - chestContent.min + 1);
 
                                 tileentitychest.setInventorySlotContents(world.rand.nextInt(tileentitychest.getSizeInventory()), stack);
                             }

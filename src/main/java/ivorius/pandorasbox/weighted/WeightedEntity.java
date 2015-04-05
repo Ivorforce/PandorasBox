@@ -5,22 +5,31 @@
 
 package ivorius.pandorasbox.weighted;
 
-import net.minecraft.util.WeightedRandom;
+import ivorius.pandorasbox.utils.WeightedSelector;
 
 /**
  * Created by lukas on 31.03.14.
  */
-public class WeightedEntity extends WeightedRandom.Item
+public class WeightedEntity implements WeightedSelector.Item
 {
+    public double weight;
+
     public String entityID;
+
     public int minNumber;
     public int maxNumber;
 
-    public WeightedEntity(int par1, String entityID, int minNumber, int maxNumber)
+    public WeightedEntity(double weight, String entityID, int minNumber, int maxNumber)
     {
-        super(par1);
+        this.weight = weight;
         this.entityID = entityID;
         this.minNumber = minNumber;
         this.maxNumber = maxNumber;
+    }
+
+    @Override
+    public double getWeight()
+    {
+        return weight;
     }
 }

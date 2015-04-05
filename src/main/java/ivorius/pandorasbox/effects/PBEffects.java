@@ -4,6 +4,7 @@ import ivorius.pandorasbox.PandorasBoxHelper;
 import ivorius.pandorasbox.effectcreators.*;
 import ivorius.pandorasbox.mods.Psychedelicraft;
 import ivorius.pandorasbox.random.*;
+import ivorius.pandorasbox.utils.RandomizedItemStack;
 import ivorius.pandorasbox.weighted.WeightedBlock;
 import ivorius.pandorasbox.weighted.WeightedEntity;
 import ivorius.pandorasbox.weighted.WeightedPotion;
@@ -89,7 +90,7 @@ public class PBEffects
         PBECRegistry.register(new PBECSpawnEnchantedItems(new ILinear(1, 2), new ILinear(0, 30), new IExp(1, 30, 10.0), PandorasBoxHelper.enchantableArmorList, new ZChance(0.7)), "epicArmor", true);
         PBECRegistry.register(new PBECSpawnEnchantedItems(new ILinear(1, 2), new ILinear(0, 30), new IExp(1, 30, 10.0), PandorasBoxHelper.enchantableToolList, new ZChance(0.7)), "epicTool", true);
         PBECRegistry.register(new PBECSpawnEnchantedItems(new ILinear(1, 2), new ILinear(0, 30), new IExp(1, 30, 10.0), PandorasBoxHelper.items, new ZChance(0.7)), "epicThing", true);
-        PBECRegistry.register(new PBECSpawnEnchantedItems(new ILinear(1, 4), new ILinear(0, 30), new IExp(1, 30, 10.0), Arrays.asList(new WeightedRandomChestContent(Items.enchanted_book, 0, 1, 1, 100)), new ZChance(0.1)), "enchantedBook", true);
+        PBECRegistry.register(new PBECSpawnEnchantedItems(new ILinear(1, 4), new ILinear(0, 30), new IExp(1, 30, 10.0), Arrays.asList(new RandomizedItemStack(Items.enchanted_book, 0, 1, 1, 100)), new ZChance(0.1)), "enchantedBook", true);
         PBECRegistry.register(new PBECSpawnManySameItems(new ILinear(0, 30), PandorasBoxHelper.blocksAndItems), "resources", true);
         PBECRegistry.register(new PBECSpawnItemSet(new ILinear(0, 30), PandorasBoxHelper.equipmentSets), "equipmentSet", true);
         PBECRegistry.register(new PBECSpawnManySameItems(new ILinear(0, 30), PandorasBoxHelper.blocksAndItems, null, PBECSpawnItems.defaultShowerSpawn()), "itemRain", true);
