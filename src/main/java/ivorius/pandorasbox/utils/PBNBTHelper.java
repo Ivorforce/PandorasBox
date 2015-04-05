@@ -194,7 +194,7 @@ public class PBNBTHelper
             NBTTagList nbtTagList = new NBTTagList();
 
             for (Block b : blocks)
-                nbtTagList.appendTag(new NBTTagString((String) Block.blockRegistry.getNameForObject(b)));
+                nbtTagList.appendTag(new NBTTagString(PBNBTHelper.storeBlockString(b)));
 
             compound.setTag(id, nbtTagList);
         }

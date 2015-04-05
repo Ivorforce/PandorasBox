@@ -36,19 +36,19 @@ public class PandorasBoxHelper
     public static List<RandomizedItemStack> blocksAndItems = new ArrayList<>();
     public static Multimap<Block, IProperty> randomizableBlockProperties = HashMultimap.create();
 
-    public static List<WeightedBlock> blocks = new ArrayList<WeightedBlock>();
+    public static List<WeightedBlock> blocks = new ArrayList<>();
 
-    public static List<RandomizedItemStack> items = new ArrayList<RandomizedItemStack>();
-    public static List<WeightedSet> equipmentSets = new ArrayList<WeightedSet>();
-    public static Hashtable<Item, Hashtable<Integer, ItemStack>> equipmentForLevels = new Hashtable<Item, Hashtable<Integer, ItemStack>>();
+    public static List<RandomizedItemStack> items = new ArrayList<>();
+    public static List<WeightedSet> equipmentSets = new ArrayList<>();
+    public static Hashtable<Item, Hashtable<Integer, ItemStack>> equipmentForLevels = new Hashtable<>();
 
-    public static List<WeightedPotion> buffs = new ArrayList<WeightedPotion>();
-    public static List<WeightedPotion> debuffs = new ArrayList<WeightedPotion>();
+    public static List<WeightedPotion> buffs = new ArrayList<>();
+    public static List<WeightedPotion> debuffs = new ArrayList<>();
 
-    public static List<RandomizedItemStack> enchantableArmorList = new ArrayList<RandomizedItemStack>();
-    public static List<RandomizedItemStack> enchantableToolList = new ArrayList<RandomizedItemStack>();
+    public static List<RandomizedItemStack> enchantableArmorList = new ArrayList<>();
+    public static List<RandomizedItemStack> enchantableToolList = new ArrayList<>();
 
-    public static List<WeightedBlock> heavyBlocks = new ArrayList<WeightedBlock>();
+    public static List<WeightedBlock> heavyBlocks = new ArrayList<>();
 
     public static void addEntities(List<WeightedEntity> list, double weight, int minNumber, int maxNumber, String... entities)
     {
