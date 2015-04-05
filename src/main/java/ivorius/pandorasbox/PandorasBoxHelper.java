@@ -50,7 +50,7 @@ public class PandorasBoxHelper
 
     public static List<WeightedBlock> heavyBlocks = new ArrayList<WeightedBlock>();
 
-    public static void addEntities(List<WeightedEntity> list, int weight, int minNumber, int maxNumber, String... entities)
+    public static void addEntities(List<WeightedEntity> list, double weight, int minNumber, int maxNumber, String... entities)
     {
         for (String s : entities)
         {
@@ -58,7 +58,7 @@ public class PandorasBoxHelper
         }
     }
 
-    public static void addBlocks(int weight, Block... blocks)
+    public static void addBlocks(double weight, Block... blocks)
     {
         for (Block block : blocks)
         {
@@ -70,7 +70,7 @@ public class PandorasBoxHelper
         }
     }
 
-    public static void addBlocks(List<WeightedBlock> list, int weight, Block... blocks)
+    public static void addBlocks(List<WeightedBlock> list, double weight, Block... blocks)
     {
         for (Block block : blocks)
         {
@@ -84,7 +84,7 @@ public class PandorasBoxHelper
         blocksAndItems.add(RandomizedItemStack);
     }
 
-    public static void addItems(int weight, Object... items)
+    public static void addItems(double weight, Object... items)
     {
         for (Object object : items)
         {
@@ -101,7 +101,7 @@ public class PandorasBoxHelper
         }
     }
 
-    public static void addItemsMinMax(int weight, int min, int max, Object... items)
+    public static void addItemsMinMax(double weight, int min, int max, Object... items)
     {
         for (Object object : items)
         {
@@ -118,7 +118,7 @@ public class PandorasBoxHelper
         }
     }
 
-    public static void addEquipmentSet(int weight, Object... items)
+    public static void addEquipmentSet(double weight, Object... items)
     {
         ItemStack[] set = new ItemStack[items.length];
 
@@ -139,7 +139,7 @@ public class PandorasBoxHelper
         equipmentSets.add(new WeightedSet(weight, set));
     }
 
-    public static void addPotions(List<WeightedPotion> list, int weight, int minStrength, int maxStrength, int minDuration, int maxDuration, Potion... potions)
+    public static void addPotions(List<WeightedPotion> list, double weight, int minStrength, int maxStrength, int minDuration, int maxDuration, Potion... potions)
     {
         for (Potion potion : potions)
         {
@@ -147,7 +147,7 @@ public class PandorasBoxHelper
         }
     }
 
-    public static void addEnchantableArmor(int weight, Object... items)
+    public static void addEnchantableArmor(double weight, Object... items)
     {
         for (Object object : items)
         {
@@ -164,7 +164,7 @@ public class PandorasBoxHelper
         }
     }
 
-    public static void addEnchantableTools(int weight, Object... items)
+    public static void addEnchantableTools(double weight, Object... items)
     {
         for (Object object : items)
         {
@@ -223,84 +223,84 @@ public class PandorasBoxHelper
 
     public static void initialize()
     {
-        addEntities(mobs, 100, 3, 10, "Zombie");
-        addEntities(mobs, 100, 2, 8, "Spider");
-        addEntities(mobs, 100, 2, 5, "Skeleton");
-        addEntities(mobs, 50, 2, 5, "pbspecial_skeletonWither");
-        addEntities(mobs, 100, 2, 8, "Creeper");
-        addEntities(mobs, 60, 2, 8, "Slime");
-        addEntities(mobs, 40, 1, 4, "Ghast");
-        addEntities(mobs, 60, 2, 8, "PigZombie");
-        addEntities(mobs, 60, 2, 6, "Enderman");
-        addEntities(mobs, 50, 2, 4, "CaveSpider");
-        addEntities(mobs, 50, 10, 20, "Silverfish");
-        addEntities(mobs, 40, 2, 5, "Blaze");
-        addEntities(mobs, 50, 2, 6, "LavaSlime");
-        addEntities(mobs, 10, 1, 1, "WitherBoss");
-        addEntities(mobs, 40, 2, 4, "Witch");
-        addEntities(mobs, 60, 10, 20, "Endermite");
-        addEntities(mobs, 50, 2, 6, "pbspecial_angryWolf");
-        addEntities(mobs, 40, 2, 5, "pbspecial_superchargedCreeper");
+        addEntities(mobs, 10.0, 3, 10, "Zombie");
+        addEntities(mobs, 10.0, 2, 8, "Spider");
+        addEntities(mobs, 10.0, 2, 5, "Skeleton");
+        addEntities(mobs, 5.0, 2, 5, "pbspecial_skeletonWither");
+        addEntities(mobs, 10.0, 2, 8, "Creeper");
+        addEntities(mobs, 6.0, 2, 8, "Slime");
+        addEntities(mobs, 4.0, 1, 4, "Ghast");
+        addEntities(mobs, 6.0, 2, 8, "PigZombie");
+        addEntities(mobs, 6.0, 2, 6, "Enderman");
+        addEntities(mobs, 5.0, 2, 4, "CaveSpider");
+        addEntities(mobs, 5.0, 10, 20, "Silverfish");
+        addEntities(mobs, 4.0, 2, 5, "Blaze");
+        addEntities(mobs, 5.0, 2, 6, "LavaSlime");
+        addEntities(mobs, 1.0, 1, 1, "WitherBoss");
+        addEntities(mobs, 4.0, 2, 4, "Witch");
+        addEntities(mobs, 6.0, 10, 20, "Endermite");
+        addEntities(mobs, 5.0, 2, 6, "pbspecial_angryWolf");
+        addEntities(mobs, 4.0, 2, 5, "pbspecial_superchargedCreeper");
 
-        addEntities(creatures, 100, 3, 10, "Pig", "Sheep", "Cow", "Chicken");
-        addEntities(creatures, 60, 2, 6, "Wolf");
-        addEntities(creatures, 50, 4, 10, "Bat");
-        addEntities(creatures, 70, 6, 20, "Rabbit");
-        addEntities(creatures, 40, 3, 7, "MushroomCow");
-        addEntities(creatures, 40, 3, 7, "SnowMan");
-        addEntities(creatures, 40, 2, 5, "EntityHorse");
-        addEntities(creatures, 40, 2, 6, "Ozelot");
-        addEntities(creatures, 30, 3, 6, "Villager");
-        addEntities(creatures, 30, 2, 4, "VillagerGolem");
+        addEntities(creatures, 10.0, 3, 10, "Pig", "Sheep", "Cow", "Chicken");
+        addEntities(creatures, 6.0, 2, 6, "Wolf");
+        addEntities(creatures, 5.0, 4, 10, "Bat");
+        addEntities(creatures, 7.0, 6, 20, "Rabbit");
+        addEntities(creatures, 4.0, 3, 7, "MushroomCow");
+        addEntities(creatures, 4.0, 3, 7, "SnowMan");
+        addEntities(creatures, 4.0, 2, 5, "EntityHorse");
+        addEntities(creatures, 4.0, 2, 6, "Ozelot");
+        addEntities(creatures, 3.0, 3, 6, "Villager");
+        addEntities(creatures, 3.0, 2, 4, "VillagerGolem");
 
-        addEntities(waterCreatures, 60, 3, 10, "Squid");
+        addEntities(waterCreatures, 6.0, 3, 10, "Squid");
 
-        addEntities(waterMobs, 60, 3, 10, "Guardian");
-        addEntities(waterMobs, 5, 1, 1, "pbspecial_elderGuardian");
+        addEntities(waterMobs, 6.0, 3, 10, "Guardian");
+        addEntities(waterMobs, 5.0, 1, 1, "pbspecial_elderGuardian");
 
-        addEntities(tameableCreatures, 40, 1, 4, "pbspecial_wolfTamed");
-        addEntities(tameableCreatures, 40, 1, 4, "pbspecial_ocelotTamed");
+        addEntities(tameableCreatures, 4.0, 1, 4, "pbspecial_wolfTamed");
+        addEntities(tameableCreatures, 4.0, 1, 4, "pbspecial_ocelotTamed");
 
-        addBlocks(400, Blocks.stone, Blocks.sandstone, Blocks.planks, Blocks.sand, Blocks.log, Blocks.log2, Blocks.leaves, Blocks.leaves2, Blocks.wool, Blocks.double_stone_slab, Blocks.double_stone_slab2, Blocks.double_wooden_slab, Blocks.stonebrick, Blocks.stained_hardened_clay);
-        addBlocks(150, Blocks.prismarine, Blocks.quartz_block);
-        addBlocks(100, Blocks.cobblestone, Blocks.mossy_cobblestone, Blocks.netherrack, Blocks.nether_brick, Blocks.brick_block, Blocks.end_stone, Blocks.hardened_clay);
-        addBlocks(100, Blocks.dirt, Blocks.grass, Blocks.gravel, Blocks.pumpkin, Blocks.clay, Blocks.mycelium);
-        addBlocks(80, Blocks.coal_ore, Blocks.lapis_ore, Blocks.redstone_ore, Blocks.quartz_ore, Blocks.glass, Blocks.stained_glass, Blocks.soul_sand);
-        addBlocks(2, Blocks.diamond_block, Blocks.emerald_block, Blocks.gold_block);
-        addBlocks(3, Blocks.iron_block);
-        addBlocks(5, Blocks.diamond_ore, Blocks.emerald_ore, Blocks.gold_ore);
-        addBlocks(10, Blocks.iron_ore);
-        addBlocks(20, Blocks.tnt, Blocks.glowstone, Blocks.coal_block, Blocks.lapis_block, Blocks.redstone_block, Blocks.slime_block, Blocks.sponge);
-        addBlocks(50, Blocks.monster_egg, Blocks.redstone_lamp, Blocks.sea_lantern, Blocks.snow, Blocks.bookshelf, Blocks.lit_pumpkin, Blocks.hay_block, Blocks.obsidian, Blocks.melon_block);
+        addBlocks(40.0, Blocks.stone, Blocks.sandstone, Blocks.planks, Blocks.sand, Blocks.log, Blocks.log2, Blocks.leaves, Blocks.leaves2, Blocks.wool, Blocks.double_stone_slab, Blocks.double_stone_slab2, Blocks.double_wooden_slab, Blocks.stonebrick, Blocks.stained_hardened_clay);
+        addBlocks(15.0, Blocks.prismarine, Blocks.quartz_block);
+        addBlocks(10.0, Blocks.cobblestone, Blocks.mossy_cobblestone, Blocks.netherrack, Blocks.nether_brick, Blocks.brick_block, Blocks.end_stone, Blocks.hardened_clay);
+        addBlocks(10.0, Blocks.dirt, Blocks.grass, Blocks.gravel, Blocks.pumpkin, Blocks.clay, Blocks.mycelium);
+        addBlocks(8.0, Blocks.coal_ore, Blocks.lapis_ore, Blocks.redstone_ore, Blocks.quartz_ore, Blocks.glass, Blocks.stained_glass, Blocks.soul_sand);
+        addBlocks(0.2, Blocks.diamond_block, Blocks.emerald_block, Blocks.gold_block);
+        addBlocks(0.3, Blocks.iron_block);
+        addBlocks(0.5, Blocks.diamond_ore, Blocks.emerald_ore, Blocks.gold_ore);
+        addBlocks(1.0, Blocks.iron_ore);
+        addBlocks(2.0, Blocks.tnt, Blocks.glowstone, Blocks.coal_block, Blocks.lapis_block, Blocks.redstone_block, Blocks.slime_block, Blocks.sponge);
+        addBlocks(5.0, Blocks.monster_egg, Blocks.redstone_lamp, Blocks.sea_lantern, Blocks.snow, Blocks.bookshelf, Blocks.lit_pumpkin, Blocks.hay_block, Blocks.obsidian, Blocks.melon_block);
 
-        addItems(100, Items.coal, Items.gunpowder, Items.wheat, Items.saddle, Items.redstone, Items.bone, Items.melon, Items.clay_ball, Items.book, Items.gold_nugget, Items.potato, Items.bucket, Items.stick, Items.string, Items.melon_seeds, Items.pumpkin_seeds, Items.wheat_seeds, Items.snowball, Items.sugar, Items.fishing_rod, Items.nether_star, Items.nether_wart, Items.flint, Items.egg, Items.brick, Items.paper, new ItemStack(Blocks.torch));
-        addItems(100, Item.getItemFromBlock(PBBlocks.pandorasBox));
-        addItems(100, Items.chicken, Items.cooked_chicken, Items.beef, Items.pumpkin_pie, Items.cooked_beef, Items.mushroom_stew, Items.rotten_flesh, Items.carrot, Items.porkchop, Items.cooked_porkchop, Items.apple, Items.cake, Items.bread, Items.cookie, Items.fish, Items.cooked_fish, Items.mutton, Items.cooked_mutton, Items.rabbit, Items.rabbit_foot, Items.rabbit_hide, Items.rabbit_stew, Items.cooked_rabbit);
-        addItems(80, Items.lava_bucket, Items.milk_bucket, Items.water_bucket, Items.flint_and_steel, Items.painting, Items.flower_pot, Items.bed, Items.boat, Items.minecart, Items.cauldron);
-        addItems(80, Items.name_tag);
-        addItems(60, Items.iron_ingot, Items.glowstone_dust, Items.blaze_powder, Items.blaze_rod, Items.clock, Items.ghast_tear, Items.ender_eye, Items.speckled_melon, Items.spider_eye, Items.fermented_spider_eye, Items.magma_cream, Items.golden_carrot);
-        addItems(40, Items.leather_helmet, Items.leather_chestplate, Items.leather_leggings, Items.leather_boots, Items.wooden_sword, Items.wooden_pickaxe, Items.wooden_shovel, Items.wooden_axe, Items.wooden_hoe);
-        addItems(40, Items.golden_helmet, Items.golden_chestplate, Items.golden_leggings, Items.golden_boots, Items.golden_sword, Items.golden_pickaxe, Items.golden_shovel, Items.golden_axe, Items.golden_hoe);
-        addItems(40, Items.iron_helmet, Items.iron_chestplate, Items.iron_leggings, Items.iron_boots, Items.iron_sword, Items.iron_pickaxe, Items.iron_shovel, Items.iron_axe, Items.iron_hoe);
-        addItems(30, Items.iron_horse_armor, Items.golden_horse_armor);
-        addItems(20, Items.diamond_horse_armor);
-        addItemsMinMax(20, 1, 1, new ItemStack(Blocks.beacon), new ItemStack(Blocks.anvil), new ItemStack(Blocks.brewing_stand), new ItemStack(Blocks.dispenser), new ItemStack(Blocks.ender_chest), new ItemStack(Blocks.jukebox), new ItemStack(Blocks.enchanting_table));
-        addItemsMinMax(50, 1, 1, new ItemStack(Blocks.chest));
-        addItems(20, Items.diamond, Items.emerald, Items.gold_ingot, Items.golden_apple, Items.ender_pearl, Items.prismarine_crystals, Items.prismarine_shard);
-        addItems(20, Items.diamond_helmet, Items.diamond_chestplate, Items.diamond_leggings, Items.diamond_boots, Items.diamond_sword, Items.diamond_pickaxe, Items.diamond_shovel, Items.diamond_axe, Items.diamond_hoe);
-        addItems(20, Items.record_11, Items.record_13, Items.record_blocks, Items.record_cat, Items.record_chirp, Items.record_far, Items.record_mall, Items.record_mellohi, Items.record_stal, Items.record_strad, Items.record_wait, Items.record_ward);
+        addItems(10.0, Items.coal, Items.gunpowder, Items.wheat, Items.saddle, Items.redstone, Items.bone, Items.melon, Items.clay_ball, Items.book, Items.gold_nugget, Items.potato, Items.bucket, Items.stick, Items.string, Items.melon_seeds, Items.pumpkin_seeds, Items.wheat_seeds, Items.snowball, Items.sugar, Items.fishing_rod, Items.nether_star, Items.nether_wart, Items.flint, Items.egg, Items.brick, Items.paper, new ItemStack(Blocks.torch));
+        addItems(10.0, Item.getItemFromBlock(PBBlocks.pandorasBox));
+        addItems(10.0, Items.chicken, Items.cooked_chicken, Items.beef, Items.pumpkin_pie, Items.cooked_beef, Items.mushroom_stew, Items.rotten_flesh, Items.carrot, Items.porkchop, Items.cooked_porkchop, Items.apple, Items.cake, Items.bread, Items.cookie, Items.fish, Items.cooked_fish, Items.mutton, Items.cooked_mutton, Items.rabbit, Items.rabbit_foot, Items.rabbit_hide, Items.rabbit_stew, Items.cooked_rabbit);
+        addItems(8.0, Items.lava_bucket, Items.milk_bucket, Items.water_bucket, Items.flint_and_steel, Items.painting, Items.flower_pot, Items.bed, Items.boat, Items.minecart, Items.cauldron);
+        addItems(8.0, Items.name_tag);
+        addItems(6.0, Items.iron_ingot, Items.glowstone_dust, Items.blaze_powder, Items.blaze_rod, Items.clock, Items.ghast_tear, Items.ender_eye, Items.speckled_melon, Items.spider_eye, Items.fermented_spider_eye, Items.magma_cream, Items.golden_carrot);
+        addItems(4.0, Items.leather_helmet, Items.leather_chestplate, Items.leather_leggings, Items.leather_boots, Items.wooden_sword, Items.wooden_pickaxe, Items.wooden_shovel, Items.wooden_axe, Items.wooden_hoe);
+        addItems(4.0, Items.golden_helmet, Items.golden_chestplate, Items.golden_leggings, Items.golden_boots, Items.golden_sword, Items.golden_pickaxe, Items.golden_shovel, Items.golden_axe, Items.golden_hoe);
+        addItems(4.0, Items.iron_helmet, Items.iron_chestplate, Items.iron_leggings, Items.iron_boots, Items.iron_sword, Items.iron_pickaxe, Items.iron_shovel, Items.iron_axe, Items.iron_hoe);
+        addItems(3.0, Items.iron_horse_armor, Items.golden_horse_armor);
+        addItems(2.0, Items.diamond_horse_armor);
+        addItemsMinMax(2.0, 1, 1, new ItemStack(Blocks.beacon), new ItemStack(Blocks.anvil), new ItemStack(Blocks.brewing_stand), new ItemStack(Blocks.dispenser), new ItemStack(Blocks.ender_chest), new ItemStack(Blocks.jukebox), new ItemStack(Blocks.enchanting_table));
+        addItemsMinMax(5.0, 1, 1, new ItemStack(Blocks.chest));
+        addItems(2.0, Items.diamond, Items.emerald, Items.gold_ingot, Items.golden_apple, Items.ender_pearl, Items.prismarine_crystals, Items.prismarine_shard);
+        addItems(2.0, Items.diamond_helmet, Items.diamond_chestplate, Items.diamond_leggings, Items.diamond_boots, Items.diamond_sword, Items.diamond_pickaxe, Items.diamond_shovel, Items.diamond_axe, Items.diamond_hoe);
+        addItems(2.0, Items.record_11, Items.record_13, Items.record_blocks, Items.record_cat, Items.record_chirp, Items.record_far, Items.record_mall, Items.record_mellohi, Items.record_stal, Items.record_strad, Items.record_wait, Items.record_ward);
         for (int i = 0; i < 16; i++)
-            addItems(100, new ItemStack(Items.dye, 1, i));
+            addItems(10.0, new ItemStack(Items.dye, 1, i));
 
-        addEquipmentSet(100, Items.leather_helmet, Items.leather_chestplate, Items.leather_leggings, Items.leather_boots, Items.wooden_sword, Items.wooden_pickaxe, Items.wooden_shovel, Items.wooden_axe, Items.wooden_hoe);
-        addEquipmentSet(60, Items.iron_helmet, Items.iron_chestplate, Items.iron_leggings, Items.iron_boots, Items.iron_sword, Items.iron_pickaxe, Items.iron_shovel, Items.iron_axe, Items.iron_hoe);
-        addEquipmentSet(40, Items.golden_helmet, Items.golden_chestplate, Items.golden_leggings, Items.golden_boots, Items.golden_sword, Items.golden_pickaxe, Items.golden_shovel, Items.golden_axe, Items.golden_hoe);
-        addEquipmentSet(20, Items.diamond_helmet, Items.diamond_chestplate, Items.diamond_leggings, Items.diamond_boots, Items.diamond_sword, Items.diamond_pickaxe, Items.diamond_shovel, Items.diamond_axe, Items.diamond_hoe);
-        addEquipmentSet(60, Items.bow, new ItemStack(Items.arrow, 64), Items.iron_helmet, Items.leather_chestplate, Items.leather_leggings, Items.leather_boots, Items.iron_axe, new ItemStack(Items.apple, 8));
-        addEquipmentSet(60, Items.iron_helmet, Items.leather_chestplate, Items.leather_leggings, Items.leather_boots, Items.diamond_pickaxe, Items.iron_shovel, Items.iron_axe, Items.stone_sword, new ItemStack(Items.bread, 8), new ItemStack(Blocks.torch, 32));
-        addEquipmentSet(80, Items.leather_helmet, Items.iron_hoe, new ItemStack(Items.wheat_seeds, 32), new ItemStack(Items.pumpkin_seeds, 4), new ItemStack(Items.melon_seeds, 4), new ItemStack(Items.dye, 8, 15), new ItemStack(Blocks.dirt, 32), Items.water_bucket, Items.water_bucket);
-        addEquipmentSet(60, Items.iron_helmet, Items.diamond_axe, new ItemStack(Items.beef, 16));
-        addEquipmentSet(60, new ItemStack(Items.redstone, 64), new ItemStack(Blocks.wool, 16, 0), new ItemStack(Blocks.wool, 16, 15), new ItemStack(Blocks.wool, 16, 1), new ItemStack(Blocks.redstone_block, 8), new ItemStack(Blocks.redstone_torch, 8));
+        addEquipmentSet(10.0, Items.leather_helmet, Items.leather_chestplate, Items.leather_leggings, Items.leather_boots, Items.wooden_sword, Items.wooden_pickaxe, Items.wooden_shovel, Items.wooden_axe, Items.wooden_hoe);
+        addEquipmentSet(6.0, Items.iron_helmet, Items.iron_chestplate, Items.iron_leggings, Items.iron_boots, Items.iron_sword, Items.iron_pickaxe, Items.iron_shovel, Items.iron_axe, Items.iron_hoe);
+        addEquipmentSet(4.0, Items.golden_helmet, Items.golden_chestplate, Items.golden_leggings, Items.golden_boots, Items.golden_sword, Items.golden_pickaxe, Items.golden_shovel, Items.golden_axe, Items.golden_hoe);
+        addEquipmentSet(2.0, Items.diamond_helmet, Items.diamond_chestplate, Items.diamond_leggings, Items.diamond_boots, Items.diamond_sword, Items.diamond_pickaxe, Items.diamond_shovel, Items.diamond_axe, Items.diamond_hoe);
+        addEquipmentSet(6.0, Items.bow, new ItemStack(Items.arrow, 64), Items.iron_helmet, Items.leather_chestplate, Items.leather_leggings, Items.leather_boots, Items.iron_axe, new ItemStack(Items.apple, 8));
+        addEquipmentSet(6.0, Items.iron_helmet, Items.leather_chestplate, Items.leather_leggings, Items.leather_boots, Items.diamond_pickaxe, Items.iron_shovel, Items.iron_axe, Items.stone_sword, new ItemStack(Items.bread, 8), new ItemStack(Blocks.torch, 32));
+        addEquipmentSet(8.0, Items.leather_helmet, Items.iron_hoe, new ItemStack(Items.wheat_seeds, 32), new ItemStack(Items.pumpkin_seeds, 4), new ItemStack(Items.melon_seeds, 4), new ItemStack(Items.dye, 8, 15), new ItemStack(Blocks.dirt, 32), Items.water_bucket, Items.water_bucket);
+        addEquipmentSet(6.0, Items.iron_helmet, Items.diamond_axe, new ItemStack(Items.beef, 16));
+        addEquipmentSet(6.0, new ItemStack(Items.redstone, 64), new ItemStack(Blocks.wool, 16, 0), new ItemStack(Blocks.wool, 16, 15), new ItemStack(Blocks.wool, 16, 1), new ItemStack(Blocks.redstone_block, 8), new ItemStack(Blocks.redstone_torch, 8));
 
         addEquipmentLevelsInOrder(Items.wooden_sword, Items.wooden_sword, Items.golden_sword, Items.stone_sword, Items.iron_sword, Items.diamond_sword);
         addEquipmentLevelsInOrder(Items.wooden_axe, Items.wooden_axe, Items.golden_axe, Items.stone_axe, Items.iron_axe, Items.diamond_axe);
@@ -308,15 +308,15 @@ public class PandorasBoxHelper
         addEquipmentLevelsInOrder(Items.wooden_shovel, Items.wooden_shovel, Items.golden_shovel, Items.stone_shovel, Items.iron_shovel, Items.diamond_shovel);
         addEquipmentLevelsInOrder(Items.wooden_hoe, Items.wooden_hoe, Items.golden_hoe, Items.stone_hoe, Items.iron_hoe, Items.diamond_hoe);
 
-        addPotions(buffs, 100, 0, 3, 20 * 60, 20 * 60 * 10, Potion.regeneration, Potion.moveSpeed, Potion.damageBoost, Potion.jump, Potion.resistance, Potion.waterBreathing, Potion.fireResistance, Potion.nightVision, Potion.invisibility, Potion.absorption);
-        addPotions(debuffs, 100, 0, 3, 20 * 60, 20 * 60 * 10, Potion.blindness, Potion.confusion, Potion.digSlowdown, Potion.weakness, Potion.hunger);
-        addPotions(debuffs, 100, 0, 2, 20 * 30, 20 * 60, Potion.wither);
+        addPotions(buffs, 10.0, 0, 3, 20 * 60, 20 * 60 * 10, Potion.regeneration, Potion.moveSpeed, Potion.damageBoost, Potion.jump, Potion.resistance, Potion.waterBreathing, Potion.fireResistance, Potion.nightVision, Potion.invisibility, Potion.absorption);
+        addPotions(debuffs, 10.0, 0, 3, 20 * 60, 20 * 60 * 10, Potion.blindness, Potion.confusion, Potion.digSlowdown, Potion.weakness, Potion.hunger);
+        addPotions(debuffs, 10.0, 0, 2, 20 * 30, 20 * 60, Potion.wither);
 
-        addEnchantableArmor(100, Items.iron_helmet, Items.golden_helmet, Items.diamond_helmet, Items.iron_chestplate, Items.golden_chestplate, Items.diamond_chestplate, Items.iron_leggings, Items.golden_leggings, Items.diamond_leggings, Items.iron_boots, Items.golden_boots, Items.diamond_boots);
+        addEnchantableArmor(10.0, Items.iron_helmet, Items.golden_helmet, Items.diamond_helmet, Items.iron_chestplate, Items.golden_chestplate, Items.diamond_chestplate, Items.iron_leggings, Items.golden_leggings, Items.diamond_leggings, Items.iron_boots, Items.golden_boots, Items.diamond_boots);
 
-        addEnchantableTools(100, Items.iron_sword, Items.golden_sword, Items.diamond_sword, Items.iron_shovel, Items.golden_shovel, Items.diamond_shovel, Items.iron_pickaxe, Items.golden_pickaxe, Items.diamond_pickaxe, Items.iron_axe, Items.golden_axe, Items.diamond_axe, Items.bow);
+        addEnchantableTools(10.0, Items.iron_sword, Items.golden_sword, Items.diamond_sword, Items.iron_shovel, Items.golden_shovel, Items.diamond_shovel, Items.iron_pickaxe, Items.golden_pickaxe, Items.diamond_pickaxe, Items.iron_axe, Items.golden_axe, Items.diamond_axe, Items.bow);
 
-        addBlocks(heavyBlocks, 100, Blocks.anvil);
+        addBlocks(heavyBlocks, 10.0, Blocks.anvil);
 
         addAllRandomizableBlockProperties(
                 Blocks.stone, Blocks.dirt, Blocks.sand,
