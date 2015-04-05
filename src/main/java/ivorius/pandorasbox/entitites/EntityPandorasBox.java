@@ -256,13 +256,15 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                 {
                     if (worldObj.isRemote)
                     {
+                        double yCenter = posY + height * 0.5;
+
                         for (int e = 0; e < 2; e++)
                         {
                             double xP = (rand.nextDouble() - rand.nextDouble()) * 0.2;
                             double yDir = rand.nextDouble() * 0.1;
                             double zP = (rand.nextDouble() - rand.nextDouble()) * 0.2;
 
-                            worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + xP, posY + 0.2, posZ + zP, 0.0D, yDir, 0.0D);
+                            worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + xP, yCenter, posZ + zP, 0.0D, yDir, 0.0D);
                         }
                         for (int e = 0; e < 3; e++)
                         {
@@ -270,11 +272,22 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                             double yDir = rand.nextDouble() * 4.0 + 2.0;
                             double zDir = (rand.nextDouble() - rand.nextDouble()) * 3.0;
 
-                            worldObj.spawnParticle(EnumParticleTypes.ENCHANTMENT_TABLE, posX + (rand.nextDouble() - 0.5) * width + xDir, posY + height * 0.5 + yDir - 0.3f, posZ + (rand.nextDouble() - 0.5) * width + zDir, -xDir, -yDir, -zDir);
+                            double xP = (rand.nextDouble() - 0.5) * width;
+                            double zP = (rand.nextDouble() - 0.5) * width;
+
+                            worldObj.spawnParticle(EnumParticleTypes.ENCHANTMENT_TABLE, posX + xP + xDir, yCenter + yDir, posZ + zP + zDir, -xDir, -yDir, -zDir);
                         }
                         for (int e = 0; e < 4; e++)
                         {
-                            worldObj.spawnParticle(EnumParticleTypes.PORTAL, posX + (rand.nextDouble() * 16) - 8D, posY + height * 0.5f + (rand.nextDouble() * 5) - 2D, posZ + (rand.nextDouble() * 16D) - 8D, (rand.nextDouble() * 2D) - 1D, (rand.nextDouble() * 2D) - 1D, (rand.nextDouble() * 2D) - 1D);
+                            double xP = (rand.nextDouble() * 16) - 8D;
+                            double yP = (rand.nextDouble() * 5) - 2D;
+                            double zP = (rand.nextDouble() * 16D) - 8D;
+
+                            double xDir = (rand.nextDouble() * 2D) - 1D;
+                            double yDir = (rand.nextDouble() * 2D) - 1D;
+                            double zDir = (rand.nextDouble() * 2D) - 1D;
+
+                            worldObj.spawnParticle(EnumParticleTypes.PORTAL, posX + xP, yCenter + yP, posZ + zP, xDir, yDir, zDir);
                         }
                     }
 
