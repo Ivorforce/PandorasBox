@@ -2,7 +2,7 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.PandorasBoxHelper;
 import ivorius.pandorasbox.effectcreators.*;
-import ivorius.pandorasbox.mods.Psychedelicraft;
+import ivorius.pandorasbox.mods.PsychedelicraftModule;
 import ivorius.pandorasbox.random.*;
 import ivorius.pandorasbox.utils.RandomizedItemStack;
 import ivorius.pandorasbox.weighted.WeightedBlock;
@@ -12,7 +12,6 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.WeightedRandomChestContent;
 
 import java.util.Arrays;
 
@@ -116,7 +115,7 @@ public class PBEffects
         PBECRegistry.register(new PBECMulti(new PBECDome(new ILinear(60, 200), new DLinear(10.0, 30.0), Arrays.asList(new WeightedBlock(100, Blocks.glass)), null), 0, new PBECSpawnEntities(new ILinear(60, 100), new ILinear(4, 20), new IConstant(1), new IConstant(0), new IConstant(0), new IConstant(0), PandorasBoxHelper.creatures), 0), "terrarium", true);
         PBECRegistry.register(new PBECSpawnArmy(new ILinear(1, 3), new IConstant(0), PandorasBoxHelper.creatures), "animalFarm", true);
 
-        Psychedelicraft.initEffectCreators();
+        PsychedelicraftModule.initEffectCreators();
     }
 
     public static void registerEffects()
@@ -167,6 +166,6 @@ public class PBEffects
         PBEffectRegistry.register(PBEffectDuplicateBox.class, "duplicateBox");
         PBEffectRegistry.register(PBEffectExplode.class, "explode");
 
-        Psychedelicraft.initEffects();
+        PsychedelicraftModule.initEffects();
     }
 }
