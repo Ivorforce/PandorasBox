@@ -27,16 +27,12 @@ group = "ivorius.pandorasbox" // http://maven.apache.org/guides/mini/guide-namin
 archivesBaseName = "PandorasBox"
 
 minecraft {
-    version = "1.8-11.14.1.1313"
+    version = "1.8-11.14.3.1487"
     runDir = "eclipse"
     mappings = "snapshot_20150207"
 }
 
-sourceSets {
-    main {
-        output.resourcesDir = output.classesDir
-    }
-}
+idea.module.inheritOutputDirs = true
 
 dependencies {
 }

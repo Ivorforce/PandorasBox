@@ -34,6 +34,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.io.IOException;
 
 /**
  * Created by lukas on 30.03.14.
@@ -97,7 +98,15 @@ public class RenderPandorasBox extends Render
 
     public static void renderB3DModel(TextureManager textureManager, ResourceLocation modelLoc, int animationCounter)
     {
-        IModel model = ModelLoaderRegistry.getModel(modelLoc);
+        IModel model = null;
+        try
+        {
+            model = ModelLoaderRegistry.getModel(modelLoc);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         B3DLoader.B3DState defaultState = ((B3DLoader.Wrapper) model).getDefaultState();
         B3DLoader.B3DState newState = new B3DLoader.B3DState(defaultState.getAnimation(), animationCounter);
         renderBlockModel(textureManager, model, newState);
