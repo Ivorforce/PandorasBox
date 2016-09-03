@@ -35,7 +35,7 @@ public class ClientProxy implements PBProxy
 //        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPandorasBox.class, new TileEntityRendererPandorasBox());
 
         B3DLoader.instance.addDomain(PandorasBox.MODID.toLowerCase());
-        ModelBakery.addVariantName(Item.getItemFromBlock(PBBlocks.pandorasBox), PandorasBox.basePath + "pandoras_box.b3d");
+//        ModelBakery.registerItemVariants(Item.getItemFromBlock(PBBlocks.pandorasBox), new ModelResourceLocation(PandorasBox.basePath + "pandoras_box.b3d", "inventory"));
 
         PBEffectRenderingRegistry.registerRenderer(PBEffectExplode.class, new PBEffectRendererExplosion());
 
@@ -45,10 +45,12 @@ public class ClientProxy implements PBProxy
             protected ModelResourceLocation getModelResourceLocation(IBlockState state)
             {
                 LinkedHashMap linkedhashmap = Maps.newLinkedHashMap(state.getProperties());
-                return new ModelResourceLocation(PandorasBox.basePath + "pandoras_box", getPropertyString(linkedhashmap));
+                return new ModelResourceLocation(PandorasBox.basePath + "pandoras_box", "inventory");
+//                return new ModelResourceLocation(PandorasBox.basePath + "pandoras_box", getPropertyString(linkedhashmap));
             }
         });
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(PBBlocks.pandorasBox), 0, new ModelResourceLocation(PandorasBox.basePath + "pandoras_box.b3d", "inventory"));
+
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(PBBlocks.pandorasBox), 0, new ModelResourceLocation(PandorasBox.basePath + "pandoras_box", "inventory"));
     }
 
     @Override

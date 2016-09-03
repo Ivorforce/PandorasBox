@@ -1,8 +1,15 @@
 {
+    "defaults": {
+        "#texture": "pandorasbox:pbTexture",
+        "model": "pandorasbox:pandoras_box.b3d"
+    },
     "variants": {
-        "facing=north": { "model": "pandorasbox:pandoras_box.b3d" },
-        "facing=south": { "model": "pandorasbox:pandoras_box.b3d", "y": 180 },
-        "facing=west":  { "model": "pandorasbox:pandoras_box.b3d", "y": 270 },
-        "facing=east":  { "model": "pandorasbox:pandoras_box.b3d", "y": 90 }
+        "facing=north": {  },
+        "facing=south": { "y": 180 },
+        "facing=west":  { "y": 270 },
+        "facing=east":  { "y": 90 },
+        "inventory": [{
+            "transform": "forge:default-block"
+        }]
     }
 }

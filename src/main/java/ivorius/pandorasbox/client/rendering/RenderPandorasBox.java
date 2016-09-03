@@ -32,6 +32,7 @@ import net.minecraftforge.client.model.*;
 import net.minecraftforge.client.model.b3d.B3DLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -55,6 +56,58 @@ public class RenderPandorasBox extends Render
         texture = new ResourceLocation(PandorasBox.MODID, "textures/pbTexture.png");
 
 //        model = new ResourceLocation(PandorasBox.MODID, "block/pandoras_box.b3d");
+    }
+
+    public static void renderB3DModel(TextureManager textureManager, ResourceLocation modelLoc, int animationCounter)
+    {
+        IModel model = null;
+        try
+        {
+            model = ModelLoaderRegistry.getModel(modelLoc);
+            B3DLoader.B3DState defaultState = (B3DLoader.B3DState) model.getDefaultState();
+            B3DLoader.B3DState newState = new B3DLoader.B3DState(defaultState.getAnimation(), animationCounter);
+            renderBlockModel(textureManager, model, newState);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static void renderBlockModel(TextureManager textureManager, IModel model, IModelState state)
+    {
+        if (state == null)
+            state = model.getDefaultState();
+
+        // Temporary fix for some models having alpha=0
+        GlStateManager.disableBlend();
+        GlStateManager.disableAlpha();
+
+        final TextureMap textureMapBlocks = Minecraft.getMinecraft().getTextureMapBlocks();
+
+        VertexFormat vFormat = Attributes.DEFAULT_BAKED_FORMAT;
+        IFlexibleBakedModel bakedModel = model.bake(state, vFormat, input -> input == null ? textureMapBlocks.getMissingSprite() : textureMapBlocks.getAtlasSprite(input.toString()));
+        textureManager.bindTexture(TextureMap.locationBlocksTexture);
+
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(-0.5f, 0.0f, -0.5f);
+
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+        worldRenderer.begin(GL11.GL_QUADS, vFormat);
+//        worldRenderer.markDirty(); // Still required?
+
+        for (BakedQuad quad : bakedModel.getGeneralQuads())
+            worldRenderer.addVertexData(quad.getVertexData());
+        for (EnumFacing facing : EnumFacing.values())
+            for (BakedQuad quad : bakedModel.getFaceQuads(facing))
+                worldRenderer.addVertexData(quad.getVertexData());
+
+        tessellator.draw();
+
+        GlStateManager.popMatrix();
+
+        GlStateManager.enableAlpha(); // End temporary fix
     }
 
     @Override
@@ -94,67 +147,6 @@ public class RenderPandorasBox extends Render
         GlStateManager.popMatrix();
 
         super.doRender(entity, x, y, z, yaw, partialTicks);
-    }
-
-    public static void renderB3DModel(TextureManager textureManager, ResourceLocation modelLoc, int animationCounter)
-    {
-        IModel model = null;
-        try
-        {
-            model = ModelLoaderRegistry.getModel(modelLoc);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        B3DLoader.B3DState defaultState = ((B3DLoader.Wrapper) model).getDefaultState();
-        B3DLoader.B3DState newState = new B3DLoader.B3DState(defaultState.getAnimation(), animationCounter);
-        renderBlockModel(textureManager, model, newState);
-    }
-
-    public static void renderBlockModel(TextureManager textureManager, IModel model, IModelState state)
-    {
-        if (state == null)
-            state = model.getDefaultState();
-
-        // Temporary fix for some models having alpha=0
-        GlStateManager.disableBlend();
-        GlStateManager.disableAlpha();
-
-        final TextureMap textureMapBlocks = Minecraft.getMinecraft().getTextureMapBlocks();
-
-        VertexFormat vFormat = Attributes.DEFAULT_BAKED_FORMAT;
-        IFlexibleBakedModel bakedModel = model.bake(state, vFormat, new Function<ResourceLocation, TextureAtlasSprite>()
-        {
-            @Nullable
-            @Override
-            public TextureAtlasSprite apply(@Nullable ResourceLocation input)
-            {
-                return input == null ? textureMapBlocks.getMissingSprite() : textureMapBlocks.getAtlasSprite(input.toString());
-            }
-        });
-        textureManager.bindTexture(TextureMap.locationBlocksTexture);
-
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(-0.5f, 0.0f, -0.5f);
-
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-        worldRenderer.startDrawingQuads();
-        worldRenderer.setVertexFormat(vFormat);
-        worldRenderer.markDirty();
-
-        for (BakedQuad quad : bakedModel.getGeneralQuads())
-            worldRenderer.addVertexData(quad.getVertexData());
-        for (EnumFacing facing : EnumFacing.values())
-            for (BakedQuad quad : bakedModel.getFaceQuads(facing))
-                worldRenderer.addVertexData(quad.getVertexData());
-
-        tessellator.draw();
-
-        GlStateManager.popMatrix();
-
-        GlStateManager.enableAlpha(); // End temporary fix
     }
 
     @Override

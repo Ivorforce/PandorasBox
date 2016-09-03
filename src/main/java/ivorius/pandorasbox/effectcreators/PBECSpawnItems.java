@@ -9,7 +9,7 @@ import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.effects.PBEffectSpawnItemStacks;
 import ivorius.pandorasbox.random.*;
 import ivorius.pandorasbox.utils.RandomizedItemStack;
-import ivorius.pandorasbox.utils.WeightedSelector;
+import ivorius.ivtoolkit.random.WeightedSelector;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;

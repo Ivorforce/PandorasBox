@@ -385,9 +385,15 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox()
+    public AxisAlignedBB getCollisionBox(Entity entityIn)
     {
-        return getEntityBoundingBox();
+        return entityIn.getEntityBoundingBox();
+    }
+
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox()
+    {
+        return this.getEntityBoundingBox();
     }
 
     @Override

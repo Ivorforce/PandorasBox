@@ -8,6 +8,7 @@ package ivorius.pandorasbox.effects;
 import ivorius.pandorasbox.utils.PBNBTHelper;
 import ivorius.pandorasbox.worldgen.WorldGenMegaJungleCustom;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockPlanks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -39,7 +40,7 @@ public class PBEffectGenTreesOdd extends PBEffectGenerateByGenerator
     private void initializeGens()
     {
         treeGens = new WorldGenerator[1];
-        treeGens[treeJungle] = new WorldGenMegaJungleCustom(true, 10, 20, 3, 3, trunkBlock, leafBlock);
+        treeGens[treeJungle] = new WorldGenMegaJungleCustom(true, 10, 20, trunkBlock.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), leafBlock.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE));
     }
 
     @Override

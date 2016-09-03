@@ -7,6 +7,7 @@ package ivorius.pandorasbox.worldgen;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockVine;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -20,14 +21,9 @@ import java.util.Random;
  */
 public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
 {
-    public final Block trunkBlock;
-    public final Block leavesBlock;
-
-    public WorldGenMegaJungleCustom(boolean p_i45458_1_, int p_i45458_2_, int p_i45458_3_, int p_i45458_4_, int p_i45458_5_, Block trunkBlock, Block leavesBlock)
+    public WorldGenMegaJungleCustom(boolean p_i45458_1_, int p_i45458_2_, int p_i45458_3_, IBlockState p_i45458_4_, IBlockState p_i45458_5_)
     {
         super(p_i45458_1_, p_i45458_2_, p_i45458_3_, p_i45458_4_, p_i45458_5_);
-        this.trunkBlock = trunkBlock;
-        this.leavesBlock = leavesBlock;
     }
 
     public boolean generate(World worldIn, Random p_180709_2_, BlockPos p_180709_3_)
@@ -53,7 +49,7 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
                 {
                     k = p_180709_3_.getX() + (int) (1.5F + MathHelper.cos(f) * (float) i1);
                     l = p_180709_3_.getZ() + (int) (1.5F + MathHelper.sin(f) * (float) i1);
-                    this.func_175905_a(worldIn, new BlockPos(k, j - 3 + i1 / 2, l), trunkBlock, this.woodMetadata);
+                    this.setBlockAndNotifyAdequately(worldIn, new BlockPos(k, j - 3 + i1 / 2, l), this.woodMetadata);
                 }
 
                 i1 = 1 + p_180709_2_.nextInt(2);
@@ -72,12 +68,12 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
 
                 if (this.isAirLeaves(worldIn, blockpos1))
                 {
-                    this.func_175905_a(worldIn, blockpos1, trunkBlock, this.woodMetadata);
+                    this.setBlockAndNotifyAdequately(worldIn, blockpos1, this.woodMetadata);
 
                     if (i2 > 0)
                     {
-                        this.func_175932_b(worldIn, p_180709_2_, blockpos1.west(), BlockVine.EAST_FLAG);
-                        this.func_175932_b(worldIn, p_180709_2_, blockpos1.north(), BlockVine.SOUTH_FLAG);
+                        this.func_175932_b(worldIn, p_180709_2_, blockpos1.west(), Blocks.vine.getDefaultState().withProperty(BlockVine.EAST, true));
+                        this.func_175932_b(worldIn, p_180709_2_, blockpos1.north(), Blocks.vine.getDefaultState().withProperty(BlockVine.SOUTH, true));
                     }
                 }
 
@@ -87,12 +83,12 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
 
                     if (this.isAirLeaves(worldIn, blockpos2))
                     {
-                        this.func_175905_a(worldIn, blockpos2, trunkBlock, this.woodMetadata);
+                        this.setBlockAndNotifyAdequately(worldIn, blockpos2, this.woodMetadata);
 
                         if (i2 > 0)
                         {
-                            this.func_175932_b(worldIn, p_180709_2_, blockpos2.east(), BlockVine.WEST_FLAG);
-                            this.func_175932_b(worldIn, p_180709_2_, blockpos2.north(), BlockVine.SOUTH_FLAG);
+                            this.func_175932_b(worldIn, p_180709_2_, blockpos2.east(), Blocks.vine.getDefaultState().withProperty(BlockVine.WEST, true));
+                            this.func_175932_b(worldIn, p_180709_2_, blockpos2.north(), Blocks.vine.getDefaultState().withProperty(BlockVine.SOUTH, true));
                         }
                     }
 
@@ -100,12 +96,12 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
 
                     if (this.isAirLeaves(worldIn, blockpos3))
                     {
-                        this.func_175905_a(worldIn, blockpos3, trunkBlock, this.woodMetadata);
+                        this.setBlockAndNotifyAdequately(worldIn, blockpos3, this.woodMetadata);
 
                         if (i2 > 0)
                         {
-                            this.func_175932_b(worldIn, p_180709_2_, blockpos3.east(), BlockVine.WEST_FLAG);
-                            this.func_175932_b(worldIn, p_180709_2_, blockpos3.south(), BlockVine.NORTH_FLAG);
+                            this.func_175932_b(worldIn, p_180709_2_, blockpos3.east(), Blocks.vine.getDefaultState().withProperty(BlockVine.WEST, true));
+                            this.func_175932_b(worldIn, p_180709_2_, blockpos3.south(), Blocks.vine.getDefaultState().withProperty(BlockVine.NORTH, true));
                         }
                     }
 
@@ -113,12 +109,12 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
 
                     if (this.isAirLeaves(worldIn, blockpos4))
                     {
-                        this.func_175905_a(worldIn, blockpos4, trunkBlock, this.woodMetadata);
+                        this.setBlockAndNotifyAdequately(worldIn, blockpos4, this.woodMetadata);
 
                         if (i2 > 0)
                         {
-                            this.func_175932_b(worldIn, p_180709_2_, blockpos4.west(), BlockVine.EAST_FLAG);
-                            this.func_175932_b(worldIn, p_180709_2_, blockpos4.south(), BlockVine.NORTH_FLAG);
+                            this.func_175932_b(worldIn, p_180709_2_, blockpos4.west(), Blocks.vine.getDefaultState().withProperty(BlockVine.EAST, true));
+                            this.func_175932_b(worldIn, p_180709_2_, blockpos4.south(), Blocks.vine.getDefaultState().withProperty(BlockVine.NORTH, true));
                         }
                     }
                 }
@@ -128,11 +124,11 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
         }
     }
 
-    private void func_175932_b(World worldIn, Random p_175932_2_, BlockPos p_175932_3_, int p_175932_4_)
+    private void func_175932_b(World worldIn, Random p_175932_2_, BlockPos p_175932_3_, IBlockState p_175932_4_)
     {
         if (p_175932_2_.nextInt(3) > 0 && worldIn.isAirBlock(p_175932_3_))
         {
-            this.func_175905_a(worldIn, p_175932_3_, Blocks.vine, p_175932_4_);
+            this.setBlockAndNotifyAdequately(worldIn, p_175932_3_, p_175932_4_);
         }
     }
 
@@ -173,7 +169,7 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
 
                     if (state.getBlock().isAir(worldIn, blockpos1) || state.getBlock().isLeaves(worldIn, blockpos1))
                     {
-                        this.func_175905_a(worldIn, blockpos1, leavesBlock, this.leavesMetadata);
+                        this.setBlockAndNotifyAdequately(worldIn, blockpos1, this.leavesMetadata);
                     }
                 }
             }
@@ -195,7 +191,7 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
 
                     if (block.isAir(worldIn, blockpos1) || block.isLeaves(worldIn, blockpos1))
                     {
-                        this.func_175905_a(worldIn, blockpos1, leavesBlock, this.leavesMetadata);
+                        this.setBlockAndNotifyAdequately(worldIn, blockpos1, leavesMetadata);
                     }
                 }
             }

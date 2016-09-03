@@ -9,7 +9,7 @@ import ivorius.pandorasbox.effects.PBEffectRegistry;
 import ivorius.pandorasbox.random.DLinear;
 import ivorius.pandorasbox.random.ILinear;
 import ivorius.pandorasbox.random.IWeighted;
-import ivorius.pandorasbox.utils.WeightedSelector;
+import ivorius.ivtoolkit.random.WeightedSelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.event.FMLInterModComms;

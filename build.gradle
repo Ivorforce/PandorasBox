@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
@@ -11,11 +11,11 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
 
-apply plugin: 'forge'
+apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "2.1.2"
 def ENV = System.getenv()
@@ -27,14 +27,14 @@ group = "ivorius.pandorasbox" // http://maven.apache.org/guides/mini/guide-namin
 archivesBaseName = "PandorasBox"
 
 minecraft {
-    version = "1.8-11.14.3.1487"
+    version = "1.8.9-11.15.1.1902-1.8.9"
     runDir = "eclipse"
-    mappings = "snapshot_20150207"
+    mappings = "stable_20"
+    useDepAts = true
 }
 
-idea.module.inheritOutputDirs = true
-
 dependencies {
+    deobfCompile 'ivorius.ivtoolkit:IvToolkit:1.2.4'
 }
 
 processResources
@@ -57,23 +57,5 @@ processResources
     }
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
-task sourceJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
-}
-
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'dev'
-
-    manifest {
-    }
-}
-
-artifacts {
-    archives sourceJar
-    archives deobfJar
-}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8

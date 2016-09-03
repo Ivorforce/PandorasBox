@@ -56,7 +56,7 @@ public class PBEffectGenConvertToMushroom extends PBEffectGenerate
                         }
                         else if (world.rand.nextInt(8 * 8) == 0)
                         {
-                            WorldGenBigMushroom mushroomGen = new WorldGenBigMushroom(random.nextInt(2));
+                            WorldGenBigMushroom mushroomGen = new WorldGenBigMushroom(random.nextBoolean() ? Blocks.brown_mushroom : Blocks.red_mushroom);
                             mushroomGen.generate(world, world.rand, posUp);
                         }
                     }

@@ -7,6 +7,7 @@ package ivorius.pandorasbox.block;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -24,11 +25,12 @@ import net.minecraft.world.World;
 public class BlockPandorasBox extends BlockContainer
 {
     public static final PropertyDirection FACING_PROP = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+    public static final PropertyBool INVENTORY = PropertyBool.create("inventory");
 
     public BlockPandorasBox()
     {
         super(Material.wood);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING_PROP, EnumFacing.NORTH));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING_PROP, EnumFacing.NORTH).withProperty(INVENTORY, false));
         setBlockBounds(0.2f, 0.0f, 0.2f, 0.8f, 0.6f, 0.8f);
     }
 
@@ -102,6 +104,6 @@ public class BlockPandorasBox extends BlockContainer
     @Override
     protected BlockState createBlockState()
     {
-        return new BlockState(this, FACING_PROP);
+        return new BlockState(this, FACING_PROP, INVENTORY);
     }
 }

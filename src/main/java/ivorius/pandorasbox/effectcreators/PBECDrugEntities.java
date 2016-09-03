@@ -10,7 +10,7 @@ import ivorius.pandorasbox.effects.PBEffectEntitiesDrug;
 import ivorius.pandorasbox.mods.PsychedelicraftModule;
 import ivorius.pandorasbox.random.DValue;
 import ivorius.pandorasbox.random.IValue;
-import ivorius.pandorasbox.utils.WeightedSelector;
+import ivorius.ivtoolkit.random.WeightedSelector;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;

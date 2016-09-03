@@ -8,6 +8,7 @@ package ivorius.pandorasbox.worldgen;
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -113,7 +114,7 @@ public class WorldGenColorfulTree extends WorldGenAbstractTree
         }
     }
 
-    void func_180712_a(BlockPos p_180712_1_, float p_180712_2_, Block p_180712_3_)
+    void func_180712_a(BlockPos p_180712_1_, float p_180712_2_, IBlockState p_180712_3_)
     {
         int i = (int) ((double) p_180712_2_ + 0.618D);
 
@@ -124,11 +125,11 @@ public class WorldGenColorfulTree extends WorldGenAbstractTree
                 if (Math.pow((double) Math.abs(j) + 0.5D, 2.0D) + Math.pow((double) Math.abs(k) + 0.5D, 2.0D) <= (double) (p_180712_2_ * p_180712_2_))
                 {
                     BlockPos blockpos1 = p_180712_1_.add(j, 0, k);
-                    net.minecraft.block.state.IBlockState state = this.field_175946_l.getBlockState(blockpos1);
+                    IBlockState state = this.field_175946_l.getBlockState(blockpos1);
 
                     if (state.getBlock().isAir(this.field_175946_l, blockpos1) || state.getBlock().isLeaves(this.field_175946_l, blockpos1))
                     {
-                        this.func_175905_a(this.field_175946_l, blockpos1, p_180712_3_, 0);
+                        this.setBlockAndNotifyAdequately(this.field_175946_l, blockpos1, p_180712_3_);
                     }
                 }
             }
@@ -172,7 +173,7 @@ public class WorldGenColorfulTree extends WorldGenAbstractTree
     {
         for (int i = 0; i < this.leafDistanceLimit; ++i)
         {
-            this.func_180712_a(p_175940_1_.up(i), this.leafSize(i), trunk);
+            this.func_180712_a(p_175940_1_.up(i), this.leafSize(i), trunk.getDefaultState());
         }
     }
 
@@ -339,7 +340,7 @@ public class WorldGenColorfulTree extends WorldGenAbstractTree
     private boolean validTreeLocation()
     {
         BlockPos down = this.field_175947_m.down();
-        net.minecraft.block.state.IBlockState state = this.field_175946_l.getBlockState(down);
+        IBlockState state = this.field_175946_l.getBlockState(down);
         boolean isSoil = state.getBlock() == soil;
 
         if (!isSoil)
