@@ -7,9 +7,10 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenBigMushroom;
 
@@ -30,59 +31,60 @@ public class PBEffectGenConvertToMushroom extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random, int pass, BlockPos pos, double range)
     {
-        Block block = world.getBlockState(pos).getBlock();
+        IBlockState blockState = world.getBlockState(pos);
+        Block block = blockState.getBlock();
 
         if (pass == 0)
         {
-            if (isBlockAnyOf(block, Blocks.snow, Blocks.snow_layer, Blocks.fire, Blocks.red_flower, Blocks.yellow_flower, Blocks.tallgrass, Blocks.log, Blocks.log2, Blocks.leaves, Blocks.leaves2))
+            if (isBlockAnyOf(block, Blocks.SNOW, Blocks.SNOW_LAYER, Blocks.FIRE, Blocks.RED_FLOWER, Blocks.YELLOW_FLOWER, Blocks.TALLGRASS, Blocks.LOG, Blocks.LOG2, Blocks.LEAVES, Blocks.LEAVES2))
             {
                 setBlockToAirSafe(world, pos);
             }
-            else if (isBlockAnyOf(block, Blocks.stone, Blocks.end_stone, Blocks.netherrack, Blocks.soul_sand, Blocks.sand, Blocks.dirt, Blocks.grass))
+            else if (isBlockAnyOf(block, Blocks.STONE, Blocks.END_STONE, Blocks.NETHERRACK, Blocks.SOUL_SAND, Blocks.SAND, Blocks.DIRT, Blocks.GRASS))
             {
                 BlockPos posUp = pos.up();
 
-                if (world.getBlockState(posUp) == Blocks.air)
+                if (world.getBlockState(posUp) == Blocks.AIR)
                 {
-                    setBlockSafe(world, pos, Blocks.mycelium.getDefaultState());
+                    setBlockSafe(world, pos, Blocks.MYCELIUM.getDefaultState());
 
                     if (!world.isRemote)
                     {
                         if (world.rand.nextInt(6 * 6) == 0)
                         {
-                            setBlockSafe(world, posUp, (world.rand.nextBoolean() ? Blocks.brown_mushroom.getDefaultState() : Blocks.red_mushroom.getDefaultState()));
+                            setBlockSafe(world, posUp, (world.rand.nextBoolean() ? Blocks.BROWN_MUSHROOM.getDefaultState() : Blocks.RED_MUSHROOM.getDefaultState()));
                         }
                         else if (world.rand.nextInt(8 * 8) == 0)
                         {
-                            WorldGenBigMushroom mushroomGen = new WorldGenBigMushroom(random.nextBoolean() ? Blocks.brown_mushroom : Blocks.red_mushroom);
+                            WorldGenBigMushroom mushroomGen = new WorldGenBigMushroom(random.nextBoolean() ? Blocks.BROWN_MUSHROOM : Blocks.RED_MUSHROOM);
                             mushroomGen.generate(world, world.rand, posUp);
                         }
                     }
                 }
                 else
                 {
-                    setBlockSafe(world, pos, Blocks.dirt.getDefaultState());
+                    setBlockSafe(world, pos, Blocks.DIRT.getDefaultState());
                 }
             }
-            else if (isBlockAnyOf(block, Blocks.obsidian, Blocks.lava, Blocks.ice))
+            else if (isBlockAnyOf(block, Blocks.OBSIDIAN, Blocks.LAVA, Blocks.ICE))
             {
-                setBlockSafe(world, pos, Blocks.flowing_water.getDefaultState());
+                setBlockSafe(world, pos, Blocks.FLOWING_WATER.getDefaultState());
             }
 
-            if (isBlockAnyOf(block, Blocks.flowing_lava, Blocks.lava))
+            if (isBlockAnyOf(block, Blocks.FLOWING_LAVA, Blocks.LAVA))
             {
-                setBlockSafe(world, pos, Blocks.water.getDefaultState());
+                setBlockSafe(world, pos, Blocks.WATER.getDefaultState());
             }
-            if (isBlockAnyOf(block, Blocks.obsidian, Blocks.ice))
+            if (isBlockAnyOf(block, Blocks.OBSIDIAN, Blocks.ICE))
             {
-                setBlockSafe(world, pos, Blocks.water.getDefaultState());
+                setBlockSafe(world, pos, Blocks.WATER.getDefaultState());
             }
         }
         else
         {
-            if (canSpawnEntity(world, block, pos))
+            if (canSpawnEntity(world, blockState, pos))
             {
                 lazilySpawnEntity(world, entity, random, "MushroomCow", 1.0f / (20 * 20), pos);
             }

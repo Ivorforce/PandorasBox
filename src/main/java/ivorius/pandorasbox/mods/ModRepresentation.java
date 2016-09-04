@@ -17,7 +17,7 @@ public class ModRepresentation
 
     public static String id(Block block)
     {
-        return Block.blockRegistry.getNameForObject(block).toString();
+        return Block.REGISTRY.getNameForObject(block).toString();
     }
 
     public static Item item(String modID, String id)
@@ -27,6 +27,6 @@ public class ModRepresentation
 
     public static String id(Item item)
     {
-        return Item.itemRegistry.getNameForObject(item).toString();
+        return Item.REGISTRY.getNameForObject(item).toString();
     }
 }

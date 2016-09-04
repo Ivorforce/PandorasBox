@@ -14,8 +14,6 @@ import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -99,22 +97,22 @@ public class PBECSpawnItems implements PBEffectCreator
 
             if (enchantLevel > 0)
             {
-                List enchantments = EnchantmentHelper.buildEnchantmentList(random, stack, enchantLevel);
+                List enchantments = EnchantmentHelper.buildEnchantmentList(random, stack, enchantLevel, false);
 
-                if (enchantments == null)
+                if (enchantments.size() == 0)
                 {
-                    enchantments = EnchantmentHelper.buildEnchantmentList(random, new ItemStack(Items.iron_axe), enchantLevel);
+                    enchantments = EnchantmentHelper.buildEnchantmentList(random, new ItemStack(Items.IRON_AXE), enchantLevel, false);
                 }
 
-                if (enchantments != null)
+                if (enchantments.size() > 0)
                 {
                     for (Object enchantment : enchantments)
                     {
                         EnchantmentData enchantmentdata = (EnchantmentData) enchantment;
 
-                        if (stack.getItem() == Items.enchanted_book)
+                        if (stack.getItem() == Items.ENCHANTED_BOOK)
                         {
-                            Items.enchanted_book.addEnchantment(stack, enchantmentdata);
+                            Items.ENCHANTED_BOOK.addEnchantment(stack, enchantmentdata);
                         }
                         else
                         {

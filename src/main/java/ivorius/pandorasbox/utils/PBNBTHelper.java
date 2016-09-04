@@ -288,7 +288,7 @@ public class PBNBTHelper
 
     public static String storeBlockString(Block block)
     {
-        ResourceLocation location = (ResourceLocation) Block.blockRegistry.getNameForObject(block);
+        ResourceLocation location = Block.REGISTRY.getNameForObject(block);
         return location == null ? "minecraft:air" : location.toString();
     }
 

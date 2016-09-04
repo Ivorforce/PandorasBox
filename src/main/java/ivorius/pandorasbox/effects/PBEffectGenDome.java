@@ -9,9 +9,9 @@ import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -36,7 +36,7 @@ public class PBEffectGenDome extends PBEffectGenerate2D
     }
 
     @Override
-    public void generateOnSurface(World world, EntityPandorasBox box, Vec3 effectCenter, Random random, BlockPos pos, double dist, int pass)
+    public void generateOnSurface(World world, EntityPandorasBox box, Vec3d effectCenter, Random random, BlockPos pos, double dist, int pass)
     {
         int domeHeightY = MathHelper.ceiling_double_int(range);
 

@@ -12,7 +12,7 @@ import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.effects.PBEffectMulti;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.*;
@@ -178,7 +178,7 @@ public class PBECRegistry
         {
             EntityPandorasBox entityPandorasBox = new EntityPandorasBox(world, effect);
 
-            Vec3 look = entity.getLookVec();
+            Vec3d look = entity.getLookVec();
 
             double spawnX = entity.posX + look.xCoord * 0.5;
             double spawnY = entity.posY + 0.9 + look.yCoord * 0.5;

@@ -10,7 +10,7 @@ import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.effects.PBEffectGenConvertToRainbowCloth;
 import ivorius.pandorasbox.random.DValue;
 import ivorius.pandorasbox.random.IValue;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.Random;

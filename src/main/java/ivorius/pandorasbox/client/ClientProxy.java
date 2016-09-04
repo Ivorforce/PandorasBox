@@ -16,10 +16,9 @@ import ivorius.pandorasbox.effects.PBEffectExplode;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.b3d.B3DLoader;
@@ -34,7 +33,7 @@ public class ClientProxy implements PBProxy
     {
 //        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPandorasBox.class, new TileEntityRendererPandorasBox());
 
-        B3DLoader.instance.addDomain(PandorasBox.MODID.toLowerCase());
+        B3DLoader.INSTANCE.addDomain(PandorasBox.MOD_ID.toLowerCase());
 //        ModelBakery.registerItemVariants(Item.getItemFromBlock(PBBlocks.pandorasBox), new ModelResourceLocation(PandorasBox.basePath + "pandoras_box.b3d", "inventory"));
 
         PBEffectRenderingRegistry.registerRenderer(PBEffectExplode.class, new PBEffectRendererExplosion());

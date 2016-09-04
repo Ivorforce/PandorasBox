@@ -7,12 +7,13 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -32,18 +33,20 @@ public class PBEffectGenConvertToHalloween extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random, int pass, BlockPos pos, double range)
     {
         if (!world.isRemote)
         {
-            Block block = world.getBlockState(pos).getBlock();
+            IBlockState blockState = world.getBlockState(pos);
+            Block block = blockState.getBlock();
 
             if (pass == 0)
             {
                 BlockPos posBelow = pos.down();
-                Block blockBelow = world.getBlockState(posBelow).getBlock();
+                IBlockState blockBelowState = world.getBlockState(posBelow);
+                Block blockBelow = blockBelowState.getBlock();
 
-                if (blockBelow.isNormalCube(world, posBelow) && Blocks.snow_layer.canPlaceBlockAt(world, pos) && block != Blocks.water)
+                if (blockBelow.isNormalCube(blockBelowState, world, posBelow) && Blocks.SNOW_LAYER.canPlaceBlockAt(world, pos) && block != Blocks.WATER)
                 {
                     if (random.nextInt(5 * 5) == 0)
                     {
@@ -51,29 +54,29 @@ public class PBEffectGenConvertToHalloween extends PBEffectGenerate
 
                         if (b == 0)
                         {
-                            setBlockSafe(world, posBelow, Blocks.netherrack.getDefaultState());
-                            setBlockSafe(world, pos, Blocks.fire.getDefaultState());
+                            setBlockSafe(world, posBelow, Blocks.NETHERRACK.getDefaultState());
+                            setBlockSafe(world, pos, Blocks.FIRE.getDefaultState());
                         }
                         else if (b == 1)
                         {
-                            setBlockSafe(world, pos, Blocks.lit_pumpkin.getDefaultState());
+                            setBlockSafe(world, pos, Blocks.LIT_PUMPKIN.getDefaultState());
                         }
                         else if (b == 2)
                         {
-                            setBlockSafe(world, pos, Blocks.pumpkin.getDefaultState());
+                            setBlockSafe(world, pos, Blocks.PUMPKIN.getDefaultState());
                         }
                         else if (b == 3)
                         {
-                            setBlockSafe(world, posBelow, Blocks.farmland.getDefaultState());
-                            setBlockSafe(world, pos, Blocks.pumpkin_stem.getStateFromMeta(world.rand.nextInt(4) + 4));
+                            setBlockSafe(world, posBelow, Blocks.FARMLAND.getDefaultState());
+                            setBlockSafe(world, pos, Blocks.PUMPKIN_STEM.getStateFromMeta(world.rand.nextInt(4) + 4));
                         }
                         else if (b == 4)
                         {
-                            setBlockSafe(world, pos, Blocks.cake.getDefaultState());
+                            setBlockSafe(world, pos, Blocks.CAKE.getDefaultState());
                         }
                         else if (b == 5)
                         {
-                            EntityItem entityItem = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5f, pos.getZ() + 0.5f, new ItemStack(Items.cookie));
+                            EntityItem entityItem = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5f, pos.getZ() + 0.5f, new ItemStack(Items.COOKIE));
                             entityItem.setPickupDelay(20);
                             world.spawnEntityInWorld(entityItem);
                         }
@@ -82,7 +85,7 @@ public class PBEffectGenConvertToHalloween extends PBEffectGenerate
             }
             else
             {
-                if (canSpawnEntity(world, block, pos))
+                if (canSpawnEntity(world, blockState, pos))
                 {
                     lazilySpawnEntity(world, entity, random, "PigZombie", 1.0f / (20 * 20), pos);
                     lazilySpawnEntity(world, entity, random, "Enderman", 1.0f / (20 * 20), pos);

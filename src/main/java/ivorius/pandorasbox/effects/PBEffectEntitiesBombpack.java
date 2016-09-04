@@ -39,7 +39,7 @@ public class PBEffectEntitiesBombpack extends PBEffectEntityBased
 //                entitytntprimed.fuse = 60 + random.nextInt(160); // Use normal fuse for correct visual effect
 
                 world.spawnEntityInWorld(entitytntprimed);
-                entitytntprimed.mountEntity(entity);
+                entitytntprimed.startRiding(entity, true);
             }
         }
     }

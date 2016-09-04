@@ -20,8 +20,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
@@ -39,14 +39,14 @@ public abstract class PBEffect
 
     public static boolean setBlockToAirSafe(World world, BlockPos pos)
     {
-        boolean safeDest = world.getBlockState(pos) == Blocks.air || world.getBlockState(pos).getBlock().getBlockHardness(world, pos) >= 0f;
+        boolean safeDest = world.getBlockState(pos) == Blocks.AIR || world.getBlockState(pos).getBlockHardness(world, pos) >= 0f;
         return safeDest && world.setBlockToAir(pos);
     }
 
     public static boolean setBlockSafe(World world, BlockPos pos, IBlockState state)
     {
-        boolean safeDest = world.getBlockState(pos) == Blocks.air || world.getBlockState(pos).getBlock().getBlockHardness(world, pos) >= 0f;
-        boolean safeSrc = state.getBlock() == Blocks.air || state.getBlock().getBlockHardness(world, pos) >= 0f;
+        boolean safeDest = world.getBlockState(pos) == Blocks.AIR || world.getBlockState(pos).getBlockHardness(world, pos) >= 0f;
+        boolean safeSrc = state.getBlock() == Blocks.AIR || state.getBlockHardness(world, pos) >= 0f;
 
         return safeDest && safeSrc && world.setBlockState(pos, state);
     }
@@ -93,7 +93,7 @@ public abstract class PBEffect
         return null;
     }
 
-    public static boolean canSpawnEntity(World world, Block block, BlockPos pos)
+    public static boolean canSpawnEntity(World world, IBlockState block, BlockPos pos)
     {
         if (world.isRemote)
             return false;
@@ -107,7 +107,7 @@ public abstract class PBEffect
         return true;
     }
 
-    public boolean canSpawnFlyingEntity(World world, Block block, BlockPos pos)
+    public boolean canSpawnFlyingEntity(World world, IBlockState block, BlockPos pos)
     {
         if (world.isRemote)
             return false;
@@ -124,13 +124,13 @@ public abstract class PBEffect
         {
             boolean addNewEffect = true;
 
-            if (entity.isPotionActive(potionEffect.getPotionID()))
+            if (entity.isPotionActive(potionEffect.getPotion()))
             {
-                PotionEffect prevEffect = entity.getActivePotionEffect(Potion.potionTypes[potionEffect.getPotionID()]);
+                PotionEffect prevEffect = entity.getActivePotionEffect(potionEffect.getPotion());
                 if (prevEffect.getAmplifier() == potionEffect.getAmplifier())
                 {
                     int duration = prevEffect.getDuration() + potionEffect.getDuration();
-                    PotionEffect combined = new PotionEffect(potionEffect.getPotionID(), duration, potionEffect.getAmplifier(), potionEffect.getIsAmbient(), potionEffect.getIsShowParticles());
+                    PotionEffect combined = new PotionEffect(potionEffect.getPotion(), duration, potionEffect.getAmplifier(), potionEffect.getIsAmbient(), potionEffect.doesShowParticles());
                     entity.addPotionEffect(combined);
                 }
             }
@@ -140,7 +140,7 @@ public abstract class PBEffect
         }
     }
 
-    public abstract void doTick(EntityPandorasBox entity, Vec3 effectCenter, int ticksAlive);
+    public abstract void doTick(EntityPandorasBox entity, Vec3d effectCenter, int ticksAlive);
 
     public abstract boolean isDone(EntityPandorasBox entity, int ticksAlive);
 

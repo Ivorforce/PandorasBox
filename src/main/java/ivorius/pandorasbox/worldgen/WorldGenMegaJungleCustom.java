@@ -9,8 +9,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockVine;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenHugeTrees;
 
@@ -28,9 +28,9 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
 
     public boolean generate(World worldIn, Random p_180709_2_, BlockPos p_180709_3_)
     {
-        int i = this.func_150533_a(p_180709_2_);
+        int i = this.getHeight(p_180709_2_);
 
-        if (!this.func_175929_a(worldIn, p_180709_2_, p_180709_3_, i))
+        if (!this.ensureGrowable(worldIn, p_180709_2_, p_180709_3_, i))
         {
             return false;
         }
@@ -72,8 +72,8 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
 
                     if (i2 > 0)
                     {
-                        this.func_175932_b(worldIn, p_180709_2_, blockpos1.west(), Blocks.vine.getDefaultState().withProperty(BlockVine.EAST, true));
-                        this.func_175932_b(worldIn, p_180709_2_, blockpos1.north(), Blocks.vine.getDefaultState().withProperty(BlockVine.SOUTH, true));
+                        this.func_175932_b(worldIn, p_180709_2_, blockpos1.west(), Blocks.VINE.getDefaultState().withProperty(BlockVine.EAST, true));
+                        this.func_175932_b(worldIn, p_180709_2_, blockpos1.north(), Blocks.VINE.getDefaultState().withProperty(BlockVine.SOUTH, true));
                     }
                 }
 
@@ -87,8 +87,8 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
 
                         if (i2 > 0)
                         {
-                            this.func_175932_b(worldIn, p_180709_2_, blockpos2.east(), Blocks.vine.getDefaultState().withProperty(BlockVine.WEST, true));
-                            this.func_175932_b(worldIn, p_180709_2_, blockpos2.north(), Blocks.vine.getDefaultState().withProperty(BlockVine.SOUTH, true));
+                            this.func_175932_b(worldIn, p_180709_2_, blockpos2.east(), Blocks.VINE.getDefaultState().withProperty(BlockVine.WEST, true));
+                            this.func_175932_b(worldIn, p_180709_2_, blockpos2.north(), Blocks.VINE.getDefaultState().withProperty(BlockVine.SOUTH, true));
                         }
                     }
 
@@ -100,8 +100,8 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
 
                         if (i2 > 0)
                         {
-                            this.func_175932_b(worldIn, p_180709_2_, blockpos3.east(), Blocks.vine.getDefaultState().withProperty(BlockVine.WEST, true));
-                            this.func_175932_b(worldIn, p_180709_2_, blockpos3.south(), Blocks.vine.getDefaultState().withProperty(BlockVine.NORTH, true));
+                            this.func_175932_b(worldIn, p_180709_2_, blockpos3.east(), Blocks.VINE.getDefaultState().withProperty(BlockVine.WEST, true));
+                            this.func_175932_b(worldIn, p_180709_2_, blockpos3.south(), Blocks.VINE.getDefaultState().withProperty(BlockVine.NORTH, true));
                         }
                     }
 
@@ -113,8 +113,8 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
 
                         if (i2 > 0)
                         {
-                            this.func_175932_b(worldIn, p_180709_2_, blockpos4.west(), Blocks.vine.getDefaultState().withProperty(BlockVine.EAST, true));
-                            this.func_175932_b(worldIn, p_180709_2_, blockpos4.south(), Blocks.vine.getDefaultState().withProperty(BlockVine.NORTH, true));
+                            this.func_175932_b(worldIn, p_180709_2_, blockpos4.west(), Blocks.VINE.getDefaultState().withProperty(BlockVine.EAST, true));
+                            this.func_175932_b(worldIn, p_180709_2_, blockpos4.south(), Blocks.VINE.getDefaultState().withProperty(BlockVine.NORTH, true));
                         }
                     }
                 }
@@ -145,8 +145,9 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
     //Helper macro
     private boolean isAirLeaves(World world, BlockPos pos)
     {
-        net.minecraft.block.Block block = world.getBlockState(pos).getBlock();
-        return block.isAir(world, pos) || block.isLeaves(world, pos);
+        IBlockState blockState = world.getBlockState(pos);
+        Block block = blockState.getBlock();
+        return block.isAir(blockState, world, pos) || block.isLeaves(blockState, world, pos);
     }
 
 
@@ -165,9 +166,9 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
                 if (k * k + l * l <= j || i1 * i1 + j1 * j1 <= j || k * k + j1 * j1 <= j || i1 * i1 + l * l <= j)
                 {
                     BlockPos blockpos1 = p_175925_2_.add(k, 0, l);
-                    net.minecraft.block.state.IBlockState state = worldIn.getBlockState(blockpos1);
+                    IBlockState state = worldIn.getBlockState(blockpos1);
 
-                    if (state.getBlock().isAir(worldIn, blockpos1) || state.getBlock().isLeaves(worldIn, blockpos1))
+                    if (state.getBlock().isAir(state, worldIn, blockpos1) || state.getBlock().isLeaves(state, worldIn, blockpos1))
                     {
                         this.setBlockAndNotifyAdequately(worldIn, blockpos1, this.leavesMetadata);
                     }
@@ -187,9 +188,10 @@ public class WorldGenMegaJungleCustom extends WorldGenHugeTrees
                 if (k * k + l * l <= j)
                 {
                     BlockPos blockpos1 = p_175928_2_.add(k, 0, l);
-                    Block block = worldIn.getBlockState(blockpos1).getBlock();
+                    IBlockState blockState = worldIn.getBlockState(blockpos1);
+                    Block block = blockState.getBlock();
 
-                    if (block.isAir(worldIn, blockpos1) || block.isLeaves(worldIn, blockpos1))
+                    if (block.isAir(blockState, worldIn, blockpos1) || block.isLeaves(blockState, worldIn, blockpos1))
                     {
                         this.setBlockAndNotifyAdequately(worldIn, blockpos1, leavesMetadata);
                     }

@@ -5,14 +5,14 @@
 
 package ivorius.pandorasbox.effects;
 
+import ivorius.ivtoolkit.blocks.BlockPositions;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
-import ivorius.pandorasbox.utils.IvBlockPosHelper;
 import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -41,17 +41,17 @@ public class PBEffectGenLavaCages extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random, int pass, BlockPos pos, double range)
     {
         if (!world.isRemote)
         {
             if (!world.isBlockNormalCube(pos, false))
             {
-                List<EntityPlayer> innerList = world.getEntitiesWithinAABB(EntityPlayer.class, IvBlockPosHelper.expandBlockPos(pos, 2, 2, 2));
+                List<EntityPlayer> innerList = world.getEntitiesWithinAABB(EntityPlayer.class, BlockPositions.expandToAABB(pos, (double) 2, (double) 2, (double) 2));
 
                 if (innerList.size() == 0)
                 {
-                    List<EntityPlayer> outerList = world.getEntitiesWithinAABB(EntityPlayer.class, IvBlockPosHelper.expandBlockPos(pos, 3.5, 3.5, 3.5));
+                    List<EntityPlayer> outerList = world.getEntitiesWithinAABB(EntityPlayer.class, BlockPositions.expandToAABB(pos, 3.5, 3.5, 3.5));
 
                     if (outerList.size() > 0)
                     {

@@ -9,8 +9,8 @@ import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -30,27 +30,27 @@ public class PBEffectGenConvertToDesert extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random, int pass, BlockPos pos, double range)
     {
         Block block = world.getBlockState(pos).getBlock();
 
         if (pass == 0)
         {
-            if (isBlockAnyOf(block, Blocks.ice, Blocks.flowing_water, Blocks.water, Blocks.snow, Blocks.snow_layer, Blocks.log, Blocks.log2, Blocks.leaves, Blocks.leaves2, Blocks.red_flower, Blocks.yellow_flower, Blocks.vine, Blocks.tallgrass, Blocks.brown_mushroom, Blocks.brown_mushroom_block, Blocks.red_mushroom, Blocks.red_mushroom_block))
+            if (isBlockAnyOf(block, Blocks.ICE, Blocks.FLOWING_WATER, Blocks.WATER, Blocks.SNOW, Blocks.SNOW_LAYER, Blocks.LOG, Blocks.LOG2, Blocks.LEAVES, Blocks.LEAVES2, Blocks.RED_FLOWER, Blocks.YELLOW_FLOWER, Blocks.VINE, Blocks.TALLGRASS, Blocks.BROWN_MUSHROOM, Blocks.BROWN_MUSHROOM_BLOCK, Blocks.RED_MUSHROOM, Blocks.RED_MUSHROOM_BLOCK))
             {
                 setBlockToAirSafe(world, pos);
             }
-            else if (isBlockAnyOf(block, Blocks.soul_sand, Blocks.stone, Blocks.end_stone, Blocks.netherrack, Blocks.grass, Blocks.dirt, Blocks.mycelium, Blocks.hardened_clay, Blocks.stained_hardened_clay))
+            else if (isBlockAnyOf(block, Blocks.SOUL_SAND, Blocks.STONE, Blocks.END_STONE, Blocks.NETHERRACK, Blocks.GRASS, Blocks.DIRT, Blocks.MYCELIUM, Blocks.HARDENED_CLAY, Blocks.STAINED_HARDENED_CLAY))
             {
-                setBlockSafe(world, pos, Blocks.sand.getDefaultState());
+                setBlockSafe(world, pos, Blocks.SAND.getDefaultState());
 
-                if (world.getBlockState(pos.up()).getBlock().getMaterial() == Material.air)
+                if (world.getBlockState(pos.up()).getMaterial() == Material.AIR)
                 {
                     if (!world.isRemote && random.nextInt(20 * 20) == 0)
                     {
-                        setBlockSafe(world, pos.up(1), Blocks.cactus.getDefaultState());
-                        setBlockSafe(world, pos.up(2), Blocks.cactus.getDefaultState());
-                        setBlockSafe(world, pos.up(3), Blocks.cactus.getDefaultState());
+                        setBlockSafe(world, pos.up(1), Blocks.CACTUS.getDefaultState());
+                        setBlockSafe(world, pos.up(2), Blocks.CACTUS.getDefaultState());
+                        setBlockSafe(world, pos.up(3), Blocks.CACTUS.getDefaultState());
                     }
                 }
             }

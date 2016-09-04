@@ -26,12 +26,15 @@ import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.util.Random;
 
@@ -98,7 +101,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
             if (previousEntity != null)
             {
                 world.spawnEntityInWorld(previousEntity);
-                previousEntity.mountEntity(newEntity);
+                previousEntity.startRiding(newEntity, true);
             }
 
             previousEntity = newEntity;
@@ -145,25 +148,26 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                     {
                         ItemStack itemStack = PandorasBoxHelper.getRandomWeaponItemForLevel(random, itemLevel);
 
-                        entityLiving.setCurrentItemOrArmor(i, itemStack);
+                        entityLiving.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, itemStack);
                     }
                     else
                     {
                         if (i == 4 && random.nextFloat() < 0.2f / equipLevel)
                         {
-                            entityLiving.setCurrentItemOrArmor(4, new ItemStack(random.nextFloat() < 0.1F ? Blocks.lit_pumpkin : Blocks.pumpkin));
+                            entityLiving.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(random.nextFloat() < 0.1F ? Blocks.LIT_PUMPKIN : Blocks.PUMPKIN));
                         }
                         else
                         {
-                            Item item = EntityLiving.getArmorItemForSlot(i, Math.min(itemLevel, 4));
+                            EntityEquipmentSlot slot = i == 1 ? EntityEquipmentSlot.LEGS : i == 2 ? EntityEquipmentSlot.FEET : EntityEquipmentSlot.CHEST;
+                            Item item = EntityLiving.getArmorByChance(slot, Math.min(itemLevel, 4));
 
                             if (item != null)
                             {
-                                entityLiving.setCurrentItemOrArmor(i, new ItemStack(item));
+                                entityLiving.setItemStackToSlot(slot, new ItemStack(item));
                             }
                             else
                             {
-                                System.err.println("Pandora's Box: Item not found for slot '" + i + "', level '" + itemLevel + "'");
+                                System.err.println("Pandora's Box: Item not found for slot '" + slot + "', level '" + itemLevel + "'");
                             }
                         }
                     }
@@ -173,28 +177,28 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
 
         if (buffLevel > 0)
         {
-            IAttributeInstance health = entityLiving.getEntityAttribute(SharedMonsterAttributes.maxHealth);
+            IAttributeInstance health = entityLiving.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
             if (health != null)
             {
                 double healthMultiplierP = random.nextDouble() * buffLevel * 0.25;
                 health.applyModifier(new AttributeModifier("Zeus's magic", healthMultiplierP, 2));
             }
 
-            IAttributeInstance knockbackResistance = entityLiving.getEntityAttribute(SharedMonsterAttributes.knockbackResistance);
+            IAttributeInstance knockbackResistance = entityLiving.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE);
             if (knockbackResistance != null)
             {
                 double knockbackResistanceP = random.nextDouble() * buffLevel * 0.25;
                 knockbackResistance.applyModifier(new AttributeModifier("Zeus's magic", knockbackResistanceP, 2));
             }
 
-            IAttributeInstance movementSpeed = entityLiving.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+            IAttributeInstance movementSpeed = entityLiving.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
             if (movementSpeed != null)
             {
                 double movementSpeedP = random.nextDouble() * buffLevel * 0.08;
                 movementSpeed.applyModifier(new AttributeModifier("Zeus's magic", movementSpeedP, 2));
             }
 
-            IAttributeInstance attackDamage = entityLiving.getEntityAttribute(SharedMonsterAttributes.attackDamage);
+            IAttributeInstance attackDamage = entityLiving.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
             if (attackDamage != null)
             {
                 double attackDamageP = random.nextDouble() * buffLevel * 0.25;
@@ -223,7 +227,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                     wolf.setTamed(true);
                     wolf.getNavigator().clearPathEntity();
                     wolf.setAttackTarget(null);
-                    wolf.setOwnerId(nearest.getUniqueID().toString());
+                    wolf.setOwnerId(nearest.getUniqueID());
                     wolf.worldObj.setEntityState(wolf, (byte) 7);
                 }
 
@@ -241,7 +245,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                 {
                     ocelot.setTamed(true);
                     ocelot.setTameSkin(1 + ocelot.worldObj.rand.nextInt(3));
-                    ocelot.setOwnerId(nearest.getUniqueID().toString());
+                    ocelot.setOwnerId(nearest.getUniqueID());
                     ocelot.worldObj.setEntityState(ocelot, (byte) 7);
                 }
 
@@ -250,21 +254,21 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
             else if (entityID.startsWith("pbspecial_tnt"))
             {
                 EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, x, y, z, null);
-                entitytntprimed.fuse = Integer.valueOf(entityID.substring(13));
+                entitytntprimed.setFuse(Integer.valueOf(entityID.substring(13)));
 
                 return entitytntprimed;
             }
             else if ("pbspecial_invisibleTnt".startsWith(entityID))
             {
                 EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, x, y, z, null);
-                entitytntprimed.fuse = Integer.valueOf(entityID.substring(22));
+                entitytntprimed.setFuse(Integer.valueOf(entityID.substring(22)));
                 entitytntprimed.setInvisible(true); // Doesn't work yet :/
 
                 return entitytntprimed;
             }
             else if ("pbspecial_firework".equals(entityID))
             {
-                ItemStack stack = new ItemStack(Items.fireworks);
+                ItemStack stack = new ItemStack(Items.FIREWORKS);
                 stack.setTagInfo("Fireworks", createRandomFirework(random));
 
                 return new EntityFireworkRocket(world, x, y, z, stack);
@@ -273,7 +277,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
             {
                 EntityWolf wolf = new EntityWolf(world);
                 wolf.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
-                wolf.setAttackTarget(world.getClosestPlayer(x, y, z, 40.0));
+                wolf.setAttackTarget(world.getClosestPlayer(x, y, z, 40.0, false));
 
                 return wolf;
             }
@@ -281,7 +285,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
             {
                 EntityCreeper creeper = new EntityCreeper(world);
                 creeper.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
-                creeper.getDataWatcher().updateObject(17, (byte) 1); // Supercharge
+                creeper.getDataManager().set(creeperPoweredParameter(), true);
                 return creeper;
             }
             else if ("pbspecial_skeletonWither".equals(entityID))
@@ -290,8 +294,8 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                 skeleton.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
 
                 skeleton.setSkeletonType(1);
-                skeleton.setCurrentItemOrArmor(0, new ItemStack(Items.stone_sword));
-                skeleton.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
+                skeleton.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+                skeleton.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
 
                 return skeleton;
             }
@@ -316,6 +320,11 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
         }
 
         return null;
+    }
+
+    private static DataParameter<Boolean> creeperPoweredParameter() throws IllegalAccessException
+    {
+        return (DataParameter<Boolean>) ReflectionHelper.findField(EntityCreeper.class, "field_184714_b").get(null);
     }
 
     public static NBTTagCompound createRandomFirework(Random random)
@@ -349,7 +358,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
         int[] colors = new int[(random.nextInt(15) != 0) ? 1 : (random.nextInt(2) + 2)];
         for (int i = 0; i < colors.length; i++)
         {
-            colors[i] = ItemDye.dyeColors[random.nextInt(16)];
+            colors[i] = ItemDye.DYE_COLORS[random.nextInt(16)];
         }
         fireworkCompound.setIntArray("Colors", colors);
 
@@ -358,7 +367,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
             int[] fadeColors = new int[random.nextInt(2) + 1];
             for (int i = 0; i < fadeColors.length; i++)
             {
-                fadeColors[i] = ItemDye.dyeColors[random.nextInt(16)];
+                fadeColors[i] = ItemDye.DYE_COLORS[random.nextInt(16)];
             }
             fireworkCompound.setIntArray("FadeColors", fadeColors);
         }

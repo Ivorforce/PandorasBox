@@ -10,9 +10,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -49,7 +49,7 @@ public class PBEffectGenHeightNoise extends PBEffectGenerate2D
     }
 
     @Override
-    public void generateOnSurface(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, BlockPos pos, double range, int pass)
+    public void generateOnSurface(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random, BlockPos pos, double range, int pass)
     {
         if (!world.isRemote)
         {
@@ -64,7 +64,7 @@ public class PBEffectGenHeightNoise extends PBEffectGenerate2D
             int minEffectY = towerMinY + Math.min(0, shift);
             int maxEffectY = towerMinY + towerSize + Math.max(0, shift);
 
-            List<EntityPlayer> entityList = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.fromBounds(pos.getX() - 2.0, minEffectY - 4, pos.getZ() - 3.0, pos.getX() + 4.0, maxEffectY + 4, pos.getZ() + 4.0));
+            List<EntityPlayer> entityList = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(pos.getX() - 2.0, minEffectY - 4, pos.getZ() - 3.0, pos.getX() + 4.0, maxEffectY + 4, pos.getZ() + 4.0));
 
             if (entityList.size() == 0)
             {

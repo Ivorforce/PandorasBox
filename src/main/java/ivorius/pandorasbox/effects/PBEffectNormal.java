@@ -7,7 +7,7 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -38,18 +38,18 @@ public abstract class PBEffectNormal extends PBEffect
         return (float) ticks / (float) maxTicksAlive;
     }
 
-    public abstract void doEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, float prevRatio, float newRatio);
+    public abstract void doEffect(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random, float prevRatio, float newRatio);
 
-    public void setUpEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random)
+    public void setUpEffect(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random)
     {
     }
 
-    public void finalizeEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random)
+    public void finalizeEffect(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random)
     {
     }
 
     @Override
-    public void doTick(EntityPandorasBox entity, Vec3 effectCenter, int ticksAlive)
+    public void doTick(EntityPandorasBox entity, Vec3d effectCenter, int ticksAlive)
     {
         float prevRatio = getRatioDone(ticksAlive);
         float newRatio = getRatioDone(ticksAlive + 1);

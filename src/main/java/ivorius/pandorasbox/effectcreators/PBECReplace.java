@@ -13,8 +13,9 @@ import ivorius.pandorasbox.random.ZValue;
 import ivorius.pandorasbox.weighted.WeightedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -64,10 +65,10 @@ public class PBECReplace implements PBEffectCreator
                 {
                     for (int zP = -5; zP <= 5; zP++)
                     {
-                        Block block = world.getBlockState(new BlockPos(baseX + xP, baseY + yP, baseZ + zP)).getBlock();
+                        IBlockState block = world.getBlockState(new BlockPos(baseX + xP, baseY + yP, baseZ + zP));
 
-                        if (block.getMaterial() != Material.air)
-                            nearbyBlocks.add(new WeightedBlock(100, block));
+                        if (block.getMaterial() != Material.AIR)
+                            nearbyBlocks.add(new WeightedBlock(100, block.getBlock()));
 //                        else // dud
                     }
                 }

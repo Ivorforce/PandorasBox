@@ -11,7 +11,7 @@ import ivorius.pandorasbox.effects.PBEffectGenPool;
 import ivorius.pandorasbox.random.DValue;
 import ivorius.pandorasbox.weighted.WeightedBlock;
 import net.minecraft.block.Block;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.Collection;

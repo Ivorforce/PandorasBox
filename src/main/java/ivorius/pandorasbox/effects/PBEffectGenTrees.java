@@ -18,8 +18,8 @@ import net.minecraft.world.gen.feature.*;
  */
 public class PBEffectGenTrees extends PBEffectGenerateByGenerator
 {
-    private static final IBlockState field_181620_aE = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
-    private static final IBlockState field_181621_aF = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+    private static final IBlockState field_181620_aE = Blocks.LOG.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
+    private static final IBlockState field_181621_aF = Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
 
     public static final int treeSmall = 0;
     public static final int treeNormal = 1;
@@ -54,7 +54,7 @@ public class PBEffectGenTrees extends PBEffectGenerateByGenerator
         treeGens[treeJungle] = new WorldGenMegaJungle(true, 10, 20, field_181620_aE, field_181621_aF);
         treeGens[treeComplexNormal] = new WorldGenBigTree(true);
         treeGens[treeTaiga] = new WorldGenTaiga2(true);
-        treeGens[treeBirch] = new WorldGenForest(true, false);
+        treeGens[treeBirch] = new WorldGenBirchTree(true, false);
     }
 
     @Override

@@ -6,7 +6,8 @@
 package ivorius.pandorasbox.worldgen;
 
 import net.minecraft.block.Block;
-import net.minecraft.util.BlockPos;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
@@ -29,7 +30,7 @@ public class WorldGenLollipop extends WorldGenAbstractTree
         this.soil = soil;
     }
 
-    public boolean generate(World par1World, Random par2Random, BlockPos genPos)
+    public boolean generate(World world, Random par2Random, BlockPos genPos)
     {
         int l = par2Random.nextInt(addition) + 5;
         int meta = metas[par2Random.nextInt(metas.length)];
@@ -66,9 +67,9 @@ public class WorldGenLollipop extends WorldGenAbstractTree
                         if (i1 >= 0 && i1 < 256)
                         {
                             BlockPos pos = new BlockPos(j1, i1, k1);
-                            Block block = par1World.getBlockState(pos).getBlock();
+                            Block block = world.getBlockState(pos).getBlock();
 
-                            if (!this.isReplaceable(par1World, pos))
+                            if (!this.isReplaceable(world, pos))
                             {
                                 flag = false;
                             }
@@ -88,13 +89,14 @@ public class WorldGenLollipop extends WorldGenAbstractTree
             else
             {
                 BlockPos pos = new BlockPos(par3, par4 - 1, par5);
-                Block block2 = par1World.getBlockState(pos).getBlock();
+                IBlockState block2State = world.getBlockState(pos);
+                Block block2 = block2State.getBlock();
                 boolean rotated = par2Random.nextBoolean();
 
                 boolean isSoil = block2 == soil;
                 if (isSoil && par4 < 256 - l - 1)
                 {
-                    block2.onPlantGrow(par1World, pos, new BlockPos(par3, par4, par5));
+                    block2.onPlantGrow(block2State, world, pos, new BlockPos(par3, par4, par5));
                     int k2;
 
                     for (int shift = -1; shift <= 1; shift++)
@@ -110,11 +112,12 @@ public class WorldGenLollipop extends WorldGenAbstractTree
                                     int rY = y + par4 + l;
 
                                     BlockPos pos1 = new BlockPos(x, rY, z);
-                                    Block block1 = par1World.getBlockState(pos1).getBlock();
+                                    IBlockState block1State = world.getBlockState(pos1);
+                                    Block block1 = block1State.getBlock();
 
-                                    if (block1.isAir(par1World, pos1) || block1.isLeaves(par1World, pos1))
+                                    if (block1.isAir(block1State, world, pos1) || block1.isLeaves(block1State, world, pos1))
                                     {
-                                        this.setBlockAndNotifyAdequately(par1World, pos1, block.getStateFromMeta(metas[par2Random.nextInt(metas.length)]));
+                                        this.setBlockAndNotifyAdequately(world, pos1, block.getStateFromMeta(metas[par2Random.nextInt(metas.length)]));
                                     }
                                 }
                             }
@@ -124,11 +127,12 @@ public class WorldGenLollipop extends WorldGenAbstractTree
                     for (k2 = 0; k2 < l; ++k2)
                     {
                         BlockPos pos1 = new BlockPos(par3, par4 + k2, par5);
-                        Block block3 = par1World.getBlockState(pos1).getBlock();
+                        IBlockState block3State = world.getBlockState(pos1);
+                        Block block3 = block3State.getBlock();
 
-                        if (block3.isAir(par1World, pos1) || block3.isLeaves(par1World, pos1))
+                        if (block3.isAir(block3State, world, pos1) || block3.isLeaves(block3State, world, pos1))
                         {
-                            this.setBlockAndNotifyAdequately(par1World, pos1, block.getStateFromMeta(metas[0]));
+                            this.setBlockAndNotifyAdequately(world, pos1, block.getStateFromMeta(metas[0]));
                         }
                     }
 

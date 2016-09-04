@@ -8,8 +8,8 @@ package ivorius.pandorasbox.effects;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import ivorius.pandorasbox.math.IvMathHelper;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -37,7 +37,7 @@ public abstract class PBEffectRangeBased extends PBEffectNormal
     }
 
     @Override
-    public void doEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, float prevRatio, float newRatio)
+    public void doEffect(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random, float prevRatio, float newRatio)
     {
         for (int i = 0; i < passes; i++)
         {
@@ -61,7 +61,7 @@ public abstract class PBEffectRangeBased extends PBEffectNormal
         return MathHelper.clamp_double(tempRange, 0.0, range);
     }
 
-    public abstract void generateInRange(World world, EntityPandorasBox entity, Random random, Vec3 effectCenter, double prevRange, double newRange, int pass);
+    public abstract void generateInRange(World world, EntityPandorasBox entity, Random random, Vec3d effectCenter, double prevRange, double newRange, int pass);
 
     @Override
     public void writeToNBT(NBTTagCompound compound)

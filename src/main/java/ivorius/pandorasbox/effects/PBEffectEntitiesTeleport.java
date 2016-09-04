@@ -9,7 +9,7 @@ import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -54,7 +54,7 @@ public class PBEffectEntitiesTeleport extends PBEffectEntityBased
 
                     if (entity instanceof EntityPlayerMP)
                     {
-                        ((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(newX, newY, newZ, newYaw, ((EntityPlayerMP) entity).rotationPitch);
+                        ((EntityPlayerMP) entity).connection.setPlayerLocation(newX, newY, newZ, newYaw, ((EntityPlayerMP) entity).rotationPitch);
                     }
                 }
             }

@@ -5,37 +5,38 @@
 
 package ivorius.pandorasbox.client.rendering;
 
-import com.google.common.base.Function;
 import ivorius.pandorasbox.PandorasBox;
 import ivorius.pandorasbox.client.rendering.effects.PBEffectRenderer;
 import ivorius.pandorasbox.client.rendering.effects.PBEffectRenderingRegistry;
 import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.*;
+import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.client.model.Attributes;
+import net.minecraftforge.client.model.IModel;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.b3d.B3DLoader;
+import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
 
 /**
  * Created by lukas on 30.03.14.
@@ -53,12 +54,12 @@ public class RenderPandorasBox extends Render
         super(renderManager);
 
         model = new ModelPandorasBox();
-        texture = new ResourceLocation(PandorasBox.MODID, "textures/pbTexture.png");
+        texture = new ResourceLocation(PandorasBox.MOD_ID, "textures/pbTexture.png");
 
-//        model = new ResourceLocation(PandorasBox.MODID, "block/pandoras_box.b3d");
+//        model = new ResourceLocation(PandorasBox.MOD_ID, "block/pandoras_box.b3d");
     }
 
-    public static void renderB3DModel(TextureManager textureManager, ResourceLocation modelLoc, int animationCounter)
+    public static void renderB3DModel(TextureManager textureManager, ResourceLocation modelLoc, IBlockState blockState, int animationCounter)
     {
         IModel model = null;
         try
@@ -66,15 +67,15 @@ public class RenderPandorasBox extends Render
             model = ModelLoaderRegistry.getModel(modelLoc);
             B3DLoader.B3DState defaultState = (B3DLoader.B3DState) model.getDefaultState();
             B3DLoader.B3DState newState = new B3DLoader.B3DState(defaultState.getAnimation(), animationCounter);
-            renderBlockModel(textureManager, model, newState);
+            renderBlockModel(textureManager, model, blockState, newState);
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
     }
 
-    public static void renderBlockModel(TextureManager textureManager, IModel model, IModelState state)
+    public static void renderBlockModel(TextureManager textureManager, IModel model, IBlockState blockState, IModelState state)
     {
         if (state == null)
             state = model.getDefaultState();
@@ -86,21 +87,21 @@ public class RenderPandorasBox extends Render
         final TextureMap textureMapBlocks = Minecraft.getMinecraft().getTextureMapBlocks();
 
         VertexFormat vFormat = Attributes.DEFAULT_BAKED_FORMAT;
-        IFlexibleBakedModel bakedModel = model.bake(state, vFormat, input -> input == null ? textureMapBlocks.getMissingSprite() : textureMapBlocks.getAtlasSprite(input.toString()));
-        textureManager.bindTexture(TextureMap.locationBlocksTexture);
+        IBakedModel bakedModel = model.bake(state, vFormat, input -> input == null ? textureMapBlocks.getMissingSprite() : textureMapBlocks.getAtlasSprite(input.toString()));
+        textureManager.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(-0.5f, 0.0f, -0.5f);
 
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+        VertexBuffer worldRenderer = tessellator.getBuffer();
         worldRenderer.begin(GL11.GL_QUADS, vFormat);
 //        worldRenderer.markDirty(); // Still required?
 
-        for (BakedQuad quad : bakedModel.getGeneralQuads())
+        for (BakedQuad quad : bakedModel.getQuads(blockState, null, 4206942))
             worldRenderer.addVertexData(quad.getVertexData());
         for (EnumFacing facing : EnumFacing.values())
-            for (BakedQuad quad : bakedModel.getFaceQuads(facing))
+            for (BakedQuad quad : bakedModel.getQuads(blockState, facing, 4206942))
                 worldRenderer.addVertexData(quad.getVertexData());
 
         tessellator.draw();
@@ -135,7 +136,7 @@ public class RenderPandorasBox extends Render
 
             GlStateManager.translate(0.0f, 1.5f, 0.0f);
             GlStateManager.rotate(180.0f, 0.0f, 0.0f, 1.0f);
-            EntityArrow emptyEntity = new EntityArrow(entity.worldObj);
+            EntityArrow emptyEntity = new EntityTippedArrow(entity.worldObj);
             emptyEntity.rotationPitch = entityPandorasBox.getRatioBoxOpen(partialTicks) * 120.0f / 180.0f * 3.1415926f;
             bindEntityTexture(entity);
             model.render(emptyEntity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);

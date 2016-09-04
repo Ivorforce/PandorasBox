@@ -8,10 +8,11 @@ package ivorius.pandorasbox.effects;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -41,19 +42,19 @@ public abstract class PBEffectGenerateByGenerator extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random, int pass, BlockPos pos, double range)
     {
         if (!world.isRemote)
         {
             if (random.nextDouble() < chancePerBlock)
             {
-                Block block = world.getBlockState(pos).getBlock();
+                IBlockState blockState = world.getBlockState(pos);
                 BlockPos posBelow = pos.down();
-                Block blockBelow = world.getBlockState(posBelow).getBlock();
+                IBlockState blockBelowState = world.getBlockState(posBelow);
 
-                if (block.getMaterial() == Material.air && (!requiresSolidGround || blockBelow.isNormalCube()))
+                if (blockState.getMaterial() == Material.AIR && (!requiresSolidGround || blockBelowState.isNormalCube()))
                 {
-                    setBlockSafe(world, posBelow, Blocks.dirt.getDefaultState());
+                    setBlockSafe(world, posBelow, Blocks.DIRT.getDefaultState());
 
                     WorldGenerator generator = getRandomGenerator(getGenerators(), generatorFlags, random);
                     generator.generate(world, random, pos);

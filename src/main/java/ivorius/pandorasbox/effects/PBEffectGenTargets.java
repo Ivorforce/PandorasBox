@@ -10,9 +10,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -43,7 +43,7 @@ public class PBEffectGenTargets extends PBEffectGenerateByStructure
 
     public void createTargets(World world, double x, double y, double z, Random random)
     {
-        List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.fromBounds(x - range, y - range, z - range, x + range, y + range, z + range));
+        List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(x - range, y - range, z - range, x + range, y + range, z + range));
         this.structures = new Structure[players.size()];
 
         for (int i = 0; i < players.size(); i++)
@@ -88,7 +88,7 @@ public class PBEffectGenTargets extends PBEffectGenerateByStructure
                     {
                         if (dist >= prevRange)
                         {
-                            setBlockSafe(world, new BlockPos(structureTarget.x + xP, structureTarget.y, structureTarget.z + zP), Blocks.stained_hardened_clay.getStateFromMeta(structureTarget.colors[MathHelper.floor_double(dist)]));
+                            setBlockSafe(world, new BlockPos(structureTarget.x + xP, structureTarget.y, structureTarget.z + zP), Blocks.STAINED_HARDENED_CLAY.getStateFromMeta(structureTarget.colors[MathHelper.floor_double(dist)]));
 
                             double nextDist = MathHelper.sqrt_double((xP * xP + 3 * 3) + (zP * zP + 3 * 3));
 

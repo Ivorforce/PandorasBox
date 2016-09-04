@@ -13,8 +13,9 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -35,7 +36,7 @@ public class CommandPandorasBox extends CommandBase
     }
 
     @Override
-    public void processCommand(ICommandSender var1, String[] var2) throws CommandException
+    public void execute(MinecraftServer server, ICommandSender var1, String[] var2) throws CommandException
     {
         Hashtable<String, String> arguments = new Hashtable<String, String>();
         for (String arg : var2)
@@ -52,7 +53,7 @@ public class CommandPandorasBox extends CommandBase
         {
             try
             {
-                player = getPlayer(var1, arguments.get("player"));
+                player = getPlayer(server, var1, arguments.get("player"));
             }
             catch (Exception ex)
             {
@@ -104,23 +105,23 @@ public class CommandPandorasBox extends CommandBase
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
-        if (par2ArrayOfStr.length == 0)
+        if (args.length == 0)
             return null;
 
         List<String> newArgs = new ArrayList<>();
 
-        if (!hasArgument("effect", par2ArrayOfStr))
+        if (!hasArgument("effect", args))
             newArgs.addAll(Arrays.asList(prefixArgumentsWithKey("effect", PBECRegistry.getIDArray())));
 
-        if (!hasArgument("player", par2ArrayOfStr))
-            newArgs.addAll(Arrays.asList(prefixArgumentsWithKey("player", this.func_71542_c())));
+        if (!hasArgument("player", args))
+            newArgs.addAll(Arrays.asList(prefixArgumentsWithKey("player", server.getAllUsernames())));
 
-        if (!hasArgument("invisible", par2ArrayOfStr))
+        if (!hasArgument("invisible", args))
             newArgs.addAll(Arrays.asList(prefixArgumentsWithKey("invisible", "true", "false")));
 
-        return getListOfStringsMatchingLastWord(par2ArrayOfStr, newArgs.toArray(new String[newArgs.size()]));
+        return getListOfStringsMatchingLastWord(args, newArgs.toArray(new String[newArgs.size()]));
     }
 
     private static boolean hasArgument(String key, String[] arguments)
@@ -153,11 +154,6 @@ public class CommandPandorasBox extends CommandBase
         }
 
         return arrayList.toArray(new String[arrayList.size()]);
-    }
-
-    protected String[] func_71542_c()
-    {
-        return MinecraftServer.getServer().getAllUsernames();
     }
 
     @Override

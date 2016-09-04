@@ -9,7 +9,7 @@ import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -43,7 +43,7 @@ public class PBEffectEntitiesBomberman extends PBEffectEntityBased
             for (int i = 0; i < bombs; i++)
             {
                 EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, entity.posX, entity.posY, entity.posZ, null);
-                entitytntprimed.fuse = 45 + random.nextInt(20);
+                entitytntprimed.setFuse(45 + random.nextInt(20));
 
                 world.spawnEntityInWorld(entitytntprimed);
             }

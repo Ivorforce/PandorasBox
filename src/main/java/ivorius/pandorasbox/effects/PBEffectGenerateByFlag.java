@@ -7,9 +7,9 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -36,7 +36,7 @@ public abstract class PBEffectGenerateByFlag extends PBEffectRangeBased
     }
 
     @Override
-    public void setUpEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random)
+    public void setUpEffect(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random)
     {
         super.setUpEffect(world, entity, effectCenter, random);
 
@@ -68,7 +68,7 @@ public abstract class PBEffectGenerateByFlag extends PBEffectRangeBased
     public abstract boolean hasFlag(World world, EntityPandorasBox entity, Random random, BlockPos pos);
 
     @Override
-    public void generateInRange(World world, EntityPandorasBox entity, Random random, Vec3 effectCenter, double prevRange, double newRange, int pass)
+    public void generateInRange(World world, EntityPandorasBox entity, Random random, Vec3d effectCenter, double prevRange, double newRange, int pass)
     {
         byte requiredRange = (byte) MathHelper.ceiling_double_int(newRange);
 

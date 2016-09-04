@@ -10,13 +10,14 @@ import ivorius.pandorasbox.worldgen.WorldGenColorfulTree;
 import ivorius.pandorasbox.worldgen.WorldGenLollipop;
 import ivorius.pandorasbox.worldgen.WorldGenRainbow;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -41,22 +42,23 @@ public class PBEffectGenConvertToHFT extends PBEffectGenerate
     }
 
     @Override
-    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, int pass, BlockPos pos, double range)
+    public void generateOnBlock(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random, int pass, BlockPos pos, double range)
     {
-        Block block = world.getBlockState(pos).getBlock();
-        Block placeBlock = Blocks.stained_hardened_clay;
+        IBlockState blockState = world.getBlockState(pos);
+        Block block = blockState.getBlock();
+        Block placeBlock = Blocks.STAINED_HARDENED_CLAY;
 
         if (pass == 0)
         {
-            if (isBlockAnyOf(block, Blocks.log, Blocks.log2, Blocks.leaves, Blocks.leaves2, Blocks.lava, Blocks.flowing_lava))
+            if (isBlockAnyOf(block, Blocks.LOG, Blocks.LOG2, Blocks.LEAVES, Blocks.LEAVES2, Blocks.LAVA, Blocks.FLOWING_LAVA))
             {
                 setBlockToAirSafe(world, pos);
             }
-            else if (block == Blocks.wool || block == Blocks.stained_hardened_clay)
+            else if (block == Blocks.WOOL || block == Blocks.STAINED_HARDENED_CLAY)
             {
 
             }
-            else if (block.isNormalCube(world, pos))
+            else if (block.isNormalCube(blockState, world, pos))
             {
                 if (!world.isRemote)
                 {
@@ -80,30 +82,30 @@ public class PBEffectGenConvertToHFT extends PBEffectGenerate
 
                     if (world.rand.nextBoolean())
                     {
-                        treeGen = new WorldGenLollipop(true, 20, Blocks.wool, lolliColors, placeBlock);
+                        treeGen = new WorldGenLollipop(true, 20, Blocks.WOOL, lolliColors, placeBlock);
                     }
                     else if (world.rand.nextInt(6) > 0)
                     {
-                        treeGen = new WorldGenColorfulTree(true, 20, Blocks.wool, lolliColors, placeBlock);
+                        treeGen = new WorldGenColorfulTree(true, 20, Blocks.WOOL, lolliColors, placeBlock);
                     }
                     else
                     {
-                        treeGen = new WorldGenRainbow(true, Blocks.wool, 20, placeBlock);
+                        treeGen = new WorldGenRainbow(true, Blocks.WOOL, 20, placeBlock);
                     }
 
                     treeGen.generate(world, world.rand, pos);
                 }
                 else if (world.rand.nextInt(5 * 5) == 0)
                 {
-                    if (world.getBlockState(pos.down()) == placeBlock && world.getBlockState(pos).getBlock() == Blocks.air)
+                    if (world.getBlockState(pos.down()) == placeBlock && world.getBlockState(pos).getBlock() == Blocks.AIR)
                     {
                         if (world.rand.nextBoolean())
                         {
-                            setBlockSafe(world, pos, Blocks.cake.getDefaultState());
+                            setBlockSafe(world, pos, Blocks.CAKE.getDefaultState());
                         }
                         else
                         {
-                            EntityItem entityItem = new EntityItem(world, pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, new ItemStack(Items.cookie));
+                            EntityItem entityItem = new EntityItem(world, pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, new ItemStack(Items.COOKIE));
                             entityItem.setPickupDelay(20);
                             world.spawnEntityInWorld(entityItem);
                         }

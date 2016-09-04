@@ -12,6 +12,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 public class ItemPandorasBox extends ItemBlock
@@ -24,13 +27,13 @@ public class ItemPandorasBox extends ItemBlock
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
     {
-        if (!world.isRemote)
-            executeRandomEffect(world, entityplayer);
+        if (!worldIn.isRemote)
+            executeRandomEffect(worldIn, playerIn);
 
-        itemstack.stackSize--;
-        return itemstack;
+        itemStackIn.stackSize--;
+        return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
     }
 
     public static EntityPandorasBox executeRandomEffect(World world, EntityLivingBase entity)

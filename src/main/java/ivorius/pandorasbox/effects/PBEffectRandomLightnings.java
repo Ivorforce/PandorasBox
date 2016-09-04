@@ -7,7 +7,7 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -31,7 +31,7 @@ public class PBEffectRandomLightnings extends PBEffectPositionBased
     {
         if (!world.isRemote)
         {
-            EntityLightningBolt lightningBolt = new EntityLightningBolt(world, x, world.getHeight(new BlockPos(x, 0.0, z)).getY(), z);
+            EntityLightningBolt lightningBolt = new EntityLightningBolt(world, x, world.getHeight(new BlockPos(x, 0.0, z)).getY(), z, false);
             world.addWeatherEffect(lightningBolt);
         }
     }

@@ -17,10 +17,13 @@ import ivorius.pandorasbox.network.PartialUpdateHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -36,6 +39,8 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
 {
     public static final float BOX_UPSCALE_SPEED = 0.02f;
 
+    private static final DataParameter<Integer> BOX_DEATH_TICKS = EntityDataManager.createKey(EntityLivingBase.class, DataSerializers.VARINT);
+
     protected int timeBoxWaiting;
     protected int effectTicksExisted;
     protected boolean canGenerateMoreEffectsAfterwards = true;
@@ -47,7 +52,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
 
     protected float scaleInProgress = 1.0f;
 
-    protected Vec3 effectCenter = new Vec3(0, 0, 0);
+    protected Vec3d effectCenter = new Vec3d(0, 0, 0);
 
     public EntityPandorasBox(World world)
     {
@@ -114,14 +119,14 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         this.floatAwayProgress = floatAwayProgress;
     }
 
-    public Vec3 getEffectCenter()
+    public Vec3d getEffectCenter()
     {
         return effectCenter;
     }
 
     public void setEffectCenter(double x, double y, double z)
     {
-        this.effectCenter = new Vec3(x, y, z);
+        this.effectCenter = new Vec3d(x, y, z);
     }
 
     public float getCurrentScale()
@@ -132,7 +137,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
     @Override
     protected void entityInit()
     {
-        this.dataWatcher.addObject(11, -1);
+        this.getDataManager().register(BOX_DEATH_TICKS, -1);
     }
 
     @Override
@@ -231,7 +236,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
             else
             {
                 float speed = (floatAwayProgress - 0.7f) * (floatAwayProgress - 0.7f);
-                moveFlying(0.0f, -1.0f, speed * 0.02f);
+                moveRelative(0.0f, -1.0f, speed * 0.02f);
                 motionY += speed * 0.005f;
             }
 
@@ -319,7 +324,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
 
         boxEffect = PBECRegistry.createRandomEffect(worldObj, rand, effectCenter.xCoord, effectCenter.yCoord, effectCenter.zCoord, true);
 
-        PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), worldObj.provider.getDimensionId());
+        PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), worldObj.provider.getDimension());
     }
 
     public void startFadingOut()
@@ -343,7 +348,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
     {
         floatAwayProgress = -1.0f;
         effectTicksExisted = 0;
-        PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), worldObj.provider.getDimensionId());
+        PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), worldObj.provider.getDimension());
     }
 
     public void beginScalingIn()
@@ -368,12 +373,12 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
 
     public int getDeathTicks()
     {
-        return dataWatcher.getWatchableObjectInt(11);
+        return getDataManager().get(BOX_DEATH_TICKS);
     }
 
     public void setDeathTicks(int deathTicks)
     {
-        dataWatcher.updateObject(11, deathTicks);
+        getDataManager().set(BOX_DEATH_TICKS, deathTicks);
     }
 
     public float getRatioBoxOpen(float partialTicks)

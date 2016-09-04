@@ -13,7 +13,7 @@ import ivorius.pandorasbox.random.IValue;
 import ivorius.pandorasbox.random.ValueHelper;
 import ivorius.pandorasbox.random.ZValue;
 import ivorius.pandorasbox.weighted.WeightedBlock;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.Collection;

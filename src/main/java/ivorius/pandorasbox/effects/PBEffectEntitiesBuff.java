@@ -10,7 +10,7 @@ import ivorius.pandorasbox.utils.PBNBTHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -44,7 +44,7 @@ public class PBEffectEntitiesBuff extends PBEffectEntityBased
 
             if (duration > 0)
             {
-                PotionEffect curEffect = new PotionEffect(effect.getPotionID(), duration, effect.getAmplifier(), effect.getIsAmbient(), effect.getIsShowParticles());
+                PotionEffect curEffect = new PotionEffect(effect.getPotion(), duration, effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles());
                 addPotionEffectDuration(entity, curEffect);
             }
         }

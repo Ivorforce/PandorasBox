@@ -7,7 +7,7 @@ package ivorius.pandorasbox.effects;
 
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldInfo;
 
@@ -35,12 +35,12 @@ public class PBEffectSetWeather extends PBEffectNormal
     }
 
     @Override
-    public void doEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random, float prevRatio, float newRatio)
+    public void doEffect(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random, float prevRatio, float newRatio)
     {
     }
 
     @Override
-    public void finalizeEffect(World world, EntityPandorasBox entity, Vec3 effectCenter, Random random)
+    public void finalizeEffect(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random)
     {
         WorldInfo worldInfo = world.getWorldInfo();
         worldInfo.setRainTime(rainTime);

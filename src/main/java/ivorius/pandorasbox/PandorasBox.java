@@ -12,13 +12,14 @@ import ivorius.pandorasbox.commands.CommandPandorasBox;
 import ivorius.pandorasbox.effects.PBEffects;
 import ivorius.pandorasbox.entitites.EntityPandorasBox;
 import ivorius.pandorasbox.entitites.PBEntityList;
-import ivorius.pandorasbox.events.PBFMLEventHandler;
+import ivorius.pandorasbox.events.PBEventHandler;
 import ivorius.pandorasbox.items.ItemPandorasBox;
 import ivorius.pandorasbox.network.PacketEntityData;
 import ivorius.pandorasbox.network.PacketEntityDataHandler;
-import ivorius.pandorasbox.worldgen.PBWorldGen;
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
@@ -39,14 +40,14 @@ import org.apache.logging.log4j.Logger;
 
 import static ivorius.pandorasbox.crafting.OreDictionaryConstants.*;
 
-@Mod(modid = PandorasBox.MODID, version = PandorasBox.VERSION, name = PandorasBox.NAME, guiFactory = "ivorius.pandorasbox.gui.PBConfigGuiFactory")
+@Mod(modid = PandorasBox.MOD_ID, version = PandorasBox.VERSION, name = PandorasBox.NAME, guiFactory = "ivorius.pandorasbox.gui.PBConfigGuiFactory")
 public class PandorasBox
 {
     public static final String NAME = "Pandora's Box";
-    public static final String MODID = "pandorasbox";
+    public static final String MOD_ID = "pandorasbox";
     public static final String VERSION = "2.1.3";
 
-    @Instance(value = MODID)
+    @Instance(value = MOD_ID)
     public static PandorasBox instance;
 
     @SidedProxy(clientSide = "ivorius.pandorasbox.client.ClientProxy", serverSide = "ivorius.pandorasbox.server.ServerProxy")
@@ -61,7 +62,7 @@ public class PandorasBox
 
     public static SimpleNetworkWrapper network;
 
-    public static PBFMLEventHandler fmlEventHandler;
+    public static PBEventHandler fmlEventHandler;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -73,11 +74,11 @@ public class PandorasBox
         PBConfig.loadConfig(null);
         config.save();
 
-        fmlEventHandler = new PBFMLEventHandler();
+        fmlEventHandler = new PBEventHandler();
         fmlEventHandler.register();
 
-        PBBlocks.pandorasBox = (BlockPandorasBox) new BlockPandorasBox().setUnlocalizedName("pandorasBox").setHardness(0.5f).setCreativeTab(CreativeTabs.tabMisc);
-        GameRegistry.registerBlock(PBBlocks.pandorasBox, ItemPandorasBox.class, "pandorasBox");
+        PBBlocks.pandorasBox = (BlockPandorasBox) new BlockPandorasBox().setUnlocalizedName("pandorasBox").setHardness(0.5f).setCreativeTab(CreativeTabs.MISC);
+        register(PBBlocks.pandorasBox, "pandorasBox", new ItemPandorasBox(PBBlocks.pandorasBox));
         GameRegistry.registerTileEntity(TileEntityPandorasBox.class, "pandorasBox");
 
         EntityRegistry.registerModEntity(EntityPandorasBox.class, "pandorasBox", PBEntityList.pandorasBoxEntityID, this, 256, 20, true);
@@ -86,10 +87,19 @@ public class PandorasBox
         PBEffects.registerEffects();
     }
 
+    public static void register(Block block, String id, ItemBlock item)
+    {
+        block.setRegistryName(id);
+        item.setRegistryName(id);
+
+        GameRegistry.register(block);
+        GameRegistry.register(item);
+    }
+
     @EventHandler
     public void load(FMLInitializationEvent event)
     {
-        network = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
+        network = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID);
         PandorasBox.network.registerMessage(PacketEntityDataHandler.class, PacketEntityData.class, 1, Side.CLIENT);
 
         PBEffects.registerEffectCreators();
@@ -103,11 +113,8 @@ public class PandorasBox
                     'G', DC_GOLD_INGOT,
                     '#', DC_PLANK_WOOD,
                     'R', DC_REDSTONE_DUST,
-                    'O', Items.ender_pearl));
+                    'O', Items.ENDER_PEARL));
         }
-
-        if (PBConfig.allowGeneration)
-            PBWorldGen.initializeWorldGen();
 
         proxy.load();
     }
