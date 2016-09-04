@@ -21,6 +21,7 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGuardian;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.SkeletonType;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -293,7 +294,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                 EntitySkeleton skeleton = new EntitySkeleton(world);
                 skeleton.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
 
-                skeleton.setSkeletonType(1);
+                skeleton.setSkeletonType(SkeletonType.WITHER);
                 skeleton.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
                 skeleton.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
 
