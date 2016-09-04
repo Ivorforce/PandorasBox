@@ -45,7 +45,7 @@ public class PandorasBox
 {
     public static final String NAME = "Pandora's Box";
     public static final String MOD_ID = "pandorasbox";
-    public static final String VERSION = "2.1.3";
+    public static final String VERSION = "2.1.4";
 
     @Instance(value = MOD_ID)
     public static PandorasBox instance;
