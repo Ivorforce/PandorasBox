@@ -39,14 +39,14 @@ import org.apache.logging.log4j.Logger;
 
 import static ivorius.pandorasbox.crafting.OreDictionaryConstants.*;
 
-@Mod(modid = PandorasBox.MODID, version = PandorasBox.VERSION, name = PandorasBox.NAME, guiFactory = "ivorius.pandorasbox.gui.PBConfigGuiFactory")
+@Mod(modid = PandorasBox.MOD_ID, version = PandorasBox.VERSION, name = PandorasBox.NAME, guiFactory = "ivorius.pandorasbox.gui.PBConfigGuiFactory")
 public class PandorasBox
 {
     public static final String NAME = "Pandora's Box";
-    public static final String MODID = "pandorasbox";
+    public static final String MOD_ID = "pandorasbox";
     public static final String VERSION = "2.1.2";
 
-    @Instance(value = MODID)
+    @Instance(value = MOD_ID)
     public static PandorasBox instance;
 
     @SidedProxy(clientSide = "ivorius.pandorasbox.client.ClientProxy", serverSide = "ivorius.pandorasbox.server.ServerProxy")
@@ -89,7 +89,7 @@ public class PandorasBox
     @EventHandler
     public void load(FMLInitializationEvent event)
     {
-        network = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
+        network = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID);
         PandorasBox.network.registerMessage(PacketEntityDataHandler.class, PacketEntityData.class, 1, Side.CLIENT);
 
         PBEffects.registerEffectCreators();

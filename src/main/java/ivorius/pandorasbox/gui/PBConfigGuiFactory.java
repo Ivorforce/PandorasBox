@@ -55,7 +55,7 @@ public class PBConfigGuiFactory implements IModGuiFactory
     {
         public ConfigGui(GuiScreen parentScreen)
         {
-            super(parentScreen, getConfigElements(), PandorasBox.MODID, false, false, I18n.format("pandorasbox.configgui.title"));
+            super(parentScreen, getConfigElements(), PandorasBox.MOD_ID, false, false, I18n.format("pandorasbox.configgui.title"));
         }
 
         private static List<IConfigElement> getConfigElements()

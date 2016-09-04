@@ -19,7 +19,7 @@ public class PBFMLEventHandler
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent event)
     {
-        if (event instanceof ConfigChangedEvent.OnConfigChangedEvent && event.modID.equals(PandorasBox.MODID))
+        if (event instanceof ConfigChangedEvent.OnConfigChangedEvent && event.modID.equals(PandorasBox.MOD_ID))
         {
             PBConfig.loadConfig(event.configID);
 

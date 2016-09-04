@@ -5,7 +5,6 @@
 
 package ivorius.pandorasbox.client.rendering;
 
-import com.google.common.base.Function;
 import ivorius.pandorasbox.PandorasBox;
 import ivorius.pandorasbox.client.rendering.effects.PBEffectRenderer;
 import ivorius.pandorasbox.client.rendering.effects.PBEffectRenderingRegistry;
@@ -19,7 +18,6 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.VertexFormat;
@@ -34,7 +32,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 
 /**
@@ -53,9 +50,9 @@ public class RenderPandorasBox extends Render
         super(renderManager);
 
         model = new ModelPandorasBox();
-        texture = new ResourceLocation(PandorasBox.MODID, "textures/pbTexture.png");
+        texture = new ResourceLocation(PandorasBox.MOD_ID, "textures/entity/pandoras_box.png");
 
-//        model = new ResourceLocation(PandorasBox.MODID, "block/pandoras_box.b3d");
+//        model = new ResourceLocation(PandorasBox.MOD_ID, "block/pandoras_box.b3d");
     }
 
     public static void renderB3DModel(TextureManager textureManager, ResourceLocation modelLoc, int animationCounter)
