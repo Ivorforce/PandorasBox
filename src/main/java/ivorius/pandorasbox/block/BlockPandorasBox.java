@@ -32,12 +32,11 @@ import javax.annotation.Nullable;
 public class BlockPandorasBox extends BlockContainer
 {
     public static final PropertyDirection FACING_PROP = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-    public static final PropertyBool INVENTORY = PropertyBool.create("inventory");
 
     public BlockPandorasBox()
     {
         super(Material.WOOD);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING_PROP, EnumFacing.NORTH).withProperty(INVENTORY, false));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING_PROP, EnumFacing.NORTH));
     }
 
     @Override
@@ -108,7 +107,7 @@ public class BlockPandorasBox extends BlockContainer
     public int getMetaFromState(IBlockState state)
     {
         byte b0 = 0;
-        int i = b0 | ((EnumFacing) state.getValue(FACING_PROP)).getIndex();
+        int i = b0 | state.getValue(FACING_PROP).getIndex();
 
         return i;
     }
@@ -117,6 +116,6 @@ public class BlockPandorasBox extends BlockContainer
     @Nonnull
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, FACING_PROP, INVENTORY);
+        return new BlockStateContainer(this, FACING_PROP);
     }
 }

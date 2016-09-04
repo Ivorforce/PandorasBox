@@ -1,15 +1,29 @@
 {
+    "forge_marker": 1,
     "defaults": {
-        "#texture": "pandorasbox:pbTexture",
+        "textures": {
+          "#pandorasbox:pbTexture.png": "pandorasbox:entity/pandoras_box",
+          "pandorasbox:pbTexture": "pandorasbox:entity/pandoras_box"
+        },
         "model": "pandorasbox:pandoras_box.b3d"
     },
     "variants": {
-        "facing=north": {  },
-        "facing=south": { "y": 180 },
-        "facing=west":  { "y": 270 },
-        "facing=east":  { "y": 90 },
+        "facing=north": { "model": "pandorasbox:pandoras_box.b3d" },
+        "facing=south": { "model": "pandorasbox:pandoras_box.b3d", "y": 180 },
+        "facing=west":  { "model": "pandorasbox:pandoras_box.b3d", "y": 270 },
+        "facing=east":  { "model": "pandorasbox:pandoras_box.b3d", "y": 90 },
         "inventory": [{
-            "transform": "forge:default-block"
+            "transform": {
+              "firstperson_righthand": {
+                "rotation": [ { "y": 135 } ],
+                "translation": [ 0, 0.1, 0 ]
+              },
+              "gui": {
+                "rotation": [ { "x": 30 }, { "y": 135 } ],
+                "translation": [ 0, 0.2, 0 ]
+              }
+            },
+            "model": "pandorasbox:pandoras_box.b3d"
         }]
     }
 }

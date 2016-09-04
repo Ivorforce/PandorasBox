@@ -54,7 +54,7 @@ public class RenderPandorasBox extends Render
         super(renderManager);
 
         model = new ModelPandorasBox();
-        texture = new ResourceLocation(PandorasBox.MOD_ID, "textures/pbTexture.png");
+        texture = new ResourceLocation(PandorasBox.MOD_ID, "textures/entity/pandoras_box.png");
 
 //        model = new ResourceLocation(PandorasBox.MOD_ID, "block/pandoras_box.b3d");
     }

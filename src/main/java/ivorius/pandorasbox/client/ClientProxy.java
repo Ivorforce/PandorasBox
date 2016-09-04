@@ -5,7 +5,6 @@
 
 package ivorius.pandorasbox.client;
 
-import com.google.common.collect.Maps;
 import ivorius.pandorasbox.PBProxy;
 import ivorius.pandorasbox.PandorasBox;
 import ivorius.pandorasbox.block.PBBlocks;
@@ -24,8 +23,6 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.b3d.B3DLoader;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
-import java.util.LinkedHashMap;
-
 public class ClientProxy implements PBProxy
 {
     @Override
@@ -34,7 +31,6 @@ public class ClientProxy implements PBProxy
 //        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPandorasBox.class, new TileEntityRendererPandorasBox());
 
         B3DLoader.INSTANCE.addDomain(PandorasBox.MOD_ID.toLowerCase());
-//        ModelBakery.registerItemVariants(Item.getItemFromBlock(PBBlocks.pandorasBox), new ModelResourceLocation(PandorasBox.basePath + "pandoras_box.b3d", "inventory"));
 
         PBEffectRenderingRegistry.registerRenderer(PBEffectExplode.class, new PBEffectRendererExplosion());
 
@@ -43,9 +39,7 @@ public class ClientProxy implements PBProxy
             @Override
             protected ModelResourceLocation getModelResourceLocation(IBlockState state)
             {
-                LinkedHashMap linkedhashmap = Maps.newLinkedHashMap(state.getProperties());
-                return new ModelResourceLocation(PandorasBox.basePath + "pandoras_box", "inventory");
-//                return new ModelResourceLocation(PandorasBox.basePath + "pandoras_box", getPropertyString(linkedhashmap));
+                return new ModelResourceLocation(PandorasBox.basePath + "pandoras_box", this.getPropertyString(state.getProperties()));
             }
         });
 
