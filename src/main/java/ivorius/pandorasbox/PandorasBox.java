@@ -40,7 +40,8 @@ import org.apache.logging.log4j.Logger;
 
 import static ivorius.pandorasbox.crafting.OreDictionaryConstants.*;
 
-@Mod(modid = PandorasBox.MOD_ID, version = PandorasBox.VERSION, name = PandorasBox.NAME, guiFactory = "ivorius.pandorasbox.gui.PBConfigGuiFactory")
+@Mod(modid = PandorasBox.MOD_ID, version = PandorasBox.VERSION, name = PandorasBox.NAME, guiFactory = "ivorius.pandorasbox.gui.PBConfigGuiFactory",
+        dependencies = "required-after:ivtoolkit")
 public class PandorasBox
 {
     public static final String NAME = "Pandora's Box";
