@@ -59,7 +59,7 @@ public class PBEffectGenWorldSnake extends PBEffectNormal
     {
         if (!world.isRemote)
         {
-            int requiredRange = MathHelper.ceiling_double_int(size);
+            int requiredRange = MathHelper.ceil(size);
 
             float f1 = MathHelper.cos(-dirYaw * 0.017453292F - (float) Math.PI);
             float f2 = MathHelper.sin(-dirYaw * 0.017453292F - (float) Math.PI);
@@ -74,9 +74,9 @@ public class PBEffectGenWorldSnake extends PBEffectNormal
             double newY = currentY + dirY;
             double newZ = currentZ + dirZ;
 
-            int baseX = MathHelper.floor_double(newX);
-            int baseY = MathHelper.floor_double(newY);
-            int baseZ = MathHelper.floor_double(newZ);
+            int baseX = MathHelper.floor(newX);
+            int baseY = MathHelper.floor(newY);
+            int baseZ = MathHelper.floor(newZ);
 
             for (int x = -requiredRange; x <= requiredRange; x++)
             {
@@ -102,8 +102,8 @@ public class PBEffectGenWorldSnake extends PBEffectNormal
             dirYaw += dirYawAcc;
             dirPitch += dirPitchAcc;
 
-            dirYawAcc += MathHelper.clamp_float((random.nextFloat() - random.nextFloat()) * 0.5f, -10.0f, 10.0f);
-            dirPitchAcc += MathHelper.clamp_float((random.nextFloat() - random.nextFloat()) * 0.5f, -10.0f, 10.0f);
+            dirYawAcc += MathHelper.clamp((random.nextFloat() - random.nextFloat()) * 0.5f, -10.0f, 10.0f);
+            dirPitchAcc += MathHelper.clamp((random.nextFloat() - random.nextFloat()) * 0.5f, -10.0f, 10.0f);
         }
     }
 

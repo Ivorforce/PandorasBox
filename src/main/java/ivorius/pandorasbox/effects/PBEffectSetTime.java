@@ -33,8 +33,8 @@ public class PBEffectSetTime extends PBEffectNormal
     @Override
     public void doEffect(World world, EntityPandorasBox entity, Vec3d effectCenter, Random random, float prevRatio, float newRatio)
     {
-        int newPlus = MathHelper.floor_float(totalPlus * newRatio);
-        int prevPlus = MathHelper.floor_float(totalPlus * prevRatio);
+        int newPlus = MathHelper.floor(totalPlus * newRatio);
+        int prevPlus = MathHelper.floor(totalPlus * prevRatio);
         int plus = newPlus - prevPlus;
 
         world.setWorldTime(world.getWorldTime() + plus);

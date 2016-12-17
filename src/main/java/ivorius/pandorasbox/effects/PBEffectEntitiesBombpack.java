@@ -38,7 +38,7 @@ public class PBEffectEntitiesBombpack extends PBEffectEntityBased
                 EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, entity.posX, entity.posY, entity.posZ, null);
 //                entitytntprimed.fuse = 60 + random.nextInt(160); // Use normal fuse for correct visual effect
 
-                world.spawnEntityInWorld(entitytntprimed);
+                world.spawnEntity(entitytntprimed);
                 entitytntprimed.startRiding(entity, true);
             }
         }

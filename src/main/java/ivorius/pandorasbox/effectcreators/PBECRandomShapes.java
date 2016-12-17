@@ -50,7 +50,7 @@ public class PBECRandomShapes implements PBEffectCreator
 
         double[] size = ValueHelper.getValueRange(this.size, random);
 
-        int time = MathHelper.floor_double((random.nextDouble() * 4.0 + 1.0) * size[1] * 8.0);
+        int time = MathHelper.floor((random.nextDouble() * 4.0 + 1.0) * size[1] * 8.0);
         boolean sameBlockSetup = this.sameBlockSetup.getValue(random);
 
         PBEffectGenShapes genTransform = new PBEffectGenShapes(time);

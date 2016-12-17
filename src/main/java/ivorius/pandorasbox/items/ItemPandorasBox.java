@@ -27,12 +27,14 @@ public class ItemPandorasBox extends ItemBlock
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
+        ItemStack itemStackIn = playerIn.getHeldItem(handIn);
+
         if (!worldIn.isRemote)
             executeRandomEffect(worldIn, playerIn);
 
-        itemStackIn.stackSize--;
+        itemStackIn.shrink(1);
         return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
     }
 

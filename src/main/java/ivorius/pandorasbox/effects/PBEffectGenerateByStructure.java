@@ -42,9 +42,9 @@ public abstract class PBEffectGenerateByStructure extends PBEffectNormal
             float newStructureRatio = getStructureRatio(newRatio, structure);
             float prevStructureRatio = getStructureRatio(prevRatio, structure);
 
-            int baseX = MathHelper.floor_double(effectCenter.xCoord);
-            int baseY = MathHelper.floor_double(effectCenter.yCoord);
-            int baseZ = MathHelper.floor_double(effectCenter.zCoord);
+            int baseX = MathHelper.floor(effectCenter.xCoord);
+            int baseY = MathHelper.floor(effectCenter.yCoord);
+            int baseZ = MathHelper.floor(effectCenter.zCoord);
 
             if (newStructureRatio > prevStructureRatio)
             {
@@ -55,7 +55,7 @@ public abstract class PBEffectGenerateByStructure extends PBEffectNormal
 
     private float getStructureRatio(float ratio, Structure structure)
     {
-        return MathHelper.clamp_float((ratio - structure.structureStart) / structure.structureLength, 0.0f, 1.0f);
+        return MathHelper.clamp((ratio - structure.structureStart) / structure.structureLength, 0.0f, 1.0f);
     }
 
     public abstract void generateStructure(World world, EntityPandorasBox entity, Random random, Structure structure, BlockPos pos, float newRatio, float prevRatio);
@@ -102,9 +102,9 @@ public abstract class PBEffectGenerateByStructure extends PBEffectNormal
         structure.structureLength = random.nextFloat() * 0.8f + 0.1f;
         structure.structureStart = random.nextFloat() * (1.0f - structure.structureLength);
 
-        structure.x = MathHelper.floor_double((random.nextDouble() - random.nextDouble()) * range);
-        structure.y = MathHelper.floor_double((random.nextDouble() - random.nextDouble()) * range);
-        structure.z = MathHelper.floor_double((random.nextDouble() - random.nextDouble()) * range);
+        structure.x = MathHelper.floor((random.nextDouble() - random.nextDouble()) * range);
+        structure.y = MathHelper.floor((random.nextDouble() - random.nextDouble()) * range);
+        structure.z = MathHelper.floor((random.nextDouble() - random.nextDouble()) * range);
 
         structure.unifiedSeed = PandorasBoxHelper.getRandomUnifiedSeed(random);
     }

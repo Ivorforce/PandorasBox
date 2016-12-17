@@ -50,13 +50,13 @@ public class PBEffectGenTargets extends PBEffectGenerateByStructure
         {
             EntityPlayer player = players.get(i);
             StructureTarget structureTarget = new StructureTarget();
-            structureTarget.x = MathHelper.floor_double(player.posX);
-            structureTarget.y = MathHelper.floor_double(player.posY - 0.5);
-            structureTarget.z = MathHelper.floor_double(player.posZ);
+            structureTarget.x = MathHelper.floor(player.posX);
+            structureTarget.y = MathHelper.floor(player.posY - 0.5);
+            structureTarget.z = MathHelper.floor(player.posZ);
             structureTarget.structureStart = random.nextFloat() * 0.3f;
             structureTarget.structureLength = 0.5f + random.nextFloat() * 0.2f;
 
-            structureTarget.colors = new int[MathHelper.ceiling_double_int(targetSize)];
+            structureTarget.colors = new int[MathHelper.ceil(targetSize)];
             for (int j = 0; j < structureTarget.colors.length; j++)
             {
                 structureTarget.colors[j] = random.nextInt(16);
@@ -76,33 +76,33 @@ public class PBEffectGenTargets extends PBEffectGenerateByStructure
             double newRange = newRatio * targetSize;
             double prevRange = prevRatio * targetSize;
 
-            int requiredRange = MathHelper.ceiling_double_int(newRange);
+            int requiredRange = MathHelper.ceil(newRange);
 
             for (int xP = -requiredRange; xP <= requiredRange; xP++)
             {
                 for (int zP = -requiredRange; zP <= requiredRange; zP++)
                 {
-                    double dist = MathHelper.sqrt_double(xP * xP + zP * zP);
+                    double dist = MathHelper.sqrt(xP * xP + zP * zP);
 
                     if (dist < newRange)
                     {
                         if (dist >= prevRange)
                         {
-                            setBlockSafe(world, new BlockPos(structureTarget.x + xP, structureTarget.y, structureTarget.z + zP), Blocks.STAINED_HARDENED_CLAY.getStateFromMeta(structureTarget.colors[MathHelper.floor_double(dist)]));
+                            setBlockSafe(world, new BlockPos(structureTarget.x + xP, structureTarget.y, structureTarget.z + zP), Blocks.STAINED_HARDENED_CLAY.getStateFromMeta(structureTarget.colors[MathHelper.floor(dist)]));
 
-                            double nextDist = MathHelper.sqrt_double((xP * xP + 3 * 3) + (zP * zP + 3 * 3));
+                            double nextDist = MathHelper.sqrt((xP * xP + 3 * 3) + (zP * zP + 3 * 3));
 
                             if (nextDist >= targetSize && random.nextDouble() < entityDensity)
                             {
                                 Entity newEntity = PBEffectSpawnEntityIDList.createEntity(world, entity, random, entityToSpawn, structureTarget.x + xP + 0.5, structureTarget.y + 1.5, structureTarget.z + zP + 0.5);
-                                world.spawnEntityInWorld(newEntity);
+                                world.spawnEntity(newEntity);
                             }
                         }
                     }
 
                     for (int yP = 1; yP <= requiredRange; yP++)
                     {
-                        double dist3D = MathHelper.sqrt_double(xP * xP + zP * zP + yP * yP);
+                        double dist3D = MathHelper.sqrt(xP * xP + zP * zP + yP * yP);
 
                         if (dist3D < newRange && dist3D >= prevRange) // -3 so we have a bit of a height bonus
                         {

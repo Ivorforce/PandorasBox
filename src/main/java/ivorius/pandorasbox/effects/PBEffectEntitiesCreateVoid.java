@@ -35,9 +35,9 @@ public class PBEffectEntitiesCreateVoid extends PBEffectEntityBased
         {
             if (entity instanceof EntityPlayer)
             {
-                int baseY = MathHelper.floor_double(entity.posY);
-                int baseX = MathHelper.floor_double(entity.posX);
-                int baseZ = MathHelper.floor_double(entity.posZ);
+                int baseY = MathHelper.floor(entity.posY);
+                int baseX = MathHelper.floor(entity.posX);
+                int baseZ = MathHelper.floor(entity.posZ);
 
                 for (int x = -1; x <= 1; x++)
                 {

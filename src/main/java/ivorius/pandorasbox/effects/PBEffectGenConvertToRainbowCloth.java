@@ -46,8 +46,8 @@ public class PBEffectGenConvertToRainbowCloth extends PBEffectGenerate
             {
                 if (world.getBlockState(pos.up()) == Blocks.AIR)
                 {
-                    double dist = MathHelper.sqrt_double(effectCenter.squareDistanceTo(new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)));
-                    setBlockSafe(world, pos, Blocks.WOOL.getStateFromMeta(woolMetas[MathHelper.floor_double(dist / ringSize) % woolMetas.length]));
+                    double dist = MathHelper.sqrt(effectCenter.squareDistanceTo(new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)));
+                    setBlockSafe(world, pos, Blocks.WOOL.getStateFromMeta(woolMetas[MathHelper.floor(dist / ringSize) % woolMetas.length]));
                 }
             }
         }

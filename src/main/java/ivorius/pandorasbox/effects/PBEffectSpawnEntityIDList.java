@@ -18,10 +18,7 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityGuardian;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.SkeletonType;
+import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,6 +31,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
@@ -101,7 +99,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
 
             if (previousEntity != null)
             {
-                world.spawnEntityInWorld(previousEntity);
+                world.spawnEntity(previousEntity);
                 previousEntity.startRiding(newEntity, true);
             }
 
@@ -109,7 +107,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
         }
 
         if (previousEntity != null)
-            world.spawnEntityInWorld(previousEntity);
+            world.spawnEntity(previousEntity);
 
         return previousEntity;
     }
@@ -229,7 +227,7 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                     wolf.getNavigator().clearPathEntity();
                     wolf.setAttackTarget(null);
                     wolf.setOwnerId(nearest.getUniqueID());
-                    wolf.worldObj.setEntityState(wolf, (byte) 7);
+                    wolf.world.setEntityState(wolf, (byte) 7);
                 }
 
                 return wolf;
@@ -245,9 +243,9 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
                 if (nearest != null)
                 {
                     ocelot.setTamed(true);
-                    ocelot.setTameSkin(1 + ocelot.worldObj.rand.nextInt(3));
+                    ocelot.setTameSkin(1 + ocelot.world.rand.nextInt(3));
                     ocelot.setOwnerId(nearest.getUniqueID());
-                    ocelot.worldObj.setEntityState(ocelot, (byte) 7);
+                    ocelot.world.setEntityState(ocelot, (byte) 7);
                 }
 
                 return ocelot;
@@ -291,10 +289,9 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
             }
             else if ("pbspecial_skeletonWither".equals(entityID))
             {
-                EntitySkeleton skeleton = new EntitySkeleton(world);
+                EntityWitherSkeleton skeleton = new EntityWitherSkeleton(world);
                 skeleton.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
 
-                skeleton.setSkeletonType(SkeletonType.WITHER);
                 skeleton.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
                 skeleton.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
 
@@ -302,15 +299,13 @@ public class PBEffectSpawnEntityIDList extends PBEffectSpawnEntities
             }
             else if ("pbspecial_elderGuardian".equals(entityID))
             {
-                EntityGuardian entity = new EntityGuardian(world);
+                EntityElderGuardian entity = new EntityElderGuardian(world);
                 entity.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
-
-                entity.setElder(true);
 
                 return entity;
             }
 
-            Entity entity = EntityList.createEntityByName(entityID, world);
+            Entity entity = EntityList.createEntityByIDFromName(new ResourceLocation(entityID), world);
             entity.setLocationAndAngles(x, y, z, random.nextFloat() * 360.0f, 0.0f);
 
             return entity;

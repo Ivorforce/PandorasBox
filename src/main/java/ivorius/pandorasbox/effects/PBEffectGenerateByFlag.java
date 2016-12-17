@@ -40,11 +40,11 @@ public abstract class PBEffectGenerateByFlag extends PBEffectRangeBased
     {
         super.setUpEffect(world, entity, effectCenter, random);
 
-        byte requiredRange = (byte) MathHelper.ceiling_double_int(range);
+        byte requiredRange = (byte) MathHelper.ceil(range);
 
-        int baseX = MathHelper.floor_double(effectCenter.xCoord);
-        int baseY = MathHelper.floor_double(effectCenter.yCoord);
-        int baseZ = MathHelper.floor_double(effectCenter.zCoord);
+        int baseX = MathHelper.floor(effectCenter.xCoord);
+        int baseY = MathHelper.floor(effectCenter.yCoord);
+        int baseZ = MathHelper.floor(effectCenter.zCoord);
 
         boolean[] flags = new boolean[31];
 
@@ -54,7 +54,7 @@ public abstract class PBEffectGenerateByFlag extends PBEffectRangeBased
             {
                 for (byte y = (byte) -requiredRange; y <= requiredRange; y++)
                 {
-                    double dist = MathHelper.sqrt_double(x * x + y * y + z * z);
+                    double dist = MathHelper.sqrt(x * x + y * y + z * z);
 
                     if (dist <= range)
                         flags[y + 15] = hasFlag(world, entity, random, new BlockPos(baseX + x, baseY + y, baseZ + z));
@@ -70,11 +70,11 @@ public abstract class PBEffectGenerateByFlag extends PBEffectRangeBased
     @Override
     public void generateInRange(World world, EntityPandorasBox entity, Random random, Vec3d effectCenter, double prevRange, double newRange, int pass)
     {
-        byte requiredRange = (byte) MathHelper.ceiling_double_int(newRange);
+        byte requiredRange = (byte) MathHelper.ceil(newRange);
 
-        int baseX = MathHelper.floor_double(effectCenter.xCoord);
-        int baseY = MathHelper.floor_double(effectCenter.yCoord);
-        int baseZ = MathHelper.floor_double(effectCenter.zCoord);
+        int baseX = MathHelper.floor(effectCenter.xCoord);
+        int baseY = MathHelper.floor(effectCenter.yCoord);
+        int baseZ = MathHelper.floor(effectCenter.zCoord);
 
         for (byte x = (byte) -requiredRange; x <= requiredRange; x++)
         {
@@ -82,7 +82,7 @@ public abstract class PBEffectGenerateByFlag extends PBEffectRangeBased
             {
                 for (byte z = (byte) -requiredRange; z <= requiredRange; z++)
                 {
-                    double dist = MathHelper.sqrt_double(x * x + y * y + z * z);
+                    double dist = MathHelper.sqrt(x * x + y * y + z * z);
 
                     if (dist <= newRange)
                     {

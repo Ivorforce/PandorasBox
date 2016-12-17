@@ -47,7 +47,7 @@ public class PBECGenTreesOdd implements PBEffectCreator
     public PBEffect constructEffect(World world, double x, double y, double z, Random random)
     {
         double range = this.range.getValue(random);
-        int time = MathHelper.floor_double((random.nextDouble() * 7.0 + 3.0) * range);
+        int time = MathHelper.floor((random.nextDouble() * 7.0 + 3.0) * range);
         double chancePerBlock = this.chancePerBlock.getValue(random);
         boolean requiresSolidGround = this.requiresSolidGround.getValue(random);
         int possibleTreeFlags = this.possibleTreeFlags.getValue(random);

@@ -72,7 +72,7 @@ public class PBEffectGenConvertToChristmas extends PBEffectGenerate
                                 Collection<RandomizedItemStack> itemSelection = PandorasBoxHelper.blocksAndItems;
                                 RandomizedItemStack chestContent = WeightedSelector.selectItem(random, itemSelection);
                                 ItemStack stack = chestContent.itemStack.copy();
-                                stack.stackSize = chestContent.min + random.nextInt(chestContent.max - chestContent.min + 1);
+                                stack.setCount(chestContent.min + random.nextInt(chestContent.max - chestContent.min + 1));
 
                                 tileentitychest.setInventorySlotContents(world.rand.nextInt(tileentitychest.getSizeInventory()), stack);
                             }
@@ -94,7 +94,7 @@ public class PBEffectGenConvertToChristmas extends PBEffectGenerate
                         {
                             EntityItem entityItem = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5f, pos.getZ() + 0.5f, new ItemStack(Items.COOKIE));
                             entityItem.setPickupDelay(20);
-                            world.spawnEntityInWorld(entityItem);
+                            world.spawnEntity(entityItem);
                         }
                     }
 
@@ -138,7 +138,7 @@ public class PBEffectGenConvertToChristmas extends PBEffectGenerate
                         santa.setItemStackToSlot(EntityEquipmentSlot.FEET, boots);
                         santa.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.STICK));
 
-                        ((EntityLiving) santa).setCustomNameTag("Hogfather");
+                        santa.setCustomNameTag("Hogfather");
                     }
 
                     lazilySpawnEntity(world, entity, random, "SnowMan", 1.0f / (20 * 20), pos);

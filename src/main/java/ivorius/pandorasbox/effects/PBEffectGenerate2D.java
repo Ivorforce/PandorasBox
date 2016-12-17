@@ -35,17 +35,17 @@ public abstract class PBEffectGenerate2D extends PBEffectRangeBased
     @Override
     public void generateInRange(World world, EntityPandorasBox entity, Random random, Vec3d effectCenter, double prevRange, double newRange, int pass)
     {
-        int requiredRange = MathHelper.floor_double(newRange);
+        int requiredRange = MathHelper.floor(newRange);
 
-        int baseX = MathHelper.floor_double(effectCenter.xCoord);
-        int baseY = MathHelper.floor_double(effectCenter.yCoord);
-        int baseZ = MathHelper.floor_double(effectCenter.zCoord);
+        int baseX = MathHelper.floor(effectCenter.xCoord);
+        int baseY = MathHelper.floor(effectCenter.yCoord);
+        int baseZ = MathHelper.floor(effectCenter.zCoord);
 
         for (int x = -requiredRange; x <= requiredRange; x++)
         {
             for (int z = -requiredRange; z <= requiredRange; z++)
             {
-                double dist = MathHelper.sqrt_double(x * x + z * z);
+                double dist = MathHelper.sqrt(x * x + z * z);
 
                 if (dist <= newRange)
                 {

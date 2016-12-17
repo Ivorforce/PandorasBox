@@ -53,7 +53,7 @@ public class PBEffectDuplicateBox extends PBEffectNormal
                 case MODE_BOX_IN_BOX:
                     newBox.beginFloatingUp();
                     newBox.beginScalingIn();
-                    world.spawnEntityInWorld(newBox);
+                    world.spawnEntity(newBox);
                     break;
             }
         }

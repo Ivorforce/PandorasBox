@@ -47,11 +47,11 @@ public class PBECReplace implements PBEffectCreator
     public PBEffect constructEffect(World world, double x, double y, double z, Random random)
     {
         double range = this.range.getValue(random);
-        int time = MathHelper.floor_double((random.nextDouble() * 7.0 + 3.0) * range);
+        int time = MathHelper.floor((random.nextDouble() * 7.0 + 3.0) * range);
 
-        int baseX = MathHelper.floor_double(x);
-        int baseY = MathHelper.floor_double(y);
-        int baseZ = MathHelper.floor_double(z);
+        int baseX = MathHelper.floor(x);
+        int baseY = MathHelper.floor(y);
+        int baseZ = MathHelper.floor(z);
         boolean takeRandomNearbyBlocks = this.takeRandomNearbyBlocks.getValue(random);
 
         Block[] srcSelection = new Block[0];

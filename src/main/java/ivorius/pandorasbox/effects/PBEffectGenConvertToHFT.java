@@ -107,7 +107,7 @@ public class PBEffectGenConvertToHFT extends PBEffectGenerate
                         {
                             EntityItem entityItem = new EntityItem(world, pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, new ItemStack(Items.COOKIE));
                             entityItem.setPickupDelay(20);
-                            world.spawnEntityInWorld(entityItem);
+                            world.spawnEntity(entityItem);
                         }
                     }
                 }

@@ -40,7 +40,7 @@ public class PBECCreativeTowers implements PBEffectCreator
     {
         double range = this.range.getValue(random);
         int number = this.number.getValue(random);
-        int time = MathHelper.floor_double((random.nextDouble() * 4.0 + 1.0) * number * 10.0);
+        int time = MathHelper.floor((random.nextDouble() * 4.0 + 1.0) * number * 10.0);
 
         Block[] selection = PandorasBoxHelper.getRandomBlockList(random, blocks);
 

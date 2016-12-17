@@ -76,7 +76,7 @@ public class PBEffectGenShapes extends PBEffectGenerateByStructure
 
             if (structureShape.shapeType == 0)
             {
-                int requiredRange = MathHelper.floor_double(newSize);
+                int requiredRange = MathHelper.floor(newSize);
 
                 for (int xPlus = -requiredRange; xPlus <= requiredRange; xPlus++)
                 {
@@ -84,7 +84,7 @@ public class PBEffectGenShapes extends PBEffectGenerateByStructure
                     {
                         for (int zPlus = -requiredRange; zPlus <= requiredRange; zPlus++)
                         {
-                            double dist = MathHelper.sqrt_double(xPlus * xPlus + yPlus * yPlus + zPlus * zPlus);
+                            double dist = MathHelper.sqrt(xPlus * xPlus + yPlus * yPlus + zPlus * zPlus);
 
                             if (dist <= newSize)
                             {
@@ -103,7 +103,7 @@ public class PBEffectGenShapes extends PBEffectGenerateByStructure
             }
             else if (structureShape.shapeType == 1)
             {
-                int requiredRange = MathHelper.floor_double(newSize);
+                int requiredRange = MathHelper.floor(newSize);
 
                 for (int xPlus = -requiredRange; xPlus <= requiredRange; xPlus++)
                 {
@@ -132,8 +132,8 @@ public class PBEffectGenShapes extends PBEffectGenerateByStructure
             }
             else if (structureShape.shapeType == 2 || structureShape.shapeType == 3)
             {
-                int requiredRange = MathHelper.floor_double(newSize);
-                int totalHeight = MathHelper.floor_double(structureShape.size);
+                int requiredRange = MathHelper.floor(newSize);
+                int totalHeight = MathHelper.floor(structureShape.size);
 
                 for (int yPlus = -requiredRange; yPlus <= requiredRange; yPlus++)
                 {

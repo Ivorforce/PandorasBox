@@ -93,7 +93,7 @@ public class PBECSpawnItems implements PBEffectCreator
         {
             RandomizedItemStack wrcc = mixUp ? WeightedSelector.selectItem(random, items) : items.get(i);
             ItemStack stack = wrcc.itemStack.copy();
-            stack.stackSize = wrcc.min + random.nextInt(wrcc.max - wrcc.min + 1);
+            stack.setCount(wrcc.min + random.nextInt(wrcc.max - wrcc.min + 1));
 
             if (enchantLevel > 0)
             {
@@ -129,7 +129,7 @@ public class PBECSpawnItems implements PBEffectCreator
 
             if (split)
             {
-                for (int n = 0; n < stack.stackSize; n++)
+                for (int n = 0; n < stack.getCount(); n++)
                 {
                     ItemStack splitStack = stack.splitStack(1);
                     list.add(splitStack);

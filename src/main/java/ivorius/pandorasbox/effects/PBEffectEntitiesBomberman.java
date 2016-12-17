@@ -36,8 +36,8 @@ public class PBEffectEntitiesBomberman extends PBEffectEntityBased
     {
         if (!world.isRemote)
         {
-            int prevBombs = MathHelper.floor_double(prevRatio * bombs);
-            int newBombs = MathHelper.floor_double(newRatio * bombs);
+            int prevBombs = MathHelper.floor(prevRatio * bombs);
+            int newBombs = MathHelper.floor(newRatio * bombs);
             int bombs = newBombs - prevBombs;
 
             for (int i = 0; i < bombs; i++)
@@ -45,7 +45,7 @@ public class PBEffectEntitiesBomberman extends PBEffectEntityBased
                 EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, entity.posX, entity.posY, entity.posZ, null);
                 entitytntprimed.setFuse(45 + random.nextInt(20));
 
-                world.spawnEntityInWorld(entitytntprimed);
+                world.spawnEntity(entitytntprimed);
             }
         }
     }

@@ -188,7 +188,7 @@ public class PBECRegistry
 
             entityPandorasBox.beginFloatingAway();
 
-            world.spawnEntityInWorld(entityPandorasBox);
+            world.spawnEntity(entityPandorasBox);
 
             return entityPandorasBox;
         }

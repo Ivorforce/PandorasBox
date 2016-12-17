@@ -136,12 +136,12 @@ public class RenderPandorasBox extends Render
 
             GlStateManager.translate(0.0f, 1.5f, 0.0f);
             GlStateManager.rotate(180.0f, 0.0f, 0.0f, 1.0f);
-            EntityArrow emptyEntity = new EntityTippedArrow(entity.worldObj);
+            EntityArrow emptyEntity = new EntityTippedArrow(entity.world);
             emptyEntity.rotationPitch = entityPandorasBox.getRatioBoxOpen(partialTicks) * 120.0f / 180.0f * 3.1415926f;
             bindEntityTexture(entity);
             model.render(emptyEntity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 
-//            int animationCounter = Math.min(89, MathHelper.floor_float((entityPandorasBox.getRatioBoxOpen(partialTicks) + 0.5f) * 90));
+//            int animationCounter = Math.min(89, MathHelper.floor((entityPandorasBox.getRatioBoxOpen(partialTicks) + 0.5f) * 90));
 //            renderB3DModel(renderManager.renderEngine, model, animationCounter);
         }
 

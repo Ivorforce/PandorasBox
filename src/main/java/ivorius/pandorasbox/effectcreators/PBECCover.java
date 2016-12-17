@@ -40,7 +40,7 @@ public class PBECCover implements PBEffectCreator
     {
         double range = this.range.getValue(random);
         boolean overSurface = this.overSurface.getValue(random);
-        int time = MathHelper.floor_double((random.nextDouble() * 7.0 + 3.0) * range);
+        int time = MathHelper.floor((random.nextDouble() * 7.0 + 3.0) * range);
 
         Block[] selection = PandorasBoxHelper.getRandomBlockList(random, blocks);
 

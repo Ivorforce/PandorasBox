@@ -47,7 +47,7 @@ public class PBEffectSpawnItemStacks extends PBEffectSpawnEntities
     {
         EntityItem entityItem = new EntityItem(world, x, y, z, stacks[number]);
         entityItem.setPickupDelay(10);
-        world.spawnEntityInWorld(entityItem);
+        world.spawnEntity(entityItem);
         return entityItem;
     }
 

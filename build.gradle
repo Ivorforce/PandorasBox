@@ -27,9 +27,9 @@ group = "ivorius.pandorasbox" // http://maven.apache.org/guides/mini/guide-namin
 archivesBaseName = "PandorasBox"
 
 minecraft {
-    version = "1.10.2-12.18.1.2074"
+    version = "1.11-13.19.1.2189"
     runDir = "eclipse"
-    mappings = "snapshot_20160829"
+    mappings = "snapshot_20161128"
     useDepAts = true
 }
 

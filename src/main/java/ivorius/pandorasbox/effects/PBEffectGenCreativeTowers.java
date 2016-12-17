@@ -51,8 +51,8 @@ public class PBEffectGenCreativeTowers extends PBEffectGenerateByStructure
             StructureCreativeTower structureCreativeTower = (StructureCreativeTower) structure;
 
             int towerHeight = world.getHeight();
-            int newY = MathHelper.floor_float(towerHeight * newRatio);
-            int prevY = MathHelper.floor_float(towerHeight * prevRatio);
+            int newY = MathHelper.floor(towerHeight * newRatio);
+            int prevY = MathHelper.floor(towerHeight * prevRatio);
 
             for (int towerY = prevY; towerY < newY; towerY++)
             {

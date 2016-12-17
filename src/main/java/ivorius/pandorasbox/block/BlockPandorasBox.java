@@ -52,7 +52,7 @@ public class BlockPandorasBox extends BlockContainer
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
 
@@ -85,16 +85,11 @@ public class BlockPandorasBox extends BlockContainer
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
     {
+        worldIn.setBlockState(pos, this.getDefaultState().withProperty(FACING_PROP, placer.getHorizontalFacing().getOpposite()), 2);
         TileEntity tileEntity = worldIn.getTileEntity(pos);
 
         if (tileEntity instanceof TileEntityPandorasBox)
             ((TileEntityPandorasBox) tileEntity).setPartialRotationYaw(placer.rotationYaw % 90.0f);
-    }
-
-    @Override
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
-    {
-        return this.getDefaultState().withProperty(FACING_PROP, placer.getHorizontalFacing().getOpposite());
     }
 
     @Override

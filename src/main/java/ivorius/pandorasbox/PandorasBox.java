@@ -21,6 +21,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -82,7 +83,7 @@ public class PandorasBox
         register(PBBlocks.pandorasBox, "pandorasBox", new ItemPandorasBox(PBBlocks.pandorasBox));
         GameRegistry.registerTileEntity(TileEntityPandorasBox.class, "pandorasBox");
 
-        EntityRegistry.registerModEntity(EntityPandorasBox.class, "pandorasBox", PBEntityList.pandorasBoxEntityID, this, 256, 20, true);
+        EntityRegistry.registerModEntity(new ResourceLocation(PandorasBox.MOD_ID, "pandorasBox"), EntityPandorasBox.class, "pandorasBox", PBEntityList.pandorasBoxEntityID, this, 256, 20, true);
 
         proxy.preInit();
         PBEffects.registerEffects();

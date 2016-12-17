@@ -16,6 +16,7 @@ import ivorius.pandorasbox.network.PacketEntityData;
 import ivorius.pandorasbox.network.PartialUpdateHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MoverType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -147,7 +148,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
 
         if (getDeathTicks() >= 0)
         {
-            if (!worldObj.isRemote)
+            if (!world.isRemote)
             {
                 if (getDeathTicks() >= 30)
                     setDead();
@@ -161,9 +162,9 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                     double zP = (rand.nextDouble() - rand.nextDouble()) * 0.5;
 
                     if (rand.nextBoolean())
-                        worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + xP, posY + yP, posZ + zP, 0.0D, 0.0D, 0.0D);
+                        world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + xP, posY + yP, posZ + zP, 0.0D, 0.0D, 0.0D);
                     else
-                        worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, posX + xP, posY + yP, posZ + zP, 0.0D, 0.0D, 0.0D);
+                        world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, posX + xP, posY + yP, posZ + zP, 0.0D, 0.0D, 0.0D);
                 }
             }
 
@@ -176,7 +177,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
 
             if (effect == null)
             {
-                if (!worldObj.isRemote)
+                if (!world.isRemote)
                 {
                     setDead();
                 }
@@ -185,7 +186,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
             {
                 if (effect.isDone(this, effectTicksExisted))
                 {
-                    if (!worldObj.isRemote)
+                    if (!world.isRemote)
                     {
                         boolean isCompletelyDone = true;
 
@@ -251,7 +252,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         if (scaleInProgress > 1.0f)
             scaleInProgress = 1.0f;
 
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
+        this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 
         if (timeBoxWaiting == 0)
         {
@@ -259,7 +260,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
             {
                 if (!isInvisible())
                 {
-                    if (worldObj.isRemote)
+                    if (world.isRemote)
                     {
                         double yCenter = posY + height * 0.5;
 
@@ -269,7 +270,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                             double yDir = rand.nextDouble() * 0.1;
                             double zP = (rand.nextDouble() - rand.nextDouble()) * 0.2;
 
-                            worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + xP, yCenter, posZ + zP, 0.0D, yDir, 0.0D);
+                            world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + xP, yCenter, posZ + zP, 0.0D, yDir, 0.0D);
                         }
                         for (int e = 0; e < 3; e++)
                         {
@@ -280,7 +281,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                             double xP = (rand.nextDouble() - 0.5) * width;
                             double zP = (rand.nextDouble() - 0.5) * width;
 
-                            worldObj.spawnParticle(EnumParticleTypes.ENCHANTMENT_TABLE, posX + xP + xDir, yCenter + yDir, posZ + zP + zDir, -xDir, -yDir, -zDir);
+                            world.spawnParticle(EnumParticleTypes.ENCHANTMENT_TABLE, posX + xP + xDir, yCenter + yDir, posZ + zP + zDir, -xDir, -yDir, -zDir);
                         }
                         for (int e = 0; e < 4; e++)
                         {
@@ -292,7 +293,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                             double yDir = (rand.nextDouble() * 2D) - 1D;
                             double zDir = (rand.nextDouble() * 2D) - 1D;
 
-                            worldObj.spawnParticle(EnumParticleTypes.PORTAL, posX + xP, yCenter + yP, posZ + zP, xDir, yDir, zDir);
+                            world.spawnParticle(EnumParticleTypes.PORTAL, posX + xP, yCenter + yP, posZ + zP, xDir, yDir, zDir);
                         }
                     }
 
@@ -300,7 +301,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
                     {
                         float powerRange = 5.0f;
                         float powerStrength = 0.07f;
-                        List<EntityLivingBase> nearbyEntities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox().expand(powerRange, powerRange, powerRange));
+                        List<EntityLivingBase> nearbyEntities = world.getEntitiesWithinAABB(EntityLivingBase.class, getEntityBoundingBox().expand(powerRange, powerRange, powerRange));
                         for (EntityLivingBase entity : nearbyEntities)
                         {
                             float entityDist = (float) entity.getDistanceSqToEntity(this);
@@ -322,9 +323,9 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         effectTicksExisted = 0;
         timeBoxWaiting = rand.nextInt(40);
 
-        boxEffect = PBECRegistry.createRandomEffect(worldObj, rand, effectCenter.xCoord, effectCenter.yCoord, effectCenter.zCoord, true);
+        boxEffect = PBECRegistry.createRandomEffect(world, rand, effectCenter.xCoord, effectCenter.yCoord, effectCenter.zCoord, true);
 
-        PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), worldObj.provider.getDimension());
+        PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), world.provider.getDimension());
     }
 
     public void startFadingOut()
@@ -348,7 +349,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
     {
         floatAwayProgress = -1.0f;
         effectTicksExisted = 0;
-        PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), worldObj.provider.getDimension());
+        PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), world.provider.getDimension());
     }
 
     public void beginScalingIn()
@@ -384,7 +385,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
     public float getRatioBoxOpen(float partialTicks)
     {
         if (floatAwayProgress >= 0.0f)
-            return MathHelper.clamp_float(((floatAwayProgress + partialTicks * 0.025f - 0.5f) * 2.0f), 0.0f, 1.0f);
+            return MathHelper.clamp(((floatAwayProgress + partialTicks * 0.025f - 0.5f) * 2.0f), 0.0f, 1.0f);
         else
             return 1.0f;
     }

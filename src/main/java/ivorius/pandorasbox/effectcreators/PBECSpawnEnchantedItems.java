@@ -58,9 +58,7 @@ public class PBECSpawnEnchantedItems implements PBEffectCreator
         ItemStack[] stacks = PBECSpawnItems.getItemStacks(random, items, number, false, true, enchantLevel, giveNames);
 
         for (ItemStack stack : stacks)
-        {
-            stack.stackSize = 1;
-        }
+            stack.setCount(1);
 
         return PBECSpawnItems.constructEffect(random, stacks, number * ticksPerItem + 1, valueThrow, valueSpawn);
     }

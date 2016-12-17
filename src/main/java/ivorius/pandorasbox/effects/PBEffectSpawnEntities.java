@@ -105,7 +105,7 @@ public abstract class PBEffectSpawnEntities extends PBEffectNormal
 
     private int getSpawnNumber(float ratio)
     {
-        return MathHelper.floor_float(ratio * number);
+        return MathHelper.floor(ratio * number);
     }
 
     public abstract Entity spawnEntity(World world, EntityPandorasBox pbEntity, Random random, int number, double x, double y, double z);

@@ -16,7 +16,7 @@ public class PacketEntityDataHandler implements IMessageHandler<PacketEntityData
     @Override
     public IMessage onMessage(PacketEntityData message, MessageContext ctx)
     {
-        World world = IvSideClient.getClientWorld();
+        World world = ivorius.ivtoolkit.tools.IvSideClient.getClientWorld();
         Entity entity = world.getEntityByID(message.getEntityID());
 
         if (entity != null)

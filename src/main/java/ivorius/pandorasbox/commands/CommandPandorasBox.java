@@ -24,13 +24,13 @@ import java.util.List;
 public class CommandPandorasBox extends CommandBase
 {
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "pandora";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender var1)
+    public String getUsage(ICommandSender var1)
     {
         return "/pandora [player=???] [effect=???] [invisible=true]";
     }
@@ -71,7 +71,7 @@ public class CommandPandorasBox extends CommandBase
             String effectName = arguments.get("effect");
             if (effectName != null)
             {
-                box = PBECRegistry.spawnPandorasBox(player.worldObj, player.getRNG(), effectName, player);
+                box = PBECRegistry.spawnPandorasBox(player.world, player.getRNG(), effectName, player);
 
                 if (box != null)
                 {
@@ -80,7 +80,7 @@ public class CommandPandorasBox extends CommandBase
             }
             else
             {
-                box = PBECRegistry.spawnPandorasBox(player.worldObj, player.getRNG(), true, player);
+                box = PBECRegistry.spawnPandorasBox(player.world, player.getRNG(), true, player);
             }
 
             if (box != null)
@@ -100,12 +100,12 @@ public class CommandPandorasBox extends CommandBase
         }
         else
         {
-            throw new PlayerNotFoundException();
+            throw new PlayerNotFoundException("commands.generic.player.unspecified");
         }
     }
 
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         if (args.length == 0)
             return null;
@@ -116,7 +116,7 @@ public class CommandPandorasBox extends CommandBase
             newArgs.addAll(Arrays.asList(prefixArgumentsWithKey("effect", PBECRegistry.getIDArray())));
 
         if (!hasArgument("player", args))
-            newArgs.addAll(Arrays.asList(prefixArgumentsWithKey("player", server.getAllUsernames())));
+            newArgs.addAll(Arrays.asList(prefixArgumentsWithKey("player", server.getOnlinePlayerNames())));
 
         if (!hasArgument("invisible", args))
             newArgs.addAll(Arrays.asList(prefixArgumentsWithKey("invisible", "true", "false")));

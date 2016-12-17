@@ -38,8 +38,8 @@ public class PBEffectEntitiesBuff extends PBEffectEntityBased
     {
         for (PotionEffect effect : effects)
         {
-            int prevDuration = MathHelper.floor_double(prevRatio * strength * effect.getDuration());
-            int newDuration = MathHelper.floor_double(newRatio * strength * effect.getDuration());
+            int prevDuration = MathHelper.floor(prevRatio * strength * effect.getDuration());
+            int newDuration = MathHelper.floor(newRatio * strength * effect.getDuration());
             int duration = newDuration - prevDuration;
 
             if (duration > 0)

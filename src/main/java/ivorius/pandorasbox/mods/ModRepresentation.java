@@ -12,7 +12,7 @@ public class ModRepresentation
 {
     public static Block block(String modID, String id)
     {
-        return GameRegistry.findBlock(modID, id);
+        return Block.REGISTRY.getObject(new ResourceLocation(modID, id));
     }
 
     public static String id(Block block)
@@ -22,7 +22,7 @@ public class ModRepresentation
 
     public static Item item(String modID, String id)
     {
-        return GameRegistry.findItem(modID, id);
+        return Item.REGISTRY.getObject(new ResourceLocation(modID, id));
     }
 
     public static String id(Item item)

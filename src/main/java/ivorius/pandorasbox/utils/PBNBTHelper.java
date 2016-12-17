@@ -146,7 +146,7 @@ public class PBNBTHelper
             ItemStack[] itemStacks = new ItemStack[nbtTagList.tagCount()];
 
             for (int i = 0; i < itemStacks.length; i++)
-                itemStacks[i] = ItemStack.loadItemStackFromNBT(nbtTagList.getCompoundTagAt(i));
+                itemStacks[i] = new ItemStack(nbtTagList.getCompoundTagAt(i));
 
             return itemStacks;
         }

@@ -51,9 +51,9 @@ public class WorldGenRainbow extends WorldGenAbstractTree
                 {
                     for (int y = -l / 2; y <= l / 2; y++)
                     {
-                        int distance = MathHelper.floor_float(MathHelper.sqrt_float(s * s + y * y));
+                        int distance = MathHelper.floor(MathHelper.sqrt(s * s + y * y));
 
-                        if (distance <= (l / 2 - MathHelper.floor_float(MathHelper.sqrt_float(shift * shift)) * 2) && distance > l / 4)
+                        if (distance <= (l / 2 - MathHelper.floor(MathHelper.sqrt(shift * shift)) * 2) && distance > l / 4)
                         {
                             int x = (!rotated ? s : shift) + par3;
                             int z = (rotated ? s : shift) + par5;

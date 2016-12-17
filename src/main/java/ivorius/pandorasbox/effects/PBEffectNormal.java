@@ -55,13 +55,13 @@ public abstract class PBEffectNormal extends PBEffect
         float newRatio = getRatioDone(ticksAlive + 1);
 
         if (ticksAlive == 0)
-            setUpEffect(entity.worldObj, entity, effectCenter, entity.getRandom());
+            setUpEffect(entity.world, entity, effectCenter, entity.getRandom());
 
         if (prevRatio >= 0.0f && newRatio <= 1.0f && newRatio > prevRatio)
-            doEffect(entity.worldObj, entity, effectCenter, entity.getRandom(), prevRatio, newRatio);
+            doEffect(entity.world, entity, effectCenter, entity.getRandom(), prevRatio, newRatio);
 
         if (ticksAlive == maxTicksAlive - 1)
-            finalizeEffect(entity.worldObj, entity, effectCenter, entity.getRandom());
+            finalizeEffect(entity.world, entity, effectCenter, entity.getRandom());
     }
 
     @Override

@@ -38,7 +38,7 @@ public class PBEffectGenDome extends PBEffectGenerate2D
     @Override
     public void generateOnSurface(World world, EntityPandorasBox box, Vec3d effectCenter, Random random, BlockPos pos, double dist, int pass)
     {
-        int domeHeightY = MathHelper.ceiling_double_int(range);
+        int domeHeightY = MathHelper.ceil(range);
 
         for (int y = -domeHeightY; y <= domeHeightY; y++)
         {

@@ -58,7 +58,7 @@ public abstract class PBEffectRangeBased extends PBEffectNormal
         double fullRange = range + (passes - 1) * 5.0;
         double tempRange = ratio * fullRange - pass * 5.0;
 
-        return MathHelper.clamp_double(tempRange, 0.0, range);
+        return MathHelper.clamp(tempRange, 0.0, range);
     }
 
     public abstract void generateInRange(World world, EntityPandorasBox entity, Random random, Vec3d effectCenter, double prevRange, double newRange, int pass);

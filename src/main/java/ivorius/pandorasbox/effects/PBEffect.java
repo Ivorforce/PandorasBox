@@ -85,7 +85,7 @@ public abstract class PBEffect
 
             if (entity != null)
             {
-                world.spawnEntityInWorld(entity);
+                world.spawnEntity(entity);
                 return entity;
             }
         }
@@ -101,10 +101,7 @@ public abstract class PBEffect
         if (block.getLightOpacity(world, pos) > 0)
             return false;
 
-        if (!world.isBlockNormalCube(pos.down(), false))
-            return false;
-
-        return true;
+        return world.isBlockNormalCube(pos.down(), false);
     }
 
     public boolean canSpawnFlyingEntity(World world, IBlockState block, BlockPos pos)
@@ -112,10 +109,7 @@ public abstract class PBEffect
         if (world.isRemote)
             return false;
 
-        if (block.getLightOpacity(world, pos) > 0 || world.getBlockLightOpacity(pos.down()) > 0 || world.getBlockLightOpacity(pos.down(2)) > 0)
-            return false;
-
-        return true;
+        return !(block.getLightOpacity(world, pos) > 0 || world.getBlockLightOpacity(pos.down()) > 0 || world.getBlockLightOpacity(pos.down(2)) > 0);
     }
 
     public void addPotionEffectDuration(EntityLivingBase entity, PotionEffect potionEffect)

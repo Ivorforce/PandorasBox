@@ -54,7 +54,7 @@ public abstract class PBEffectPositionBased extends PBEffectNormal
 
     private int getSpawnNumber(float ratio)
     {
-        return MathHelper.floor_float(ratio * number);
+        return MathHelper.floor(ratio * number);
     }
 
     @Override

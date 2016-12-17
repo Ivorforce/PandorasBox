@@ -86,7 +86,7 @@ public class PBEffectEntitiesThrowItems extends PBEffectEntityBased
         entityItem.motionX = (world.rand.nextDouble() - world.rand.nextDouble()) * 1.0;
         entityItem.motionZ = (world.rand.nextDouble() - world.rand.nextDouble()) * 1.0;
         entityItem.motionY = world.rand.nextDouble();
-        world.spawnEntityInWorld(entityItem);
+        world.spawnEntity(entityItem);
     }
 
     @Override

@@ -48,7 +48,7 @@ public class PBEffectSpawnBlocks extends PBEffectSpawnEntities
         Block block = blocks[number];
         EntityFallingBlock entityFallingBlock = new EntityFallingBlock(world, x, y, z, block.getDefaultState());
         entityFallingBlock.fallTime = 1;
-        world.spawnEntityInWorld(entityFallingBlock);
+        world.spawnEntity(entityFallingBlock);
 
         return entityFallingBlock;
     }

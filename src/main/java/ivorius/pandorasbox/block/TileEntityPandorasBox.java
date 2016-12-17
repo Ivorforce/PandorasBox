@@ -53,7 +53,7 @@ public class TileEntityPandorasBox extends TileEntity
 
     public float getBaseRotationYaw()
     {
-        return rotationFromFacing((EnumFacing) this.worldObj.getBlockState(this.pos).getValue(BlockPandorasBox.FACING_PROP));
+        return rotationFromFacing(this.world.getBlockState(this.pos).getValue(BlockPandorasBox.FACING_PROP));
     }
 
     public float getRotationYaw()
@@ -63,19 +63,19 @@ public class TileEntityPandorasBox extends TileEntity
 
     public EntityPandorasBox spawnPandorasBox()
     {
-        if (!worldObj.isRemote)
+        if (!world.isRemote)
         {
-            PBEffect effect = PBECRegistry.createRandomEffect(worldObj, worldObj.rand, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, true);
+            PBEffect effect = PBECRegistry.createRandomEffect(world, world.rand, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, true);
 
             if (effect != null)
             {
-                EntityPandorasBox entityPandorasBox = new EntityPandorasBox(worldObj, effect);
+                EntityPandorasBox entityPandorasBox = new EntityPandorasBox(world, effect);
 
                 entityPandorasBox.setLocationAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, getRotationYaw(), 0.0f);
 
                 entityPandorasBox.beginFloatingUp();
 
-                worldObj.spawnEntityInWorld(entityPandorasBox);
+                world.spawnEntity(entityPandorasBox);
 
                 return entityPandorasBox;
             }
