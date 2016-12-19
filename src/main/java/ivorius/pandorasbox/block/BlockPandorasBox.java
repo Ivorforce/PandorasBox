@@ -95,16 +95,14 @@ public class BlockPandorasBox extends BlockContainer
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(FACING_PROP, EnumFacing.getFront(meta & 7));
+        return this.getDefaultState().withProperty(FACING_PROP, EnumFacing.getHorizontal(meta & 7));
     }
 
     @Override
     public int getMetaFromState(IBlockState state)
     {
-        byte b0 = 0;
-        int i = b0 | state.getValue(FACING_PROP).getIndex();
-
-        return i;
+        int horizontalIndex = state.getValue(FACING_PROP).getHorizontalIndex();
+        return horizontalIndex >= 0 && horizontalIndex < 4 ? horizontalIndex : 0;
     }
 
     @Override
