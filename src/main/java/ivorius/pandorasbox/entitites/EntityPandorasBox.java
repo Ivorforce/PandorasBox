@@ -237,7 +237,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
             else
             {
                 float speed = (floatAwayProgress - 0.7f) * (floatAwayProgress - 0.7f);
-                moveRelative(0.0f, -1.0f, speed * 0.02f, 0.02f);
+                moveRelative(0.0f, 0.01f, speed * 0.02f, 0.02f);
                 motionY += speed * 0.005f;
             }
 
