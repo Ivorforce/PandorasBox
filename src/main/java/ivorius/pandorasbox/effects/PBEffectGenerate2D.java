@@ -37,9 +37,9 @@ public abstract class PBEffectGenerate2D extends PBEffectRangeBased
     {
         int requiredRange = MathHelper.floor(newRange);
 
-        int baseX = MathHelper.floor(effectCenter.xCoord);
-        int baseY = MathHelper.floor(effectCenter.yCoord);
-        int baseZ = MathHelper.floor(effectCenter.zCoord);
+        int baseX = MathHelper.floor(effectCenter.x);
+        int baseY = MathHelper.floor(effectCenter.y);
+        int baseZ = MathHelper.floor(effectCenter.z);
 
         for (int x = -requiredRange; x <= requiredRange; x++)
         {

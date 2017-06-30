@@ -180,9 +180,9 @@ public class PBECRegistry
 
             Vec3d look = entity.getLookVec();
 
-            double spawnX = entity.posX + look.xCoord * 0.5;
-            double spawnY = entity.posY + 0.9 + look.yCoord * 0.5;
-            double spawnZ = entity.posZ + look.zCoord * 0.5;
+            double spawnX = entity.posX + look.x * 0.5;
+            double spawnY = entity.posY + 0.9 + look.y * 0.5;
+            double spawnZ = entity.posZ + look.z * 0.5;
 
             entityPandorasBox.setLocationAndAngles(spawnX, spawnY, spawnZ, entity.rotationYaw + 180.0f, 0.0f);
 

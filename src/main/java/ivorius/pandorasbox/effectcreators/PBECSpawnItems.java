@@ -5,14 +5,15 @@
 
 package ivorius.pandorasbox.effectcreators;
 
+import ivorius.ivtoolkit.random.WeightedSelector;
 import ivorius.pandorasbox.effects.PBEffect;
 import ivorius.pandorasbox.effects.PBEffectSpawnItemStacks;
 import ivorius.pandorasbox.random.*;
 import ivorius.pandorasbox.utils.RandomizedItemStack;
-import ivorius.ivtoolkit.random.WeightedSelector;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -53,16 +54,6 @@ public class PBECSpawnItems implements PBEffectCreator
     public static ValueSpawn defaultShowerSpawn()
     {
         return new ValueSpawn(new DLinear(5.0, 30.0), new DConstant(150.0));
-    }
-
-    @Override
-    public PBEffect constructEffect(World world, double x, double y, double z, Random random)
-    {
-        int number = this.number.getValue(random);
-        int ticksPerItem = this.ticksPerItem.getValue(random);
-
-        ItemStack[] stacks = getItemStacks(random, items, number, random.nextInt(3) != 0, true, 0, false);
-        return constructEffect(random, stacks, number * ticksPerItem + 1, valueThrow, valueSpawn);
     }
 
     public static PBEffect constructEffect(Random random, ItemStack[] stacks, int time, ValueThrow valueThrow, ValueSpawn valueSpawn)
@@ -112,11 +103,11 @@ public class PBECSpawnItems implements PBEffectCreator
 
                         if (stack.getItem() == Items.ENCHANTED_BOOK)
                         {
-                            Items.ENCHANTED_BOOK.addEnchantment(stack, enchantmentdata);
+                            ItemEnchantedBook.addEnchantment(stack, enchantmentdata);
                         }
                         else
                         {
-                            stack.addEnchantment(enchantmentdata.enchantmentobj, enchantmentdata.enchantmentLevel);
+                            stack.addEnchantment(enchantmentdata.enchantment, enchantmentdata.enchantmentLevel);
                         }
                     }
                 }
@@ -142,6 +133,16 @@ public class PBECSpawnItems implements PBEffectCreator
         }
 
         return list.toArray(new ItemStack[list.size()]);
+    }
+
+    @Override
+    public PBEffect constructEffect(World world, double x, double y, double z, Random random)
+    {
+        int number = this.number.getValue(random);
+        int ticksPerItem = this.ticksPerItem.getValue(random);
+
+        ItemStack[] stacks = getItemStacks(random, items, number, random.nextInt(3) != 0, true, 0, false);
+        return constructEffect(random, stacks, number * ticksPerItem + 1, valueThrow, valueSpawn);
     }
 
     @Override

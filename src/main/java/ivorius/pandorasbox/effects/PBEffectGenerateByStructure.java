@@ -42,9 +42,9 @@ public abstract class PBEffectGenerateByStructure extends PBEffectNormal
             float newStructureRatio = getStructureRatio(newRatio, structure);
             float prevStructureRatio = getStructureRatio(prevRatio, structure);
 
-            int baseX = MathHelper.floor(effectCenter.xCoord);
-            int baseY = MathHelper.floor(effectCenter.yCoord);
-            int baseZ = MathHelper.floor(effectCenter.zCoord);
+            int baseX = MathHelper.floor(effectCenter.x);
+            int baseY = MathHelper.floor(effectCenter.y);
+            int baseZ = MathHelper.floor(effectCenter.z);
 
             if (newStructureRatio > prevStructureRatio)
             {

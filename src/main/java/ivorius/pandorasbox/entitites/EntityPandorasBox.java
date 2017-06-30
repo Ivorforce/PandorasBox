@@ -237,7 +237,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
             else
             {
                 float speed = (floatAwayProgress - 0.7f) * (floatAwayProgress - 0.7f);
-                moveRelative(0.0f, -1.0f, speed * 0.02f);
+                moveRelative(0.0f, -1.0f, speed * 0.02f, 0.02f);
                 motionY += speed * 0.005f;
             }
 
@@ -323,7 +323,7 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         effectTicksExisted = 0;
         timeBoxWaiting = rand.nextInt(40);
 
-        boxEffect = PBECRegistry.createRandomEffect(world, rand, effectCenter.xCoord, effectCenter.yCoord, effectCenter.zCoord, true);
+        boxEffect = PBECRegistry.createRandomEffect(world, rand, effectCenter.x, effectCenter.y, effectCenter.z, true);
 
         PandorasBox.network.sendToDimension(PacketEntityData.packetEntityData(this, "boxEffect"), world.provider.getDimension());
     }
@@ -444,9 +444,9 @@ public class EntityPandorasBox extends Entity implements IEntityAdditionalSpawnD
         compound.setBoolean("floatUp", floatUp);
         compound.setFloat("scaleInProgress", scaleInProgress);
 
-        compound.setDouble("effectCenterX", effectCenter.xCoord);
-        compound.setDouble("effectCenterY", effectCenter.yCoord);
-        compound.setDouble("effectCenterZ", effectCenter.zCoord);
+        compound.setDouble("effectCenterX", effectCenter.x);
+        compound.setDouble("effectCenterY", effectCenter.y);
+        compound.setDouble("effectCenterZ", effectCenter.z);
     }
 
     @Override

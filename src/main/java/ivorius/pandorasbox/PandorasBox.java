@@ -34,9 +34,9 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import org.apache.logging.log4j.Logger;
 
 import static ivorius.pandorasbox.crafting.OreDictionaryConstants.*;
@@ -66,6 +66,15 @@ public class PandorasBox
 
     public static PBEventHandler fmlEventHandler;
 
+    public static void register(Block block, String id, ItemBlock item)
+    {
+        block.setRegistryName(id);
+        item.setRegistryName(id);
+
+        ForgeRegistries.BLOCKS.register(block);
+        ForgeRegistries.ITEMS.register(item);
+    }
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
@@ -89,15 +98,6 @@ public class PandorasBox
         PBEffects.registerEffects();
     }
 
-    public static void register(Block block, String id, ItemBlock item)
-    {
-        block.setRegistryName(id);
-        item.setRegistryName(id);
-
-        GameRegistry.register(block);
-        GameRegistry.register(item);
-    }
-
     @EventHandler
     public void load(FMLInitializationEvent event)
     {
@@ -108,14 +108,14 @@ public class PandorasBox
 
         if (PBConfig.allowCrafting)
         {
-            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(PBBlocks.pandorasBox),
+            GameRegistry.addShapedRecipe(new ResourceLocation(PandorasBox.MOD_ID, "pandorasbox"), null, new ItemStack(PBBlocks.pandorasBox),
                     "GRG",
                     "ROR",
                     "#R#",
                     'G', DC_GOLD_INGOT,
                     '#', DC_PLANK_WOOD,
                     'R', DC_REDSTONE_DUST,
-                    'O', Items.ENDER_PEARL));
+                    'O', Items.ENDER_PEARL);
         }
 
         proxy.load();

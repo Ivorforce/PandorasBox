@@ -42,9 +42,9 @@ public abstract class PBEffectPositionBased extends PBEffectNormal
 
         for (int i = 0; i < toSpawn; i++)
         {
-            double eX = effectCenter.xCoord + (random.nextDouble() - random.nextDouble()) * range;
-            double eY = effectCenter.yCoord + (random.nextDouble() - random.nextDouble()) * 3.0 * 2.0;
-            double eZ = effectCenter.zCoord + (random.nextDouble() - random.nextDouble()) * range;
+            double eX = effectCenter.x + (random.nextDouble() - random.nextDouble()) * range;
+            double eY = effectCenter.y + (random.nextDouble() - random.nextDouble()) * 3.0 * 2.0;
+            double eZ = effectCenter.z + (random.nextDouble() - random.nextDouble()) * range;
 
             doEffect(world, entity, random, newRatio, prevRatio, eX, eY, eZ);
         }

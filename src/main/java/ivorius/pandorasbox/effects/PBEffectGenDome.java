@@ -46,7 +46,7 @@ public class PBEffectGenDome extends PBEffectGenerate2D
 
             if (pass == 0)
             {
-                if (isSpherePart(shiftedPos.getX() + 0.5, shiftedPos.getY() + 0.5, shiftedPos.getZ() + 0.5, effectCenter.xCoord, effectCenter.yCoord, effectCenter.zCoord, range - 1.5, range))
+                if (isSpherePart(shiftedPos.getX() + 0.5, shiftedPos.getY() + 0.5, shiftedPos.getZ() + 0.5, effectCenter.x, effectCenter.y, effectCenter.z, range - 1.5, range))
                 {
                     Block block = world.getBlockState(shiftedPos).getBlock();
 
@@ -58,7 +58,7 @@ public class PBEffectGenDome extends PBEffectGenerate2D
             }
             else if (pass == 1 && fillBlock != null)
             {
-                if (isSpherePart(shiftedPos.getX() + 0.5, shiftedPos.getY() + 0.5, shiftedPos.getZ() + 0.5, effectCenter.xCoord, effectCenter.yCoord, effectCenter.zCoord, 0.0, range - 1.5))
+                if (isSpherePart(shiftedPos.getX() + 0.5, shiftedPos.getY() + 0.5, shiftedPos.getZ() + 0.5, effectCenter.x, effectCenter.y, effectCenter.z, 0.0, range - 1.5))
                 {
                     Block block = world.getBlockState(shiftedPos).getBlock();
 

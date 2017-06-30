@@ -42,9 +42,9 @@ public abstract class PBEffectGenerateByFlag extends PBEffectRangeBased
 
         byte requiredRange = (byte) MathHelper.ceil(range);
 
-        int baseX = MathHelper.floor(effectCenter.xCoord);
-        int baseY = MathHelper.floor(effectCenter.yCoord);
-        int baseZ = MathHelper.floor(effectCenter.zCoord);
+        int baseX = MathHelper.floor(effectCenter.x);
+        int baseY = MathHelper.floor(effectCenter.y);
+        int baseZ = MathHelper.floor(effectCenter.z);
 
         boolean[] flags = new boolean[31];
 
@@ -72,9 +72,9 @@ public abstract class PBEffectGenerateByFlag extends PBEffectRangeBased
     {
         byte requiredRange = (byte) MathHelper.ceil(newRange);
 
-        int baseX = MathHelper.floor(effectCenter.xCoord);
-        int baseY = MathHelper.floor(effectCenter.yCoord);
-        int baseZ = MathHelper.floor(effectCenter.zCoord);
+        int baseX = MathHelper.floor(effectCenter.x);
+        int baseY = MathHelper.floor(effectCenter.y);
+        int baseZ = MathHelper.floor(effectCenter.z);
 
         for (byte x = (byte) -requiredRange; x <= requiredRange; x++)
         {
