@@ -1,0 +1,7 @@
+
+entity.pandorasBox.pandorasBox.name=Ящик Пандоры
+tile.pandorasBox.name=Ящик Пандоры
+
+pandorasbox.configgui.title=Ящик Пандоры
+pandorasbox.configgui.ctgy.balancing=Балансировка
+pandorasbox.configgui.ctgy.balancing.tooltip=Настройка, затрагивающая баланс мода
