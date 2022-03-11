@@ -7,22 +7,8 @@ package ivorius.pandorasbox.server;
 
 import ivorius.pandorasbox.PBProxy;
 
-public class ServerProxy implements PBProxy
+public class ServerProxy implements IProxy
 {
-    public void preInit()
-    {
-
-    }
-
-    @Override
-    public void load()
-    {
-
-    }
-
-    @Override
-    public void loadConfig(String categoryID)
-    {
-
-    }
+	@Override
+	public void setup(IEventBus modEventBus, IEventBus forgeEventBus) {}
 }
