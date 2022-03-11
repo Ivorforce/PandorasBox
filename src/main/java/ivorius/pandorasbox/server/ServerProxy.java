@@ -7,8 +7,8 @@ package ivorius.pandorasbox.server;
 
 import ivorius.pandorasbox.PBProxy;
 
-public class ServerProxy implements IProxy
-{
+public class ServerProxy implements IProxy{
+	
 	@Override
 	public void setup(IEventBus modEventBus, IEventBus forgeEventBus) {}
 }
